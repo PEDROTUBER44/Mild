@@ -1,123 +1,105 @@
 # MILD - Minimal Install Linux Desktop
-MILD é um instalador em modo texto, simples e direto que tem o intuito de instalar um "D.E."(Desktop Enviroment) com só os apps realmente necessários de cada ambiente gráfico. Veja abaixo como instalar em sua distro preferida:
+MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment. See below how to install in your favorite distro:
 
 ## Fedora 34
-
-Primeiramente baixe do site oficial a iso netinstall do fedora 34, após isso faça um pendrive bootavel, com a iso netinstall do fedora 34 e configure na BIOS, para dar boot pelo pendrive. Após isso você verá essa tela e nela você deverá selecionar "Test this media & install Fedora 34", para verificar se a iso que está no pendrive está corrompida e instalar o Fedora 34:
+First download fedora 34 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
 
 ![](imagens/iniciofedora34.webp)
 
-
-Após isso você verá essa tela e nela selecione o seu idioma, e após isso clique em continuar:
+After that you will see this screen and on it select your language, and after that click on continue:
 
 ![](imagens/idiomafedora34.webp)
 
-
-Depois disso você verá a tela abaixo e nela selecione "Destino da instalação", e depois selecione o disco que será instalado como também particionado para a instalação do Fedora 34, **Atenção não nos responsabilizamos por eventuais perdas de dados**, e recomendamos que faça um backup dos seus dados em uma unidade à parte e de preferência desconectado do seu pc pelo menos durante a instalação, e também marque a caixinha "Personalização avançada ( Blivet GUI )", e depois clique em "Pronto":
+After that you will see the screen below and on it select "Installation destination", and then select the disk that will be installed as well as partitioned for the installation of Fedora 34, **Attention we are not responsible for any data loss**, and we recommend to back up your data on a separate drive and preferably disconnected from your pc at least during installation, and also check the box "Advanced Customization ( Blivet GUI )", and then click "Done":
 
 ![](imagens/configsfedora34.webp)
 
-
-Logo após ele abrirá a tela de particionamento do disco, e nela selecione o espaço livre e clique em "+" para criar uma partição.
+Right after it will open the disk partitioning screen, and in it select the free space and click "+" to create a partition.
 
 ![](imagens/discofedora34.webp)
 
-Em sistemas **UEFI** faça as seguintes partiçoẽs (Lembrando que a ordem não importa) e depois clique em "Pronto":
+On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
-Ordem | Tipo | Tamanho
+Order | Type | Size
 ------|------|--------
   1°  | efi  | 500MB  
-  2°  | swap | O tamanho da sua memória ram.    
+  2°  | swap | The size of your ram.
   3°  | root | 70GB   
-  4°  | home | Todo o resto*
+  4°  | home | Everything else
 
 ![](imagens/discouefifedora34.webp)
 
-Em sistemas **Legacy** faça as seguintes partiçoẽs (Lembrando que a ordem não importa) e depois clique em "Pronto":
+On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
-Ordem | Tipo | Tamanho
+Order | Type | Size
 ------|------|--------  
-  1°  | swap | O tamanho da sua memória ram. 
+  1°  | swap | The size of your ram.
   2°  | root | 70GB   
-  3°  | home | Todo o resto*
+  3°  | home | Everything else
 
 ![](imagens/discolegacyfedora34.webp)
 
-
-Depois você voltará a essa tela, nela você poderá "Rede e nome do host" para configurar o wifi caso esteja em um notebook ou queira trocar o nome do host que por padrão é "fedora" e também poderá selecionar o layout do teclado que por padrão já é determinado automaticamente, clicando em "Teclado" caso o teclado não estiver correto.
+Then you will return to this screen, there you can "Network and hostname" to configure the wifi if you are on a notebook or want to change the hostname which by default is "fedora" and you can also select the keyboard layout that by default is already determined automatically by clicking "Keyboard" if the keyboard is not correct.
 
 ![](imagens/redefedora34.webp)
 
-
-Após essas configurações clique em "Seleção de programas" e marque apenas "Instalação mínima" como a imagem abaixo e caso deseje utilizar wifi, marque também "Submódulos comuns do NetworkManager":
+After these settings click on "Program selection" and just check "Minimum installation" like the image below and if you want to use wifi, check also "Common NetworkManager sub-modules":
 
 ![](imagens/1-pacotesfedora34.webp)
 
-
-E caso seu PC não tenha wifi selecione apenas "Instalação mínima":
+And if your PC doesn't have wifi, just select "Minimum installation":
 
 ![](imagens/2-pacotesfedora34.webp)
 
-
-Agora clique em "Senha do root" para criar a senha do usuário root, e clique em "Pronto":
+Now click "Root Password" to create the root user password, and click "Done":
 
 ![](imagens/rootfedora34.webp)
 
-
-Agora clique em "Criação de usuário" para criar a senha e o usuário, e clique em "Pronto":
+Now click "User creation" to create the password and user, and click "Done":
 
 ![](imagens/usuariofedora34.webp)
 
-
-Depois disso clique em "Iniciar a instalação" e aguarde alguns minutos, lembrando que o tempo pode variar dependendo da potência do seu pc e a velocidade da sua internet. Após o término reinicie o seu pc e retire o pendrive.
-
+After that click on "Start installation" and wait a few minutes, remembering that the time may vary depending on your pc's power and your internet speed. After completion, restart your pc and remove the pendrive.
 
 ### Pós instalação
 
-Agora você cairá na tela do terminal, para terminar a instalação do sistema, primeiramente logue-se como usuário **root** após isso, digite os seguintes comandos:
+Now you will be at the terminal screen, to finish the system installation, first login as user **root** after that, type the following commands:
 
-**O 1° para instalar o git:**
+**The 1° to install git:**
 
-  dnf install git -y
+	dnf install git -y
 
+**The 2° to clone this repository:**
 
-**O 2° para clonar esse repositório:**
+	git clone https://github.com/PEDROTUBER44/mild.git
 
-  git clone https://github.com/PEDROTUBER44/mild.git
+**The 3° to enter into the cloned repository folder:**
 
+	cd mild
 
-**O 3° para entrar dentro da pasta do repositório clonado:**
+**The 4° to give execute permission to the mild installation file:**
 
-  cd mild
+	chmod +x install.sh
 
+**The 5° to install mild on your PC:**
 
-**O 4° para dar permissão de execução para o arquivo de instalação do mild:**
-
-  chmod +x install.sh
-
-
-**O 5° para instalar o mild em seu PC:**
-
-  ./install.sh
+	./install.sh
 
 ****
 
-
-Agora escolha qual ambiente gráfico que será instalado em seu PC:
-
+Now choose which graphical environment will be installed on your PC:
 
 ### Lxde
 
-  mild --install-fedora-lxde
+	mild --install-fedora-lxde
 
 ![](imagens/fedora-lxde.webp)
 
 ---
 
-
 ### Lxqt
 
-  mild --install-fedora-lxqt
+	mild --install-fedora-lxqt
 
 ![](imagens/fedora-lxqt.webp)
 
@@ -125,7 +107,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Xfce
 
-  mild --install-fedora-xfce
+	mild --install-fedora-xfce
 
 ![](imagens/fedora-xfce.webp)
 
@@ -133,16 +115,15 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Gnome
 
-  mild --install-fedora-gnome
+	mild --install-fedora-gnome
 
 ![](imagens/fedora-gnome.webp)
 
 ---
 
-
 ### Mate
 
-  mild --install-fedora-mate
+	mild --install-fedora-mate
 
 ![](imagens/fedora-mate.webp)
 
@@ -150,7 +131,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Kde Plasma
 
-  mild --install-fedora-kdeplasma
+	mild --install-fedora-kdeplasma
 
 ![](imagens/fedora-kdeplasma.webp)
 
@@ -158,86 +139,74 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Cinnamon
 
-  mild --install-fedora-cinnamon
+	mild --install-fedora-cinnamon
 
 ![](imagens/fedora-cinnamon.webp)
 
-Após isso você terá um ambiente desktop clean sem aplicativos redundantes no seu **Fedora 34 !**
+After that you will have a clean desktop environment with no redundant apps on your **Fedora 34 !**
 
 ****
 
-
 ## Debian 11
 
-Primeiramente baixe do site oficial a iso netinstall do debian 11, após isso faça um pendrive bootavel, com a iso netinstall do debian 11 e configure na BIOS, para dar boot pelo pendrive. Após isso você verá essa tela e nela você deverá selecionar "Graphical Install" para instalar o debian de forma gráfica:
+First download debian 11 iso netinstall from the official site, after that make a bootable pendrive, with debian 11 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Graphical Install" to install debian graphically:
 
 ![](imagens/iniciodebian11.webp)
 
-
-Depois disso selecione qual será o idioma do sistema, que no meu caso eu optei por "Portuguese (Brasil)":
+After that, select the system language, which in my case I chose "Portuguese (Brazil)":
 
 ![](imagens/idiomadebian11.webp)
 
-
-Agora selecione a seu local:
+Now select your location:
 
 ![](imagens/localidadedebian11.webp)
 
-
-Selecione agora o seu layout do teclado:
+Now select your keyboard layout:
 
 ![](imagens/layoutdotecladodebian11.webp)
 
-
-Dê agora um nome para seu PC na rede:
+Now give your PC on the network a name:
 
 ![](imagens/hostnamedebian11.webp)
 
-
-Nessa parte clique em "Continuar":
+In this part click on "Continue":
 
 ![](imagens/dominiodebian11.webp)
 
-
-Agora escreva a senha do root:
+Now write the root password:
 
 ![](imagens/rootdebian11.webp)
 
-
-Escreva o seu nome que será usado para seu usuário (Sem espaços):
+Write your name that will be used for your username (No spaces):
 
 ![](imagens/contadebian11.webp)
-
 
 Escreva o nome do usuário novamente (Sem espaços):
 
 ![](imagens/usuariodebian11.webp)
 
-
-Escreva a senha do seu usuário:
+Type the username again (No spaces):
 
 ![](imagens/senhausuariodebian11.webp)
 
-
-Selecione o fuso horário mais perto de você (No meu caso estou mais perto de São Paulo):
+Select the time zone closest to you (In my case I'm closer to São Paulo):
 
 ![](imagens/horariodebian11.webp) 
 
+Now partition your disk according to your bios:
 
-Agora particione o seu disco de acordo com sua bios:
+On **UEFI** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
 
-Em sistemas **UEFI** faça as seguintes partiçoẽs (Lembrando que a ordem não importa) e e selecione "Finalizar o particionamento e escrever as mudanças no disco", depois clique em "Continuar":
-
-Ordem | Tipo | Tamanho
+Order | Type | Size
 ------|------|--------
   1°  | efi  | 500MB  
   2°  | swap | 2GB    
   3°  | root | 70GB   
   4°  | home | Todo o resto*
 
-Em sistemas **Legacy** faça as seguintes partiçoẽs (Lembrando que a ordem não importa) e selecione "Finalizar o particionamento e escrever as mudanças no disco", depois clique em "Continuar":
+On **Legacy** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
 
-Ordem | Tipo | Tamanho
+Order | Type | Size
 ------|------|--------  
   1°  | swap | 2GB    
   2°  | root | 70GB   
@@ -245,182 +214,168 @@ Ordem | Tipo | Tamanho
 
 ![](imagens/escreverdebian11.webp)
 
-
-Agora aguarde a instalação do sistema básico:
+Now wait for the installation of the base system:
 
 ![](imagens/basicodebian11.webp)
 
-
-Nessa tela selecione "Não" e clique em "Continuar":
+On this screen select "No" and click "Continue":
 
 ![](imagens/midiaadicionaldebian11.webp)
 
-
-Selecione o país para que o instalador liste os repositórios mais próximos:
+Select the country for the installer to list the closest repositories:
 
 ![](imagens/repositoriodebian11.webp)
 
-
-Agora selecione "deb.debian.org" e clique em "Continuar":
+Now select "deb.debian.org" and click "Continue":
 
 ![](imagens/1-repositoriodebian11.webp)
 
-
-Deixe em branco e clique em "Continuar" caso não saiba ou não utilize proxy:
+Leave blank and click "Continue" if you don't know or don't use a proxy:
 
 ![](imagens/proxydebian11.webp)
 
-
-Agora marque "Não" e clique em "Continuar":
+Now check "No" and click "Continue":
 
 ![](imagens/telemetriadebian11.webp)
 
-
-Selecione "Utilitários de sistema padrão" e clique em "Continuar":
+Select "Default System Utilities" and click "Continue":
 
 ![](imagens/softwaredebian11.webp)
 
-
-Selecione "Sim" e clique em "Continuar" para instalar o grub:
+Select "Yes" and click "Continue" to install grub:
 
 ![](imagens/grubdebian11.webp)
 
-
-Agora selecione o disco que será instalado o grub:
+Now select the disk that will be installed grub:
 
 ![](imagens/discogrubdebian11.webp)
 
-
-Após a finalização clique em "Continuar" e retire seu pendrive:
+After completion click "Continue" and remove your pendrive:
 
 ![](imagens/fimdebian11.webp)
 
-
 ### Pós instalação
 
+Now you will be at the terminal screen, to finish the system installation, first login as user **root** after that, type the following commands:
 
-Agora você cairá na tela do terminal, para terminar a instalação do sistema, primeiramente logue-se como usuário **root** após isso, digite os seguintes comandos:
+**The 1° to install git:**
 
+	dnf install git -y
 
-**O 1° para instalar o git:**
+**The 2° to clone this repository:**
 
-  apt install git -y
+	git clone https://github.com/PEDROTUBER44/mild.git
 
+**The 3° to enter into the cloned repository folder:**
 
-**O 2° para clonar esse repositório:**
+	cd mild
 
-  git clone https://github.com/PEDROTUBER44/mild.git
+**The 4° to give execute permission to the mild installation file:**
 
+	chmod +x install.sh
 
-**O 3° para entrar dentro da pasta do repositório clonado:**
+**The 5° to install mild on your PC:**
 
-  cd mild
-
-
-**O 4° para dar permissão de execução para o arquivo de instalação do mild:**
-
-  chmod +x install.sh
-
-
-**O 5° para instalar o mild em seu PC:**
-
-  ./install.sh
-
+	./install.sh
 
 ****
 
-
-Agora escolha qual ambiente gráfico que será instalado em seu PC:
-
+Now choose which graphical environment will be installed on your PC:
 
 ### Lxde
 
-  mild --install-debian-lxde
+	mild --install-debian-lxde
 
+![](imagens/debian-lxde.webp)
+
+---
 
 ### Lxqt
 
-  mild --install-debian-lxqt
+	mild --install-debian-lxqt
 
+![](imagens/debian-lxqt.webp)
+
+---
 
 ### Xfce
 
-  mild --install-debian-xfce
+	mild --install-debian-xfce
 
+![](imagens/debian-xfce.webp)
+
+---
 
 ### Gnome
 
-  mild --install-debian-gnome
+	mild --install-debian-gnome
 
+![](imagens/debian-gnome.webp)
+
+---
 
 ### Mate
 
-  mild --install-debian-mate
+	mild --install-debian-mate
 
+![](imagens/debian-mate.webp)
 
-### Bspwm
-
-  mild --install-debian-bspwm
-
+---
 
 ### Kde Plasma
 
-  mild --install-debian-kdeplasma
+	mild --install-debian-kdeplasma
 
+![](imagens/debian-kdeplasma.webp)
+
+---
 
 ### Cinnamon
 
-  mild --install-debian-cinnamon
+	mild --install-debian-cinnamon
 
+![](imagens/debian-cinnamon.webp)
 
-Após isso você terá um ambiente desktop clean sem aplicativos redundantes no seu **Debian 11 !**
+After that you will have a clean desktop environment with no redundant apps on your **Debian 11 !**
 
 
 ****
 
 ## ArchLinux
 
-Primeiramente baixe do site oficial a iso do ArchLinux, após isso faça um pendrive bootavel, com a iso do archlinux e configure na BIOS, para dar boot pelo pendrive. Após isso você verá essa tela e nela você deverá selecionar "Arch Linux install medium" para instalar o ArchLinux:
+First download the ArchLinux iso from the official website, after that make a bootable pendrive, with the archlinux iso and configure in the BIOS, to boot from the pendrive. After that you will see this screen and on it you should select "Arch Linux install medium" to install ArchLinux:
 
 ![](imagens/inicioarchlinux.webp)
 
+Now install Arch Linux as you usually install but when you install the clone graphical interface and install mild as **root**, with the following commands:
 
-Agora instale o Arch Linux como você costuma instalar só que na hora que você for instalar a interface gráfica clone e instale como **root** o mild, com os seguintes comandos:
+**The 1° to install git:**
 
+	dnf install git -y
 
-**O 1° para instalar o git:**
+**The 2° to clone this repository:**
 
-  pacman -Sy git glibc -y
+	git clone https://github.com/PEDROTUBER44/mild.git
 
+**The 3° to enter into the cloned repository folder:**
 
-**O 2° para clonar esse repositório:**
+	cd mild
 
-  git clone https://github.com/PEDROTUBER44/mild.git
+**The 4° to give execute permission to the mild installation file:**
 
+	chmod +x install.sh
 
-**O 3° para entrar dentro da pasta do repositório clonado:**
+**The 5° to install mild on your PC:**
 
-  cd mild
-
-
-**O 4° para dar permissão de execução para o arquivo de instalação do mild:**
-
-  sudo chmod +x install.sh
-
-
-**O 5° para instalar o mild em seu PC:**
-
-  ./install.sh
-
+	./install.sh
 
 ****
 
-Agora escolha qual ambiente gráfico que será instalado em seu PC:
-
+Now choose which graphical environment will be installed on your PC:
 
 ### Lxde
 
-  mild --install-arch-lxde
+	mild --install-arch-lxde
 
 ![](imagens/archlinux-lxde.webp)
 
@@ -428,7 +383,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Lxqt
 
-  mild --install-arch-lxqt
+	mild --install-arch-lxqt
 
 ![](imagens/archlinux-lxqt.webp)
 
@@ -436,7 +391,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Xfce
 
-  mild --install-arch-xfce
+	mild --install-arch-xfce
 
 ![](imagens/archlinux-xfce.webp)
 
@@ -444,7 +399,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Gnome
 
-  mild --install-arch-gnome
+	mild --install-arch-gnome
 
 ![](imagens/archlinux-gnome.webp)
 
@@ -452,7 +407,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Mate
 
-  mild --install-arch-mate
+	mild --install-arch-mate
 
 ![](imagens/archlinux-mate.webp)
 
@@ -460,7 +415,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ### Kde Plasma
 
-  mild --install-arch-kdeplasma
+	mild --install-arch-kdeplasma
 
 ![](imagens/archlinux-kdeplasma.webp)
 
@@ -472,7 +427,7 @@ Agora escolha qual ambiente gráfico que será instalado em seu PC:
 
 ![](imagens/archlinux-cinnamon.webp)
 
-Após isso você terá um ambiente desktop clean sem aplicativos redundantes no seu **Arch Linux !**
+After that you will have a clean desktop environment with no redundant apps on your **Arch Linux !**
 
 ****
 
