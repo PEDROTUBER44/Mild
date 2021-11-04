@@ -260,7 +260,7 @@ Now you will be at the terminal screen, to finish the system installation, first
 
 **The 1° to install git:**
 
-	dnf install git -y
+	apt install git -y
 
 **The 2° to clone this repository:**
 
@@ -351,7 +351,7 @@ Now install Arch Linux as you usually install but when you install the clone gra
 
 **The 1° to install git:**
 
-	dnf install git -y
+	pacman -Sy git --noconfirm
 
 **The 2° to clone this repository:**
 
