@@ -1,8 +1,8 @@
 # MILD - Minimal Install Linux Desktop
 MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment. See below how to install in your favorite distro:
 
-## Fedora 34
-First download fedora 34 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
+## Fedora 35
+First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
 
 ![](imagens/iniciofedora34.webp)
 

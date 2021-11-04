@@ -4,8 +4,8 @@ pub fn utils_fedora() {
 
     Command::new("dnf")
         .args(Some("install"))
-        .args(Some("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-34.noarch.rpm"))
-        .args(Some("https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-34.noarch.rpm"))
+        .args(Some("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm"))
+        .args(Some("https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm"))
         .args(Some("-y"))
         .status()
         .expect("Erro ao habilitar o repositorio rpmfusion");
