@@ -204,7 +204,7 @@ First update your system:
 Now install the rust, curl and git compiler:
 After that rust will ask if you want to install rustup so click 1 and hit enter:
 
-	pacman -Sy git curl --noconfirm && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	pacman -Sy git curl base-devel --noconfirm && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 Clone the repository with the following command:
 
@@ -231,7 +231,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	pacman -Rsn curl git -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
 
 ## Non-make ( recommended )
 First update your system:
@@ -444,7 +444,7 @@ First update your system:
 Now install the rust, curl and git compiler:
 After that rust will ask if you want to install rustup so click 1 and hit enter:
 
-	apt install git curl -y && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	apt install git curl build-essential -y && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 Clone the repository with the following command:
 
@@ -471,7 +471,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	apt remove curl git -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
 
 ## Non-make ( recommended )
 First update your system:

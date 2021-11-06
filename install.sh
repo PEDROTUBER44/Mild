@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo cp app/mild /bin/ ;
-sudo chmod +x /bin/mild ;
+cp app/mild /bin/ ;
+chmod +x /bin/mild ;
