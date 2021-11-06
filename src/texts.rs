@@ -1,49 +1,62 @@
 pub const HELP : &str = "
-    Usar mild --[opcao]-[distro]-[interface]
+    Use mild --[option]-[distro]-[interface]
     
-    --install-arch-lxde => Instala o lxde minimal no archlinux.
+    --install-arch-lxde => Install minimal lxde on archlinux.
     
-    --install-arch-lxqt => Instala o lxqt minimal no archlinux.
+    --install-arch-lxqt => Install minimal lxqt on archlinux.
     
-    --install-arch-xfce => Instala o xfce minimal no archlinux.
+    --install-arch-xfce => Install minimal xfce on archlinux.
     
-    --install-arch-gnome => Instala o gnome minimal no archlinux.
+    --install-arch-gnome => Install minimal gnome on archlinux.
     
-    --install-arch-cinnamon => Instala o cinnamon minimal no archlinux.
+    --install-arch-cinnamon => Install minimal cinnamon on archlinux.
     
-    --install-arch-mate => Instala o mate minimal no archlinux.
+    --install-arch-mate => Install minimal mate on archlinux.
     
-    --install-arch-kdeplasma => Instala o kdeplasma minimal no archlinux.
-    
-    
-    --install-debian-lxde => Instala o lxde minimal no debian.
-    
-    --install-debian-lxqt => Instala o lxqt minimal no debian.
-    
-    --install-debian-xfce => Instala o xfce minimal no debian.
-    
-    --install-debian-gnome => Instala o gnome minimal no debian.
-    
-    --install-debian-cinnamon => Instala o cinnamon minimal no debian.
-    
-    --install-debian-mate => Instala o mate minimal no debian.
-    
-    --install-debian-kdeplasma => Instala o kdeplasma minimal no debian.
+    --install-arch-kdeplasma => Install minimal kde plasma on archlinux.
     
     
-    --install-fedora-lxde => Instala o lxde minimal no fedora.
+    --install-debian-lxde => Install minimal lxde on debian.
     
-    --install-fedora-lxqt => Instala o lxqt minimal no fedora.
+    --install-debian-lxqt => Install minimal lxqt on debian.
     
-    --install-fedora-xfce => Instala o xfce minimal no fedora.
+    --install-debian-xfce => Install minimal xfce on debian.
     
-    --install-fedora-gnome => Instala o gnome minimal no fedora.
+    --install-debian-gnome => Install minimal gnome on debian.
     
-    --install-fedora-cinnamon => Instala o cinnamon minimal no fedora.
+    --install-debian-cinnamon => Install minimal cinnamon on debian.
     
-    --install-fedora-mate => Instala o mate minimal no fedora.
+    --install-debian-mate => Install minimal mate on debian.
     
-    --install-fedora-kdeplasma => Instala o kdeplasma minimal no fedora.
+    --install-debian-kdeplasma => Install minimal kde plasma on debian.
     
-    --help => Exibir um guia de uso
+    
+    --install-fedora-lxde => Install minimal lxde on fedora.
+    
+    --install-fedora-lxqt => Install minimal lxqt on fedora.
+    
+    --install-fedora-xfce => Install minimal xfce on fedora.
+    
+    --install-fedora-gnome => Install minimal gnome on fedora.
+    
+    --install-fedora-cinnamon => Install minimal cinnamon on fedora.
+    
+    --install-fedora-mate => Install minimal mate on fedora.
+    
+    --install-fedora-kdeplasma => Install minimal kde plasma on fedora.
+    
+    --help => View a usage guide
+";
+
+pub const DNF : &str = "
+[main]
+gpgcheck=1
+installonly_limit=3
+clean_requirements_on_remove=True
+best=False
+skip_if_unavailable=True
+fastestmirror=True
+max_parallel_downloads=7
+defaultyes=True
+install_weak_deps=false
 ";

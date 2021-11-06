@@ -4,17 +4,6 @@ mod texts;
 mod lib;
 mod utils;
 
-const DNF : &str = "[main]
-gpgcheck=1
-installonly_limit=3
-clean_requirements_on_remove=True
-best=False
-skip_if_unavailable=True
-fastestmirror=True
-max_parallel_downloads=7
-defaultyes=True
-";
-
 fn main() {
 
     let args: Vec<String> = env::args().collect();
@@ -34,18 +23,18 @@ fn main() {
                 .args(Some("xarchiver"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o lxde no archlinux");
+                .expect("Error installing minimal lxde on archlinux");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
     
         },
 
@@ -61,18 +50,18 @@ fn main() {
                 .args(Some("xarchiver"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o lxqt no archlinux");
+                .expect("Error installing minimal lxqt on archlinux");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
     
         },
         
@@ -100,18 +89,18 @@ fn main() {
                 .args(Some("file-roller"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o xfce no archlinux");
+                .expect("Error installing xfce minimal on archlinux");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -129,20 +118,23 @@ fn main() {
                 .args(Some("nautilus"))
                 .args(Some("file-roller"))
                 .args(Some("gnome-control-center"))
+                .args(Some("gedit"))
+                .args(Some("eog"))
+                .args(Some("evince"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o gnome no archlinux");
+                .expect("Error installing gnome minimal on archlinux");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("gdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o gdm na inicializacao");
+                .expect("Error enabling gdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -154,6 +146,7 @@ fn main() {
                 .args(Some("-Sy"))
                 .args(Some("lightdm"))
                 .args(Some("lightdm-gtk-greeter"))
+                .args(Some("cinnamon"))
                 .args(Some("cinnamon-session"))
                 .args(Some("cinnamon-desktop"))
                 .args(Some("gnome-terminal"))
@@ -169,18 +162,18 @@ fn main() {
                 .args(Some("file-roller"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o cinnamon no archlinux");
+                .expect("Error installing cinnamon minimal on archlinux");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -204,18 +197,18 @@ fn main() {
                 .args(Some("caja"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o mate desktop minimal no archlinux");
+                .expect("Error installing minimal mate on archlinux");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -238,18 +231,18 @@ fn main() {
                 .args(Some("discover"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Erro ao instalar o cinnamon no archlinux");
+                .expect("Error installing cinnamon minimal on archlinux");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("sddm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -272,18 +265,18 @@ fn main() {
                 .args(Some("xarchiver"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o lxde minimal no debian 11");
+                .expect("Error installing minimal lxde on debian 11");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -299,18 +292,18 @@ fn main() {
                 .args(Some("pavucontrol"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o lxqt minimal no debian 11");
+                .expect("Error installing lxqt minimal on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
             
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -338,18 +331,18 @@ fn main() {
                 .args(Some("--no-install-recommends"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o xfce4 minimal no debian 11");
+                .expect("Error installing xfce4 minimal on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -369,18 +362,18 @@ fn main() {
                 .args(Some("--no-install-recommends"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o gnome minimal no debian 11");
+                .expect("Error installing gnome minimal on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("gdm3"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o gdm3 na inicializacao");
+                .expect("Error enabling gdm3 on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -395,18 +388,18 @@ fn main() {
                 .args(Some("lightdm-gtk-greeter"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o cinnamon minimal no debian 11");
+                .expect("Error installing cinnamon minimal on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
             
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -422,18 +415,18 @@ fn main() {
                 .args(Some("marco"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o mate minimal no debian 11");
+                .expect("Error installing minimal mate on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
         
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
@@ -448,7 +441,7 @@ fn main() {
                 .args(Some("plasma-nm"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o kde plasma minimal no debian 11");
+                .expect("Error installing minimal kde plasma on debian 11");
 
             Command::new("apt")
                 .args(Some("install"))
@@ -464,26 +457,25 @@ fn main() {
                 .args(Some("--no-install-recommends"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o kde plasma minimal no debian 11");
+                .expect("Error installing minimal kde plasma on debian 11");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("sddm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling sddm on startup");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
 
-
         "--install-fedora-lxde" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado",);
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed",);
 
             utils::utils_fedora();
 
@@ -510,30 +502,30 @@ fn main() {
                 .args(Some("lightdm"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o lxde minimal no fedora 34");
+                .expect("Error installing minimal lxde on fedora 35");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
             
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
         "--install-fedora-lxqt" => {
 
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -565,30 +557,30 @@ fn main() {
                 .args(Some("lxqt-themes-fedora"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o lxqt minimal no fedora 34");
+                .expect("Error installing lxqt minimal on fedora 35");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
         "--install-fedora-xfce" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -606,30 +598,30 @@ fn main() {
                 .args(Some("xfce4-terminal"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o xfce4 minimal no fedora 34");
+                .expect("Error installing xfce4 minimal on fedora 35");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
     
         },
 
         "--install-fedora-gnome" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -644,30 +636,30 @@ fn main() {
                 .args(Some("gnome-terminal-nautilus"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o gnome no fedora 34");
+                .expect("Error installing gnome on fedora 35");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("gdm"))
                 .args(Some("-f"))
                 .spawn()
-                .expect("Erro ao habilitar o gdm na inicializacao");
+                .expect("Error enabling gdm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
         "--install-fedora-cinnamon" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -689,30 +681,30 @@ fn main() {
                 .args(Some("lightdm-gtk-greeter"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o cinnamon no fedora");
+                .expect("Error installing cinnamon on fedora 35");
 
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
 
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
         "--install-fedora-mate" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -734,30 +726,30 @@ fn main() {
                 .args(Some("caja"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o mate no fedora");
+                .expect("Error installing mate in fedora 35");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("lightdm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o lightdm na inicializacao");
+                .expect("Error enabling lightdm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
         
         "--install-fedora-kdeplasma" => {
             
-            lib::texto(DNF,"/etc/dnf/dnf.conf","Dnf não instalado");
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
             utils::utils_fedora();
 
@@ -777,24 +769,24 @@ fn main() {
                 .args(Some("plasma-discover"))
                 .args(Some("-y"))
                 .status()
-                .expect("Erro ao instalar o Kde Plasma no fedora");
+                .expect("Error installing kde plasma on fedora 35");
         
             Command::new("systemctl")
                 .args(Some("enable"))
                 .args(Some("sddm"))
                 .args(Some("-f"))
                 .status()
-                .expect("Erro ao habilitar o sddm na inicializacao");
+                .expect("Error enabling sddm on startup");
         
             Command::new("systemctl")
                 .args(Some("set-default"))
                 .args(Some("graphical.target"))
                 .status()
-                .expect("Erro ao habilitar a inicializacao em modo grafico");
+                .expect("Error enabling graphical mode boot");
 
             Command::new("reboot")
                 .status()
-                .expect("Erro ao reiniciar o sistema");
+                .expect("Error restarting system");
 
         },
 
