@@ -523,7 +523,7 @@ Now choose which graphical environment will be installed on your PC:
 
 	mild --install-debian-xfce
 
-![](imagens/debian11/debian11-xfce4.webp)
+![](imagens/debian11/debian11-xfce.webp)
 
 ### Gnome
 

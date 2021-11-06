@@ -358,7 +358,7 @@ fn main() {
                 .args(Some("gnome-terminal"))
                 .args(Some("gnome-tweaks"))
                 .args(Some("nautilus"))
-                .args(Some("adwaita-icon-theme-full"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("--no-install-recommends"))
                 .args(Some("-y"))
                 .status()
@@ -439,6 +439,7 @@ fn main() {
                 .args(Some("sddm"))
                 .args(Some("kde-plasma-desktop"))
                 .args(Some("plasma-nm"))
+                .args(Some("plasma-workspace-wayland"))
                 .args(Some("-y"))
                 .status()
                 .expect("Error installing minimal kde plasma on debian 11");
@@ -475,7 +476,9 @@ fn main() {
 
         "--install-fedora-lxde" => {
             
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed",);
+            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+            //utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -526,6 +529,8 @@ fn main() {
         "--install-fedora-lxqt" => {
 
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+            //utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -582,6 +587,8 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
+            //utils::remove_fedora();
+
             utils::utils_fedora();
 
             Command::new("dnf")
@@ -623,6 +630,8 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
+            //utils::remove_fedora();
+
             utils::utils_fedora();
 
             Command::new("dnf")
@@ -660,6 +669,8 @@ fn main() {
         "--install-fedora-cinnamon" => {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+            //utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -706,6 +717,8 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
+            //utils::remove_fedora();
+
             utils::utils_fedora();
 
             Command::new("dnf")
@@ -750,6 +763,8 @@ fn main() {
         "--install-fedora-kdeplasma" => {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+            //utils::remove_fedora();
 
             utils::utils_fedora();
 
