@@ -115,6 +115,7 @@ fn main() {
                 .args(Some("gnome-session"))
                 .args(Some("gnome-terminal"))
                 .args(Some("nautilus-terminal"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("nautilus"))
                 .args(Some("file-roller"))
                 .args(Some("gnome-control-center"))
