@@ -217,7 +217,7 @@ pub fn remove_fedora() {
         .args(Some("mate-panel"))
         .args(Some("marco"))
         .args(Some("caja"))
-        .args(Some("-y")
+        .args(Some("-y"))
         .status()
         .expect("Error removing graphical environments and their dependencies");
 
