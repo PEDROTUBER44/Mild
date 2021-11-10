@@ -13,6 +13,8 @@ fn main() {
 
         "--install-arch-lxde" => {
 
+            utils::remove_arch();
+
             utils::utils_archlinux();
 
             Command::new("pacman")
@@ -20,6 +22,7 @@ fn main() {
                 .args(Some("lxde"))
                 .args(Some("lightdm"))
                 .args(Some("lightdm-gtk-greeter"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("xarchiver"))
                 .args(Some("--noconfirm"))
                 .status()
@@ -32,13 +35,50 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
-    
         },
 
         "--install-arch-lxqt" => {
+
+            utils::remove_arch();
 
             utils::utils_archlinux();
 
@@ -47,6 +87,7 @@ fn main() {
                 .args(Some("lxqt"))
                 .args(Some("lightdm"))
                 .args(Some("lightdm-gtk-greeter"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("xarchiver"))
                 .args(Some("--noconfirm"))
                 .status()
@@ -59,6 +100,42 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -66,6 +143,8 @@ fn main() {
         },
         
         "--install-arch-xfce" => {
+
+            utils::remove_arch();
 
             utils::utils_archlinux();
 
@@ -75,6 +154,7 @@ fn main() {
                 .args(Some("lightdm-gtk-greeter"))
                 .args(Some("xfce4-settings"))
                 .args(Some("xfce4-pulseaudio-plugin"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("exo"))
                 .args(Some("garcon"))
                 .args(Some("tumbler"))
@@ -98,6 +178,42 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -105,6 +221,8 @@ fn main() {
         },
 
         "--install-arch-gnome" => {
+
+            utils::remove_arch();
 
             utils::utils_archlinux();
 
@@ -115,11 +233,11 @@ fn main() {
                 .args(Some("gnome-session"))
                 .args(Some("gnome-terminal"))
                 .args(Some("nautilus-terminal"))
-                .args(Some("adwaita-icon-theme"))
                 .args(Some("nautilus"))
                 .args(Some("file-roller"))
                 .args(Some("gnome-control-center"))
                 .args(Some("gedit"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("eog"))
                 .args(Some("evince"))
                 .args(Some("--noconfirm"))
@@ -133,6 +251,42 @@ fn main() {
                 .status()
                 .expect("Error enabling gdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -140,6 +294,8 @@ fn main() {
         },
 
         "--install-arch-cinnamon" => {
+
+            utils::remove_arch();
 
             utils::utils_archlinux();
 
@@ -156,6 +312,7 @@ fn main() {
                 .args(Some("cinnamon-screensaver"))
                 .args(Some("cinnamon-settings-daemon"))
                 .args(Some("cinnamon-translations"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("cjs"))
                 .args(Some("muffin"))
                 .args(Some("nemo"))
@@ -172,6 +329,42 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -180,11 +373,16 @@ fn main() {
 
         "--install-arch-mate" => {
 
+            utils::remove_arch();
+
+            utils::utils_archlinux();
+
             Command::new("pacman")
                 .args(Some("-Sy"))
                 .args(Some("lightdm"))
                 .args(Some("lightdm-gtk-greeter"))
                 .args(Some("mate-control-center"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("mate-desktop"))
                 .args(Some("mate-power-manager"))
                 .args(Some("mate-screensaver"))
@@ -207,6 +405,42 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -214,6 +448,8 @@ fn main() {
         },
 
         "--install-arch-kdeplasma" => {
+            
+            utils::remove_arch();
 
             utils::utils_archlinux();
 
@@ -227,6 +463,7 @@ fn main() {
                 .args(Some("kcm-fcitx"))
                 .args(Some("kscreen"))
                 .args(Some("ksysguard"))
+                .args(Some("adwaita-icon-theme"))
                 .args(Some("spectacle"))
                 .args(Some("dolphin"))
                 .args(Some("discover"))
@@ -241,6 +478,42 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
+            Command::new("mv")
+                .args(Some("/usr/share/applications/avahi-discover.desktop"))
+                .args(Some("/usr/share/applications/avahi-discover.backup"))
+                .status()
+                .expect("Error to rename file: avahi-discover.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bssh.desktop"))
+                .args(Some("/usr/share/applications/bssh.backup"))
+                .status()
+                .expect("Error to rename file: bssh.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/bvnc.desktop"))
+                .args(Some("/usr/share/applications/bvnc.backup"))
+                .status()
+                .expect("Error to rename file: bvnc.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+                .status()
+                .expect("Error to rename file: nm-connection-editor.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qv412.desktop"))
+                .args(Some("/usr/share/applications/qv412.backup"))
+                .status()
+                .expect("Error to rename file: qv412.desktop");
+
+            Command::new("mv")
+                .args(Some("/usr/share/applications/qvidcap.desktop"))
+                .args(Some("/usr/share/applications/qvidcap.backup"))
+                .status()
+                .expect("Error to rename file: qvidcap.desktop");
+    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -250,9 +523,11 @@ fn main() {
         
         "--install-debian-lxde" => {
 
+            utils::remove_debian();
+
             utils::utils_debian();
 
-            Command::new(" apt")
+            Command::new("apt")
                 .args(Some("install"))
                 .args(Some("lightdm"))
                 .args(Some("lightdm-gtk-greeter"))
@@ -283,6 +558,8 @@ fn main() {
 
         "--install-debian-lxqt" => {
 
+            utils::remove_debian();
+
             utils::utils_debian();
 
             Command::new("apt")
@@ -309,6 +586,8 @@ fn main() {
         },
 
         "--install-debian-xfce" => {
+
+            utils::remove_debian();
 
             utils::utils_debian();
 
@@ -349,6 +628,8 @@ fn main() {
 
         "--install-debian-gnome" => {
 
+            utils::remove_debian();
+
             utils::utils_debian();
 
             Command::new("apt")
@@ -380,6 +661,8 @@ fn main() {
 
         "--install-debian-cinnamon" => {
 
+            utils::remove_debian();
+
             utils::utils_debian();
 
             Command::new("apt")
@@ -405,6 +688,8 @@ fn main() {
         },
 
         "--install-debian-mate" => {
+
+            utils::remove_debian();
 
             utils::utils_debian();
 
@@ -432,6 +717,8 @@ fn main() {
         },
 
         "--install-debian-kdeplasma" => {
+
+            utils::remove_debian();
 
             utils::utils_debian();
 
@@ -479,7 +766,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -531,7 +818,7 @@ fn main() {
 
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -588,7 +875,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -631,7 +918,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -671,7 +958,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -718,7 +1005,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
@@ -765,7 +1052,7 @@ fn main() {
             
             lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
 
-            //utils::remove_fedora();
+            utils::remove_fedora();
 
             utils::utils_fedora();
 
