@@ -539,6 +539,7 @@ fn main() {
                 .args(Some("xscreensaver"))
                 .args(Some("policykit-1"))
                 .args(Some("xarchiver"))
+                .args(Some("mousepad"))
                 .args(Some("-y"))
                 .status()
                 .expect("Error installing minimal lxde on debian 11");
