@@ -29,7 +29,7 @@ Order | Type | Size
   1°  | efi  | 500MB  
   2°  | swap | The size of your ram.
   3°  | root | 70GB   
-  4°  | home | Everything else
+  4°  | home | Everything else.
 
 On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
@@ -37,7 +37,7 @@ Order | Type | Size
 ------|------|--------  
   1°  | swap | The size of your ram.
   2°  | root | 70GB   
-  3°  | home | Everything else
+  3°  | home | Everything else.
 
 Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
 
@@ -363,22 +363,22 @@ Now partition your disk according to your bios:
 
 ![](imagens/debian11/debian11-partition.webp)
 
-On **UEFI** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
+On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
 Order | Type | Size
 ------|------|--------
   1°  | efi  | 500MB  
-  2°  | swap | 2GB    
+  2°  | swap | The size of your ram.
   3°  | root | 70GB   
-  4°  | home | Everything else*
+  4°  | home | Everything else.
 
-On **Legacy** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
+On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
 Order | Type | Size
 ------|------|--------  
-  1°  | swap | 2GB    
+  1°  | swap | The size of your ram.
   2°  | root | 70GB   
-  3°  | home | Everything else*
+  3°  | home | Everything else.
 
 With everything finished click on "Finish partitioning and white changes to disk":
 
