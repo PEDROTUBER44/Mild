@@ -536,7 +536,7 @@ Now choose which graphical environment will be installed on your PC:
 
 	mild --install-debian-mate
 
-![](imagens/debian11/debian-mate.webp)
+![](imagens/debian11/debian11-mate.webp)
 
 ### Kde plasma
 
