@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ -f "/usr/bin/hello" ]; then
+    sudo rm -f /usr/bin/mild
+    echo "Successfully removed"
+fi

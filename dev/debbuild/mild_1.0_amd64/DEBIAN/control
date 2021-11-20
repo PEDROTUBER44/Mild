@@ -1,0 +1,7 @@
+Package: Mild
+Version: 1.0
+Architecture: amd64
+Essential: no
+Priority: optional
+Maintainer: Pedro Rosendo
+Description:  MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment.
