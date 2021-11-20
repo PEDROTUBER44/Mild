@@ -559,18 +559,6 @@ fn main() {
                 .expect("Error enabling lightdm on startup");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
-
-            Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
                 .args(Some("/usr/share/applications/vim.backup"))
                 .status()
@@ -604,18 +592,6 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling lightdm on startup");
-            
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
@@ -665,18 +641,6 @@ fn main() {
                 .expect("Error enabling lightdm on startup");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
-
-            Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
                 .args(Some("/usr/share/applications/vim.backup"))
                 .status()
@@ -714,18 +678,6 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling gdm3 on startup");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
@@ -768,18 +720,6 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling lightdm on startup");
-            
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
@@ -815,18 +755,6 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling lightdm on startup");
-        
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
@@ -878,18 +806,6 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling sddm on startup");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-uxterm.desktop"))
-                .args(Some("/usr/share/applications/debian-uxterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-uxterm.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/debian-xterm.desktop"))
-                .args(Some("/usr/share/applications/debian-xterm.backup"))
-                .status()
-                .expect("Error to rename file: debian-xterm.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/vim.desktop"))
