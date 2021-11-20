@@ -286,6 +286,14 @@ fn main() {
                 .args(Some("/usr/share/applications/qvidcap.backup"))
                 .status()
                 .expect("Error to rename file: qvidcap.desktop");
+            
+            Command::new("gsettings")
+                .args(Some("set"))
+                .args(Some("org.gnome.desktop.interface"))
+                .args(Some("enable-animations"))
+                .args(Some("false"))
+                .status()
+                .expect("Error to disable animations on gnome");
     
             Command::new("reboot")
                 .status()
@@ -724,6 +732,14 @@ fn main() {
                 .args(Some("/usr/share/applications/vim.backup"))
                 .status()
                 .expect("Error to rename file: vim.desktop");
+            
+            Command::new("gsettings")
+                .args(Some("set"))
+                .args(Some("org.gnome.desktop.interface"))
+                .args(Some("enable-animations"))
+                .args(Some("false"))
+                .status()
+                .expect("Error to disable animations on gnome");
 
             Command::new("reboot")
                 .status()
@@ -1073,6 +1089,14 @@ fn main() {
                 .args(Some("graphical.target"))
                 .status()
                 .expect("Error enabling graphical mode boot");
+            
+            Command::new("gsettings")
+                .args(Some("set"))
+                .args(Some("org.gnome.desktop.interface"))
+                .args(Some("enable-animations"))
+                .args(Some("false"))
+                .status()
+                .expect("Error to disable animations on gnome");
 
             Command::new("reboot")
                 .status()
