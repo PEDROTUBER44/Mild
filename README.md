@@ -74,7 +74,7 @@ And end now click continue and remove the pendrive or installation media and fol
 ![](imagens/fedora35/fedora35-complete.webp)
 
 ### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now choose if you want to compile the app and install it on your machine or just install it:
 
@@ -193,7 +193,7 @@ After that you will have a clean desktop environment with no redundant apps on y
 First download Arch Linux iso from the official website, after that make a bootable pendrive, with Arch Linux iso and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Arch Linux install medium (x86_64,BIOS)", to install Arch Linux:
 
 ![](imagens/archlinux/archlinux-start.webp)	
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now install Arch Linux as you normally do, but when you install the graphical interface clone this repository, now choose whether or not you want to compile mild on your pc:
 
@@ -433,7 +433,7 @@ And end now click continue and remove the pendrive or installation media and fol
 ****
 
 ### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now choose if you want to compile the app and install it on your machine or just install it:
 
