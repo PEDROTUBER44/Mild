@@ -175,7 +175,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-fedora-gnome
+	mild --install-fedora-kdeplasma
 
 ![](imagens/fedora35/fedora35-kdeplasma.webp)
 
@@ -300,7 +300,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-arch-gnome
+	mild --install-arch-kdeplasma
 
 ![](imagens/archlinux/archlinux-kdeplasma.webp)
 
@@ -540,7 +540,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-debian-gnome
+	mild --install-debian-kdeplasma
 
 ![](imagens/debian11/debian11-kdeplasma.webp)
 
