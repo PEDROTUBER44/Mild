@@ -60,10 +60,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -125,10 +125,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -203,10 +203,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -276,10 +276,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -362,10 +362,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -438,10 +438,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
@@ -511,10 +511,10 @@ fn main() {
                 .expect("Error to rename file: nm-connection-editor.desktop");
 
             Command::new("mv")
-                .args(Some("/usr/share/applications/qv412.desktop"))
-                .args(Some("/usr/share/applications/qv412.backup"))
+                .args(Some("/usr/share/applications/qv4l2.desktop"))
+                .args(Some("/usr/share/applications/qv4l2.backup"))
                 .status()
-                .expect("Error to rename file: qv412.desktop");
+                .expect("Error to rename file: qv4l2.desktop");
 
             Command::new("mv")
                 .args(Some("/usr/share/applications/qvidcap.desktop"))
