@@ -229,6 +229,7 @@ fn main() {
             Command::new("pacman")
                 .args(Some("-Sy"))
                 .args(Some("gdm"))
+                .args(Some("xorg-server"))
                 .args(Some("weston"))
                 .args(Some("gnome-session"))
                 .args(Some("gnome-terminal"))
@@ -240,6 +241,7 @@ fn main() {
                 .args(Some("adwaita-icon-theme"))
                 .args(Some("eog"))
                 .args(Some("evince"))
+                .args(Some("seahorse"))
                 .args(Some("--noconfirm"))
                 .status()
                 .expect("Error installing gnome minimal on archlinux");
@@ -667,6 +669,7 @@ fn main() {
                 .args(Some("gnome-tweaks"))
                 .args(Some("nautilus"))
                 .args(Some("adwaita-icon-theme"))
+                .args(Some("seahorse"))
                 .args(Some("--no-install-recommends"))
                 .args(Some("-y"))
                 .status()
@@ -989,6 +992,7 @@ fn main() {
                 .args(Some("fedora-workstation-backgrounds"))
                 .args(Some("file-roller"))
                 .args(Some("gnome-terminal-nautilus"))
+                .args(Some("seahorse"))
                 .args(Some("-y"))
                 .status()
                 .expect("Error installing gnome on fedora 35");
@@ -1160,11 +1164,15 @@ fn main() {
         },
 
         "--help" => {
-            println!("{}",texts::HELP);
+
+            println!("{}",texts::HELP_EN);
+
         },
 
         _ => {
-            println!("{}",texts::HELP);
+
+            println!("{}",texts::HELP_EN);
+
         },
 
     }

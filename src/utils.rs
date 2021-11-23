@@ -83,6 +83,7 @@ pub fn utils_archlinux() {
     Command::new("pacman")
         .args(Some("-Sy"))
         .args(Some("xorg"))
+        .args(Some("xorg-server"))
         .args(Some("networkmanager"))
         .args(Some("gvfs-mtp"))
         .args(Some("gvfs-goa"))
