@@ -1,51 +1,53 @@
-pub const HELP : &str = "
-    Use mild --[option]-[distro]-[interface]
+pub const HELP_EN : &str = "
+
+Use mild --[option]-[distro]-[interface]
+
+    --install-arch-lxde => Install Minimal Lxde Desktop on ArchLinux.
+
+    --install-arch-lxqt => Install Minimal Lxqt Desktop on ArchLinux.
+
+    --install-arch-xfce => Install Minimal Xfce4 Desktop on ArchLinux.
+
+    --install-arch-gnome => Install Minimal Gnome Desktop on ArchLinux.
+
+    --install-arch-cinnamon => Install Minimal Cinnamon Desktop on ArchLinux.
+
+    --install-arch-mate => Install Minimal Mate Desktop on ArchLinux.
+
+    --install-arch-kdeplasma => Install Minimal Kde Plasma Desktop on ArchLinux.
     
-    --install-arch-lxde => Install minimal lxde on archlinux.
-    
-    --install-arch-lxqt => Install minimal lxqt on archlinux.
-    
-    --install-arch-xfce => Install minimal xfce on archlinux.
-    
-    --install-arch-gnome => Install minimal gnome on archlinux.
-    
-    --install-arch-cinnamon => Install minimal cinnamon on archlinux.
-    
-    --install-arch-mate => Install minimal mate on archlinux.
-    
-    --install-arch-kdeplasma => Install minimal kde plasma on archlinux.
-    
-    
-    --install-debian-lxde => Install minimal lxde on debian.
-    
-    --install-debian-lxqt => Install minimal lxqt on debian.
-    
-    --install-debian-xfce => Install minimal xfce on debian.
-    
-    --install-debian-gnome => Install minimal gnome on debian.
-    
-    --install-debian-cinnamon => Install minimal cinnamon on debian.
-    
-    --install-debian-mate => Install minimal mate on debian.
-    
-    --install-debian-kdeplasma => Install minimal kde plasma on debian.
-    
-    
-    --install-fedora-lxde => Install minimal lxde on fedora.
-    
-    --install-fedora-lxqt => Install minimal lxqt on fedora.
-    
-    --install-fedora-xfce => Install minimal xfce on fedora.
-    
-    --install-fedora-gnome => Install minimal gnome on fedora.
-    
-    --install-fedora-cinnamon => Install minimal cinnamon on fedora.
-    
-    --install-fedora-mate => Install minimal mate on fedora.
-    
-    --install-fedora-kdeplasma => Install minimal kde plasma on fedora.
-    
-    --help => View a usage guide
+
+    --install-debian-lxde => Install Minimal Lxde Desktop on Debian 11.
+
+    --install-debian-lxqt => Install Minimal Lxqt Desktop on Debian 11.
+
+    --install-debian-xfce => Install Minimal Xfce4 Desktop on Debian 11.
+
+    --install-debian-gnome => Install Minimal Gnome Desktop on Debian 11.
+
+    --install-debian-cinnamon => Install Minimal Cinnamon Desktop on Debian 11.
+
+    --install-debian-mate => Install Minimal Mate Desktop on Debian 11.
+
+    --install-debian-kdeplasma => Install Minimal Kde Plasma Desktop on Debian 11.
+
+
+    --install-fedora-lxde => Install Minimal Lxde Desktop on Fedora 35.
+
+    --install-fedora-lxqt => Install Minimal Lxqt Desktop on Fedora 35.
+
+    --install-fedora-xfce => Install Minimal Xfce4 Desktop on Fedora 35.
+
+    --install-fedora-gnome => Install Minimal Gnome Desktop on Fedora 35.
+
+    --install-fedora-cinnamon => Install Minimal Cinnamon Desktop on Fedora 35.
+
+    --install-fedora-mate => Install Minimal Mate Desktop on Fedora 35.
+
+    --install-fedora-kdeplasma => Install Minimal Kde Plasma Desktop on Fedora 35.
+
+    --help => View a usage guide.
+
 ";
 
 pub const DNF : &str = "
@@ -59,4 +61,56 @@ fastestmirror=True
 max_parallel_downloads=7
 defaultyes=True
 install_weak_deps=false
+";
+
+pub const HELP_PT_BR : &str = "
+
+Use mild --[opção]-[distro]-[interface]
+
+    --install-arch-lxde => Para instalar o Lxde Desktop Minimal no ArchLinux.
+
+    --install-arch-lxqt => Para instalar o Lxqt Desktop Minimal no ArchLinux.
+
+    --install-arch-xfce => Para instalar o Xfce4 Desktop Minimal no ArchLinux.
+
+    --install-arch-gnome => Para instalar o Gnome Desktop Minimal no ArchLinux.
+
+    --install-arch-cinnamon => Para instalar o Cinnamon Desktop Minimal no ArchLinux.
+
+    --install-arch-mate => Para instalar o Mate Desktop Minimal no ArchLinux.
+
+    --install-arch-kdeplasma => Para instalar o Kde Plasma Desktop Minimal no ArchLinux.
+
+
+    --install-debian-lxde => Para instalar o Lxde Desktop Minimal no Debian 11.
+
+    --install-debian-lxqt => Para instalar o Lxqt Desktop Minimal no Debian 11.
+
+    --install-debian-xfce => Para instalar o Xfce4 Desktop Minimal no Debian 11.
+
+    --install-debian-gnome => Para instalar o Gnome Desktop Minimal no Debian 11.
+
+    --install-debian-cinnamon => Para instalar o Cinnamon Desktop Minimal no Debian 11.
+
+    --install-debian-mate => Para instalar o Mate Desktop Minimal no Debian 11.
+
+    --install-debian-kdeplasma => Para instalar o Kde Plasma Desktop Minimal no Debian 11.
+
+
+    --install-fedora-lxde => Para instalar o Lxde Desktop Minimal no Fedora 35.
+
+    --install-fedora-lxqt => Para instalar o Lxqt Desktop Minimal no Fedora 35.
+
+    --install-fedora-xfce => Para instalar o Xfce4 Minimal no Fedora 35.
+
+    --install-fedora-gnome => Para instalar o Gnome Desktop Minimal no Fedora 35.
+
+    --install-fedora-cinnamon => Para instalar o Cinnamon Desktop Minimal no Fedora 35.
+
+    --install-fedora-mate => Para instalar o Mate Desktop Minimal no Fedora 35.
+
+    --install-fedora-kdeplasma => Para instalar o Kde Plasma Desktop Minimal no Fedora 35.
+
+    --help => Para exibir esse guia de uso.
+
 ";

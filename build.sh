@@ -4,4 +4,4 @@ cargo build --release ;
 rm -rf app/* ;
 cp target/release/mild app/ ;
 rm -rf target/ ;
-echo "<<<>>>" ;
+echo "Mild successfully compiled" ;

@@ -29,7 +29,7 @@ Order | Type | Size
   1°  | efi  | 500MB  
   2°  | swap | The size of your ram.
   3°  | root | 70GB   
-  4°  | home | Everything else
+  4°  | home | Everything else.
 
 On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
@@ -37,7 +37,7 @@ Order | Type | Size
 ------|------|--------  
   1°  | swap | The size of your ram.
   2°  | root | 70GB   
-  3°  | home | Everything else
+  3°  | home | Everything else.
 
 Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
 
@@ -74,7 +74,7 @@ And end now click continue and remove the pendrive or installation media and fol
 ![](imagens/fedora35/fedora35-complete.webp)
 
 ### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now choose if you want to compile the app and install it on your machine or just install it:
 
@@ -175,7 +175,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-fedora-gnome
+	mild --install-fedora-kdeplasma
 
 ![](imagens/fedora35/fedora35-kdeplasma.webp)
 
@@ -193,7 +193,7 @@ After that you will have a clean desktop environment with no redundant apps on y
 First download Arch Linux iso from the official website, after that make a bootable pendrive, with Arch Linux iso and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Arch Linux install medium (x86_64,BIOS)", to install Arch Linux:
 
 ![](imagens/archlinux/archlinux-start.webp)	
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now install Arch Linux as you normally do, but when you install the graphical interface clone this repository, now choose whether or not you want to compile mild on your pc:
 
@@ -300,7 +300,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-arch-gnome
+	mild --install-arch-kdeplasma
 
 ![](imagens/archlinux/archlinux-kdeplasma.webp)
 
@@ -363,22 +363,22 @@ Now partition your disk according to your bios:
 
 ![](imagens/debian11/debian11-partition.webp)
 
-On **UEFI** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
+On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
 Order | Type | Size
 ------|------|--------
   1°  | efi  | 500MB  
-  2°  | swap | 2GB    
+  2°  | swap | The size of your ram.
   3°  | root | 70GB   
-  4°  | home | Everything else*
+  4°  | home | Everything else.
 
-On **Legacy** systems make the following partitions (Remembering that the order does not matter) and select "Finish partitioning and write changes to disk", then click "Continue":
+On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
 Order | Type | Size
 ------|------|--------  
-  1°  | swap | 2GB    
+  1°  | swap | The size of your ram.
   2°  | root | 70GB   
-  3°  | home | Everything else*
+  3°  | home | Everything else.
 
 With everything finished click on "Finish partitioning and white changes to disk":
 
@@ -433,7 +433,7 @@ And end now click continue and remove the pendrive or installation media and fol
 ****
 
 ### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as ** root ** enter the password and proceed:
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now choose if you want to compile the app and install it on your machine or just install it:
 
@@ -540,7 +540,7 @@ Now choose which graphical environment will be installed on your PC:
 
 ### Kde plasma
 
-	mild --install-debian-gnome
+	mild --install-debian-kdeplasma
 
 ![](imagens/debian11/debian11-kdeplasma.webp)
 
