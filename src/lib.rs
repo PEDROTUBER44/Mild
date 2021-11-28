@@ -1,4 +1,4 @@
-use std::io::prelude::*;
+use std::io::prelude::Write;
 use std::path::Path;
 use std::fs::File;
 use std::fs;

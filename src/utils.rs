@@ -40,6 +40,7 @@ pub fn utils_fedora() {
         .args(Some("-f"))
         .status()
         .expect("Error starting NetworkManager at startup");
+
 }
 
 pub fn utils_debian() {
@@ -112,6 +113,10 @@ pub fn utils_archlinux() {
         .args(Some("-f"))
         .status()
         .expect("Error starting NetworkManager at startup");
+
+    Command::new("reboot")
+        .status()
+        .expect("Error restarting system");
 
 }
 
@@ -416,5 +421,55 @@ pub fn remove_debian() {
         .args(Some("-f"))
         .status()
         .expect("Error disabling sddm on startup");
+
+}
+
+pub fn remove_files_archlinux() {
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/avahi-discover.desktop"))
+        .args(Some("/usr/share/applications/avahi-discover.backup"))
+        .status()
+        .expect("Error to rename file: avahi-discover.desktop");
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/bssh.desktop"))
+        .args(Some("/usr/share/applications/bssh.backup"))
+        .status()
+        .expect("Error to rename file: bssh.desktop");
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/bvnc.desktop"))
+        .args(Some("/usr/share/applications/bvnc.backup"))
+        .status()
+        .expect("Error to rename file: bvnc.desktop");
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
+        .args(Some("/usr/share/applications/nm-connection-editor.backup"))
+        .status()
+        .expect("Error to rename file: nm-connection-editor.desktop");
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/qv4l2.desktop"))
+        .args(Some("/usr/share/applications/qv4l2.backup"))
+        .status()
+        .expect("Error to rename file: qv4l2.desktop");
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/qvidcap.desktop"))
+        .args(Some("/usr/share/applications/qvidcap.backup"))
+        .status()
+        .expect("Error to rename file: qvidcap.desktop");
+
+}
+
+pub fn remove_files_debian() {
+
+    Command::new("mv")
+        .args(Some("/usr/share/applications/vim.desktop"))
+        .args(Some("/usr/share/applications/vim.backup"))
+        .status()
+        .expect("Error to rename file: vim.desktop");
 
 }

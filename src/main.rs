@@ -35,42 +35,8 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -100,42 +66,8 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -178,42 +110,8 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -253,42 +151,8 @@ fn main() {
                 .status()
                 .expect("Error enabling gdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-            
             Command::new("gsettings")
                 .args(Some("set"))
                 .args(Some("org.gnome.desktop.interface"))
@@ -339,42 +203,8 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -415,41 +245,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
+            utils::remove_files_archlinux();
     
             Command::new("reboot")
                 .status()
@@ -487,43 +283,9 @@ fn main() {
                 .args(Some("-f"))
                 .status()
                 .expect("Error enabling lightdm on startup");
+                
+            utils::remove_files_archlinux();
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/avahi-discover.desktop"))
-                .args(Some("/usr/share/applications/avahi-discover.backup"))
-                .status()
-                .expect("Error to rename file: avahi-discover.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bssh.desktop"))
-                .args(Some("/usr/share/applications/bssh.backup"))
-                .status()
-                .expect("Error to rename file: bssh.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/bvnc.desktop"))
-                .args(Some("/usr/share/applications/bvnc.backup"))
-                .status()
-                .expect("Error to rename file: bvnc.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
-                .args(Some("/usr/share/applications/nm-connection-editor.backup"))
-                .status()
-                .expect("Error to rename file: nm-connection-editor.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qv4l2.desktop"))
-                .args(Some("/usr/share/applications/qv4l2.backup"))
-                .status()
-                .expect("Error to rename file: qv4l2.desktop");
-
-            Command::new("mv")
-                .args(Some("/usr/share/applications/qvidcap.desktop"))
-                .args(Some("/usr/share/applications/qvidcap.backup"))
-                .status()
-                .expect("Error to rename file: qvidcap.desktop");
-    
             Command::new("reboot")
                 .status()
                 .expect("Error restarting system");
@@ -560,11 +322,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
@@ -595,11 +353,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
@@ -642,11 +396,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
@@ -682,11 +432,7 @@ fn main() {
                 .status()
                 .expect("Error enabling gdm3 on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
             
             Command::new("gsettings")
                 .args(Some("set"))
@@ -724,11 +470,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
@@ -759,11 +501,7 @@ fn main() {
                 .status()
                 .expect("Error enabling lightdm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
@@ -810,11 +548,7 @@ fn main() {
                 .status()
                 .expect("Error enabling sddm on startup");
 
-            Command::new("mv")
-                .args(Some("/usr/share/applications/vim.desktop"))
-                .args(Some("/usr/share/applications/vim.backup"))
-                .status()
-                .expect("Error to rename file: vim.desktop");
+            utils::remove_files_debian();
 
             Command::new("reboot")
                 .status()
