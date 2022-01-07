@@ -1,5 +1,7 @@
 use std::process::Command;
+use std::process;
 use std::env;
+use std::io;
 mod texts;
 mod lib;
 mod utils;
@@ -10,6 +12,39 @@ fn main() {
     let opcao = &args[1].trim();
 
     match &opcao[..] {
+
+        "--install-arch-uefi" => {
+            Command::new("loadkeys")
+                .args(Some("br-abnt2"))
+                .status()
+                .expect("Error to change keyboard layout");
+
+            Command::new("fdisk")
+                .args(Some("-l"))
+                .status()
+                .expect("Error to display disk list");
+
+            println!("\nThe /dev/sda disk will be formatted in 10s, we recommend that you backup your data first, ATTENTION WE ARE NOT RESPONSIBLE FOR ANY POSSIBLE LOSS OF DATA. Do you want to proceed? (Y/N):");
+            let mut option = String::new();
+            io::stdin().read_line(&mut option).expect("Error to read input of user");
+
+            match &option[..] {
+                "Y" => {
+                    Command::new("sleep")
+                        .args(Some("10"))
+                        .status()
+                        .expect("Error giving a timeout of 10s");
+
+                    Command::new("cfdisk")
+                        .args(Some("/dev/sda"))
+                        .status()
+                        .expect("Error to patitioned disk /dev/sda");
+                },
+                "N" => {
+                    process::exit(0x0100);
+                },
+            }
+        },
 
         "--install-arch-lxde" => {
 
