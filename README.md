@@ -185,6 +185,11 @@ Now choose which graphical environment will be installed on your PC:
 
 ![](imagens/fedora35/fedora35-cinnamon.webp)
 
+### Clean Fedora 35
+If you want to clean your fedora 35, type the following command as **root**:
+
+	mild --clean-fedora
+
 After that you will have a clean desktop environment with no redundant apps on your **Fedora 35 !**
 
 ****
@@ -309,6 +314,11 @@ Now choose which graphical environment will be installed on your PC:
 	mild --install-arch-cinnamon
 
 ![](imagens/archlinux/archlinux-cinnamon.webp)
+
+### Clean ArchLinux
+If you want to clean your ArchLinux, type the following command as **root**:
+
+	mild --clean-arch
 
 After that you will have a clean desktop environment with no redundant apps on your **Arch Linux !**
 
@@ -549,6 +559,11 @@ Now choose which graphical environment will be installed on your PC:
 	mild --install-debian-cinnamon
 
 ![](imagens/debian11/debian11-cinnamon.webp)
+
+### Clean Debian 11
+If you want to clean your debian 11, type the following command as **root**:
+
+	mild --clean-debian
 
 After that you will have a clean desktop environment with no redundant apps on your **Debian 11 !**
 

@@ -15,6 +15,8 @@ Use mild --[option]-[distro]-[interface]
     --install-arch-mate => Install Minimal Mate Desktop on ArchLinux.
 
     --install-arch-kdeplasma => Install Minimal Kde Plasma Desktop on ArchLinux.
+
+    --clean-arch => Cleans up ArchLinux by removing cache and orphaned packages from the system
     
 
     --install-debian-lxde => Install Minimal Lxde Desktop on Debian 11.
@@ -31,6 +33,8 @@ Use mild --[option]-[distro]-[interface]
 
     --install-debian-kdeplasma => Install Minimal Kde Plasma Desktop on Debian 11.
 
+    --clean-debian => Cleans up Debian 11 by removing cache and orphaned packages from the system
+
 
     --install-fedora-lxde => Install Minimal Lxde Desktop on Fedora 35.
 
@@ -45,6 +49,8 @@ Use mild --[option]-[distro]-[interface]
     --install-fedora-mate => Install Minimal Mate Desktop on Fedora 35.
 
     --install-fedora-kdeplasma => Install Minimal Kde Plasma Desktop on Fedora 35.
+
+    --clean-fedora => Cleans up Fedora 35 by removing cache and orphaned packages from the system.
 
     --help => View a usage guide.
 
