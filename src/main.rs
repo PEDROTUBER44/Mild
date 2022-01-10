@@ -1,5 +1,7 @@
 use std::process::Command;
+use std::process;
 use std::env;
+use std::io;
 mod texts;
 mod lib;
 mod utils;
@@ -10,6 +12,165 @@ fn main() {
     let opcao = &args[1].trim();
 
     match &opcao[..] {
+
+        "--clean-arch" => {
+
+            Command::new("pacman")
+                .args(Some("-Rsn"))
+                .args(Some("$(pacman -Qdtq)"))
+                .args(Some("--noconfirm"))
+                .status()
+                .expect("Error removing entire list of orphaned packages");
+
+            Command::new("pacman")
+                .args(Some("-Scc"))
+                .args(Some("--noconfirm"))
+                .status()
+                .expect("Error clearing pacman cache");
+
+            Command::new("flatpak")
+                .args(Some("uninstall"))
+                .args(Some("--unused"))
+                .status()
+                .expect("Error cleaning unused flatpaks");
+
+            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-time=2d"))
+                .status()
+                .expect("Error limiting systemd logs to 2 days");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-size=500M"))
+                .status()
+                .expect("Error limiting systemd logs to 500M");
+
+            process::exit(0);
+        },
+
+        "--clean-fedora" => {
+
+            Command::new("dnf")
+                .args(Some("clean"))
+                .args(Some("all"))
+                .status()
+                .expect("Error to clean dnf cache");
+            
+            Command::new("dnf")
+                .args(Some("autoremove"))
+                .args(Some("-y"))
+                .status()
+                .expect("error removing orphaned dnf packages");
+
+            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-time=2d"))
+                .status()
+                .expect("Error limiting systemd logs to 2 days");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-size=500M"))
+                .status()
+                .expect("Error limiting systemd logs to 500M");
+
+            Command::new("flatpak")
+                .args(Some("uninstall"))
+                .args(Some("--unused"))
+                .status()
+                .expect("Error cleaning unused flatpaks");
+
+            process::exit(0);
+        },
+
+        "--clean-debian" => {
+
+            Command::new("apt")
+                .args(Some("clean"))
+                .status()
+                .expect("Error clearing apt cache");
+
+            Command::new("apt")
+                .args(Some("autoclean"))
+                .status()
+                .expect("Error cleaning dead packages");
+
+            Command::new("apt")
+                .args(Some("autoremove"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error cleaning orphaned packages");
+
+            Command::new("apt")
+                .args(Some("install"))
+                .args(Some("deborphan"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error installing deborphan");
+
+            Command::new("apt")
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error cleaning orphaned packages");
+        
+            Command::new("apt")
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error cleaning 2 time orphaned packages");
+        
+            Command::new("apt")
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error cleaning 3 time orphaned packages");
+
+            Command::new("apt")
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error cleaning 4 time orphaned packages");
+        
+            Command::new("apt")
+                .args(Some("remove"))
+                .args(Some("deborphan"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to remove deborphan");
+
+            Command::new("apt")
+                .args(Some("autoremove"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error removing deborphan dependencies");
+        
+            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-time=2d"))
+                .status()
+                .expect("Error limiting systemd logs to 2 days");
+
+            Command::new("journalctl")
+                .args(Some("--vacuum-size=500M"))
+                .status()
+                .expect("Error limiting systemd logs to 500M");
+
+            Command::new("flatpak")
+                .args(Some("uninstall"))
+                .args(Some("--unused"))
+                .status()
+                .expect("Error cleaning unused flatpaks");
+
+            process::exit(0);
+            
+        },
 
         "--install-arch-lxde" => {
 

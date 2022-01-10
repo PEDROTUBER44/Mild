@@ -12,14 +12,14 @@ pub fn texto(text: &str, path: &str, appnotfound: &str) {
     match bools {
         true => {
             match fs::remove_file(&cpath) {
-                Err(e) => println!("Nao foi possivel remover o arquivo: {} ERRO:{}",display,e),
-                Ok(_) => println!("Arquivo excluido com sucesso"),
+                Err(e) => println!("Unable to remove file: {} ERRO:{}",display,e),
+                Ok(_) => println!("File removed successfully"),
             };
 
             let mut file = match File::create(&cpath) {
         
                 Err(e) => {
-                    println!("Nao foi possivel criar o arquivo: {} ERRO:{}",display,e);
+                    println!("Could not write to file: {} Error:{}",display,e);
                     process::exit(0x0100);
                 },
         
@@ -31,12 +31,12 @@ pub fn texto(text: &str, path: &str, appnotfound: &str) {
 
                 Err(e) => {
         
-                    println!("Nao foi possivel escrever no arquivo: {} ERRO:{}",display,e);
+                    println!("Could not write to file: {} Error:{}",display,e);
                     process::exit(0x0100);
         
                 },
         
-                Ok(_) => println!("Arquivo escrito com sucesso"),
+                Ok(_) => println!("File written successfully"),
         
             };
 
@@ -46,4 +46,33 @@ pub fn texto(text: &str, path: &str, appnotfound: &str) {
             println!("{}",appnotfound);
         },
     }
+}
+
+pub fn dir(path: &str, dirnotfound: &str) {
+
+    let cpath = Path::new(&path);
+    let bools = cpath.exists();
+    let display = cpath.display();
+
+    match bools {
+
+        true => {
+
+            match fs::remove_dir_all(&cpath) {
+
+                Err(e) => println!("Unable to remove folder: {} Error:{}",display,e),
+                Ok(_) => println!("Folder removed successfully"),
+
+            };
+
+        },
+
+        false => {
+
+            println!("{}",dirnotfound);
+
+        },
+
+    }
+
 }
