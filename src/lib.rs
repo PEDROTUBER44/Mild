@@ -12,14 +12,14 @@ pub fn texto(text: &str, path: &str, appnotfound: &str) {
     match bools {
         true => {
             match fs::remove_file(&cpath) {
-                Err(e) => println!("Unable to remove file: {} ERRO:{}",display,e),
-                Ok(_) => println!("File removed successfully"),
+                Err(e) => println!("Could not remove the file: {} ERROR:{}",display,e),
+                Ok(_) => println!("File deleted successfully"),
             };
 
             let mut file = match File::create(&cpath) {
         
                 Err(e) => {
-                    println!("Could not write to file: {} Error:{}",display,e);
+                    println!("Could not create the file: {} ERROR:{}",display,e);
                     process::exit(0x0100);
                 },
         
@@ -31,12 +31,12 @@ pub fn texto(text: &str, path: &str, appnotfound: &str) {
 
                 Err(e) => {
         
-                    println!("Could not write to file: {} Error:{}",display,e);
+                    println!("Could not written the file: {} ERROR:{}",display,e);
                     process::exit(0x0100);
         
                 },
         
-                Ok(_) => println!("File written successfully"),
+                Ok(_) => println!("File successfully written"),
         
             };
 

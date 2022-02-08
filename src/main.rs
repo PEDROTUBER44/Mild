@@ -1,17 +1,17 @@
 use std::process::Command;
+use std::io::Write;
 use std::process;
 use std::env;
 use std::io;
 mod texts;
-mod lib;
 mod utils;
+mod lib;
 
 fn main() {
-
     let args: Vec<String> = env::args().collect();
-    let opcao = &args[1].trim();
+    let option = &args[1].trim();
 
-    match &opcao[..] {
+    match &option[..] {
 
         "--clean-arch" => {
 
@@ -21,32 +21,459 @@ fn main() {
                 .args(Some("--noconfirm"))
                 .status()
                 .expect("Error removing entire list of orphaned packages");
-
+        
             Command::new("pacman")
                 .args(Some("-Scc"))
                 .args(Some("--noconfirm"))
                 .status()
                 .expect("Error clearing pacman cache");
-
+        
             Command::new("flatpak")
                 .args(Some("uninstall"))
                 .args(Some("--unused"))
                 .status()
                 .expect("Error cleaning unused flatpaks");
-
+        
             lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-time=2d"))
                 .status()
                 .expect("Error limiting systemd logs to 2 days");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
                 .status()
                 .expect("Error limiting systemd logs to 500M");
-
+        
             process::exit(0);
+        },
+
+        "--install-arch-lxde" => {
+
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxde();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxde();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxde();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-lxqt" => {
+
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lxqt lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxqt();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxqt();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_lxqt();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-xfce" => {
+
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_xfce();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_xfce();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_xfce();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-gnome" => {
+
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit adwaita-icon-theme eog evince seahorse");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_gnome();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_gnome();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_gnome();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-cinnamon" => {
+
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cinnamon();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cinnamon();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cinnamon();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-mate" => {
+                        
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter mate-control-center adwaita-icon-theme mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_mate();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_mate();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_mate();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-kdeplasma" => {
+                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard adwaita-icon-theme spectacle dolphin discover");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_kdeplasma();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_kdeplasma();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_kdeplasma();
+                    utils::remove_files_archlinux();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--clean-fedora" => {
@@ -62,26 +489,453 @@ fn main() {
                 .args(Some("-y"))
                 .status()
                 .expect("error removing orphaned dnf packages");
-
+        
             lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-time=2d"))
                 .status()
                 .expect("Error limiting systemd logs to 2 days");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
                 .status()
                 .expect("Error limiting systemd logs to 500M");
-
+        
             Command::new("flatpak")
                 .args(Some("uninstall"))
                 .args(Some("--unused"))
                 .status()
                 .expect("Error cleaning unused flatpaks");
-
+        
             process::exit(0);
+        },        
+
+        "--install-debian-lxde" => {
+                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter lxde-core lxterminal lxappearance pavucontrol lxsession-default-apps xcreensaver policykit-1 xarchiver");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxde();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxde();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxde();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-lxqt" => {
+                                                
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter lxqt-core pavucontrol");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxqt();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxqt();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_lxqt();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-xfce" => {
+                                                
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol xfdesktop4 xfwm4 adwaita-qt qt5ct xfconf");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_xfce();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_xfce();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_xfce();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-gnome" => {
+                                                            
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("gdm3 gnome-session gnome-control-center gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse"); // Falta o eog, totem, gedit etc...
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_gnome();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_gnome();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_gnome();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-cinnamon" => {
+                                                            
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("cinnamon-core lightdm lightdm-gtk-greeter");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cinnamon();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cinnamon();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cinnamon();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-mate" => {
+                                                            
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("mate-desktop-environment-core lightdm lightdm-gtk-greeter marco");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_mate();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_mate();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_mate();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-kdeplasma" => {
+                                                            
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland dolphin kwrite ark kde-spectacle okular ksysguard plasma-discover kscreen konsole");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_kdeplasma();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_kdeplasma();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_kdeplasma();
+                    utils::remove_files_debian();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--clean-debian" => {
@@ -90,25 +944,25 @@ fn main() {
                 .args(Some("clean"))
                 .status()
                 .expect("Error clearing apt cache");
-
+        
             Command::new("apt")
                 .args(Some("autoclean"))
                 .status()
                 .expect("Error cleaning dead packages");
-
+        
             Command::new("apt")
                 .args(Some("autoremove"))
                 .args(Some("-y"))
                 .status()
                 .expect("Error cleaning orphaned packages");
-
+        
             Command::new("apt")
                 .args(Some("install"))
                 .args(Some("deborphan"))
                 .args(Some("-y"))
                 .status()
                 .expect("Error installing deborphan");
-
+        
             Command::new("apt")
                 .args(Some("remove"))
                 .args(Some("$(deborphan)"))
@@ -129,7 +983,7 @@ fn main() {
                 .args(Some("-y"))
                 .status()
                 .expect("Error cleaning 3 time orphaned packages");
-
+        
             Command::new("apt")
                 .args(Some("remove"))
                 .args(Some("$(deborphan)"))
@@ -143,7 +997,7 @@ fn main() {
                 .args(Some("-y"))
                 .status()
                 .expect("Error to remove deborphan");
-
+        
             Command::new("apt")
                 .args(Some("autoremove"))
                 .args(Some("-y"))
@@ -151,911 +1005,452 @@ fn main() {
                 .expect("Error removing deborphan dependencies");
         
             lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-time=2d"))
                 .status()
                 .expect("Error limiting systemd logs to 2 days");
-
+        
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
                 .status()
                 .expect("Error limiting systemd logs to 500M");
-
+        
             Command::new("flatpak")
                 .args(Some("uninstall"))
                 .args(Some("--unused"))
                 .status()
                 .expect("Error cleaning unused flatpaks");
-
+        
             process::exit(0);
             
         },
 
-        "--install-arch-lxde" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("lxde"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("xarchiver"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing minimal lxde on archlinux");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_archlinux();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-        },
-
-        "--install-arch-lxqt" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("lxqt"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("xarchiver"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing minimal lxqt on archlinux");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_archlinux();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-    
-        },
-        
-        "--install-arch-xfce" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("xfce4-settings"))
-                .args(Some("xfce4-pulseaudio-plugin"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("exo"))
-                .args(Some("garcon"))
-                .args(Some("tumbler"))
-                .args(Some("xfce4-panel"))
-                .args(Some("xfce4-session"))
-                .args(Some("xfce4-whiskermenu-plugin"))
-                .args(Some("xfce4-terminal"))
-                .args(Some("xfconf"))
-                .args(Some("xfdesktop"))
-                .args(Some("xfwm4"))
-                .args(Some("thunar"))
-                .args(Some("file-roller"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing xfce minimal on archlinux");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_archlinux();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-arch-gnome" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("gdm"))
-                .args(Some("xorg-server"))
-                .args(Some("weston"))
-                .args(Some("gnome-session"))
-                .args(Some("gnome-terminal"))
-                .args(Some("nautilus-terminal"))
-                .args(Some("nautilus"))
-                .args(Some("file-roller"))
-                .args(Some("gnome-control-center"))
-                .args(Some("gedit"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("eog"))
-                .args(Some("evince"))
-                .args(Some("seahorse"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing gnome minimal on archlinux");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("gdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling gdm on startup");
-
-            utils::remove_files_archlinux();
-
-            Command::new("gsettings")
-                .args(Some("set"))
-                .args(Some("org.gnome.desktop.interface"))
-                .args(Some("enable-animations"))
-                .args(Some("false"))
-                .status()
-                .expect("Error to disable animations on gnome");
-    
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-arch-cinnamon" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("cinnamon"))
-                .args(Some("cinnamon-session"))
-                .args(Some("cinnamon-desktop"))
-                .args(Some("gnome-terminal"))
-                .args(Some("cinnamon-control-center"))
-                .args(Some("cinnamon-menus"))
-                .args(Some("cinnamon-screensaver"))
-                .args(Some("cinnamon-settings-daemon"))
-                .args(Some("cinnamon-translations"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("cjs"))
-                .args(Some("muffin"))
-                .args(Some("nemo"))
-                .args(Some("nemo-fileroller"))
-                .args(Some("file-roller"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing cinnamon minimal on archlinux");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_archlinux();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-arch-mate" => {
-
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("mate-control-center"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("mate-desktop"))
-                .args(Some("mate-power-manager"))
-                .args(Some("mate-screensaver"))
-                .args(Some("mate-common"))
-                .args(Some("mate-session-manager"))
-                .args(Some("mate-settings-daemon"))
-                .args(Some("mate-terminal"))
-                .args(Some("network-manager-applet"))
-                .args(Some("mate-panel"))
-                .args(Some("marco"))
-                .args(Some("caja"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing minimal mate on archlinux");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_archlinux();
-    
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-arch-kdeplasma" => {
-            
-            utils::remove_arch();
-
-            utils::utils_archlinux();
-
-            Command::new("pacman")
-                .args(Some("-Sy"))
-                .args(Some("sddm"))
-                .args(Some("plasma-desktop"))
-                .args(Some("plasma-nm"))
-                .args(Some("konsole"))
-                .args(Some("plasma-wayland-session"))
-                .args(Some("kcm-fcitx"))
-                .args(Some("kscreen"))
-                .args(Some("ksysguard"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("spectacle"))
-                .args(Some("dolphin"))
-                .args(Some("discover"))
-                .args(Some("--noconfirm"))
-                .status()
-                .expect("Error installing cinnamon minimal on archlinux");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("sddm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-                
-            utils::remove_files_archlinux();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        
-        "--install-debian-lxde" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("lxde-core"))
-                .args(Some("lxterminal"))
-                .args(Some("lxappearance"))
-                .args(Some("pavucontrol"))
-                .args(Some("lxsession-default-apps"))
-                .args(Some("xscreensaver"))
-                .args(Some("policykit-1"))
-                .args(Some("xarchiver"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing minimal lxde on debian 11");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-lxqt" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("lxqt-core"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("pavucontrol"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing lxqt minimal on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-xfce" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("thunar"))
-                .args(Some("xfce4-panel"))
-                .args(Some("xfce4-pulseaudio-plugin"))
-                .args(Some("xfce4-whiskermenu-plugin"))
-                .args(Some("xfce4-session"))
-                .args(Some("xfce4-settings"))
-                .args(Some("xfce4-terminal"))
-                .args(Some("pavucontrol"))
-                .args(Some("xfconf"))
-                .args(Some("xfdesktop4"))
-                .args(Some("xfwm4"))
-                .args(Some("adwaita-qt"))
-                .args(Some("qt5ct"))
-                .args(Some("--no-install-recommends"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing xfce4 minimal on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-gnome" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("gdm3"))
-                .args(Some("gnome-session"))
-                .args(Some("gnome-control-center"))
-                .args(Some("gnome-terminal"))
-                .args(Some("gnome-tweaks"))
-                .args(Some("nautilus"))
-                .args(Some("adwaita-icon-theme"))
-                .args(Some("seahorse"))
-                .args(Some("--no-install-recommends"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing gnome minimal on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("gdm3"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling gdm3 on startup");
-
-            utils::remove_files_debian();
-            
-            Command::new("gsettings")
-                .args(Some("set"))
-                .args(Some("org.gnome.desktop.interface"))
-                .args(Some("enable-animations"))
-                .args(Some("false"))
-                .status()
-                .expect("Error to disable animations on gnome");
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-cinnamon" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("cinnamon-core"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing cinnamon minimal on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-mate" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("mate-desktop-environment-core"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("marco"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing minimal mate on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-        "--install-debian-kdeplasma" => {
-
-            utils::remove_debian();
-
-            utils::utils_debian();
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("sddm"))
-                .args(Some("kde-plasma-desktop"))
-                .args(Some("plasma-nm"))
-                .args(Some("plasma-workspace-wayland"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing minimal kde plasma on debian 11");
-
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("dolphin"))
-                .args(Some("kwrite"))
-                .args(Some("ark"))
-                .args(Some("kde-spectacle"))
-                .args(Some("okular"))
-                .args(Some("ksysguard"))
-                .args(Some("plasma-discover"))
-                .args(Some("kscreen"))
-                .args(Some("konsole"))
-                .args(Some("--no-install-recommends"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing minimal kde plasma on debian 11");
-
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("sddm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling sddm on startup");
-
-            utils::remove_files_debian();
-
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
-        },
-
-
         "--install-fedora-lxde" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                        
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxde();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxde();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("lxappearance"))
-                .args(Some("lxde-common"))
-                .args(Some("lxdm"))
-                .args(Some("lxinput"))
-                .args(Some("lxmenu-data"))
-                .args(Some("lxpanel"))
-                .args(Some("lxpolkit"))
-                .args(Some("lxrandr"))
-                .args(Some("xcompmgr"))
-                .args(Some("xarchiver"))
-                .args(Some("lxsession"))
-                .args(Some("lxtask"))
-                .args(Some("pcmanfm"))
-                .args(Some("lxterminal"))
-                .args(Some("network-manager-applet"))
-                .args(Some("openbox"))
-                .args(Some("obconf"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("lightdm"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing minimal lxde on fedora 35");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
-            
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxde();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--install-fedora-lxqt" => {
+                                                                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxqt();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::remove_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxqt();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("breeze-cursor-theme"))
-                .args(Some("breeze-gtk"))
-                .args(Some("breeze-icon-theme"))
-                .args(Some("firewall-config"))
-                .args(Some("network-manager-applet"))
-                .args(Some("notification-daemon"))
-                .args(Some("obconf"))
-                .args(Some("openbox"))
-                .args(Some("pcmanfm-qt"))
-                .args(Some("qterminal"))
-                .args(Some("lxqt-about"))
-                .args(Some("lxqt-archiver"))
-                .args(Some("lxqt-config"))
-                .args(Some("lxqt-notificationd"))
-                .args(Some("lxqt-openssh-askpass"))
-                .args(Some("lxqt-panel"))
-                .args(Some("lxqt-policykit"))
-                .args(Some("lxqt-powermanagement"))
-                .args(Some("lxqt-qtplugin"))
-                .args(Some("lxqt-session"))
-                .args(Some("lxqt-themes"))
-                .args(Some("lxqt-themes-fedora"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing lxqt minimal on fedora 35");
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_lxqt();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--install-fedora-xfce" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop lightdm lightdm-gtk-greeter xfce4-terminal");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_xfce();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_xfce();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("network-manager-applet"))
-                .args(Some("xfwm4"))
-                .args(Some("xfce4-power-manager"))
-                .args(Some("xfce4-session"))
-                .args(Some("xfce4-settings"))
-                .args(Some("xfce4-whiskermenu-plugin"))
-                .args(Some("xfdesktop"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("xfce4-terminal"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing xfce4 minimal on fedora 35");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-    
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_xfce();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--install-fedora-gnome" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_gnome();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_gnome();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("gdm"))
-                .args(Some("gnome-shell"))
-                .args(Some("nautilus"))
-                .args(Some("gnome-terminal"))
-                .args(Some("fedora-workstation-backgrounds"))
-                .args(Some("file-roller"))
-                .args(Some("gnome-terminal-nautilus"))
-                .args(Some("seahorse"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing gnome on fedora 35");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("gdm"))
-                .args(Some("-f"))
-                .spawn()
-                .expect("Error enabling gdm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
-            
-            Command::new("gsettings")
-                .args(Some("set"))
-                .args(Some("org.gnome.desktop.interface"))
-                .args(Some("enable-animations"))
-                .args(Some("false"))
-                .status()
-                .expect("Error to disable animations on gnome");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_gnome();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--install-fedora-cinnamon" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                                    
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal lightdm lightdm-gtk-greeter");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cinnamon();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cinnamon();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("cinnamon"))
-                .args(Some("cinnamon-control-center"))
-                .args(Some("cinnamon-desktop"))
-                .args(Some("cinnamon-menus"))
-                .args(Some("cinnamon-screensaver"))
-                .args(Some("cinnamon-session"))
-                .args(Some("nemo"))
-                .args(Some("nemo-fileroller"))
-                .args(Some("cinnamon-translations"))
-                .args(Some("cjs"))
-                .args(Some("muffin"))
-                .args(Some("gnome-terminal"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing cinnamon on fedora 35");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cinnamon();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
-
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--install-fedora-mate" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                                                
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("lightdm lightdm-gtk-greeter mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_mate();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_mate();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("lightdm"))
-                .args(Some("lightdm-gtk-greeter"))
-                .args(Some("mate-control-center"))
-                .args(Some("mate-desktop"))
-                .args(Some("mate-power-manager"))
-                .args(Some("mate-screensaver"))
-                .args(Some("mate-screenshot"))
-                .args(Some("mate-session-manager"))
-                .args(Some("mate-settings-daemon"))
-                .args(Some("mate-terminal"))
-                .args(Some("network-manager-applet"))
-                .args(Some("mate-panel"))
-                .args(Some("marco"))
-                .args(Some("caja"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing mate in fedora 35");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("lightdm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling lightdm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_mate();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
-        
+
         "--install-fedora-kdeplasma" => {
-            
-            lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                                                                                                            
+            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
+            //Also put here an option to remove configuration files from the home folder
+          
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover");
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
 
-            utils::remove_fedora();
+            match &input[..] {
+                "y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_kdeplasma();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            utils::utils_fedora();
+                "Y" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_kdeplasma();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
 
-            Command::new("dnf")
-                .args(Some("install"))
-                .args(Some("sddm"))
-                .args(Some("plasma-desktop"))
-                .args(Some("plasma-nm"))
-                .args(Some("konsole"))
-                .args(Some("kcm_colors"))
-                .args(Some("kcm-fcitx"))
-                .args(Some("kscreen"))
-                .args(Some("ksysguard"))
-                .args(Some("spectacle"))
-                .args(Some("plasma-user-manager"))
-                .args(Some("dolphin"))
-                .args(Some("plasma-discover"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error installing kde plasma on fedora 35");
-        
-            Command::new("systemctl")
-                .args(Some("enable"))
-                .args(Some("sddm"))
-                .args(Some("-f"))
-                .status()
-                .expect("Error enabling sddm on startup");
-        
-            Command::new("systemctl")
-                .args(Some("set-default"))
-                .args(Some("graphical.target"))
-                .status()
-                .expect("Error enabling graphical mode boot");
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
-            Command::new("reboot")
-                .status()
-                .expect("Error restarting system");
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
 
+                "" => {
+                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_kdeplasma();
+                    Command::new("reboot").status().expect("Error restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
         },
 
         "--help" => {
@@ -1068,8 +1463,6 @@ fn main() {
 
             println!("{}",texts::HELP_EN);
 
-        },
-
+        }
     }
-
 }
