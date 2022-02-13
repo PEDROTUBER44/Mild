@@ -89,11 +89,11 @@ Now install the rust compiler and git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" and "install.sh" file execute permission:
 
@@ -105,7 +105,7 @@ Finally run the "build.sh" and "install.sh" file:
 
 ### Uninstall
 
-	dnf remove cargo curl rust git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -120,11 +120,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -136,7 +136,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	dnf remove git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	dnf remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -209,11 +209,11 @@ After that rust will ask if you want to install rustup so click 1 and hit enter:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" file execute permission:
 
@@ -232,7 +232,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
 
 ## Non-make ( recommended )
 First update your system:
@@ -245,11 +245,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -261,7 +261,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	pacman -Rsn git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	pacman -Rsn git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -449,11 +449,11 @@ After that rust will ask if you want to install rustup so click 1 and hit enter:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" file execute permission:
 
@@ -472,7 +472,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
 
 ## Non-make ( recommended )
 First update your system:
@@ -485,11 +485,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -501,7 +501,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	apt remove git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	apt remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
