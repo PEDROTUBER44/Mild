@@ -2,25 +2,25 @@
 MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment. See below how to install in your favorite distro:
 
 ## Fedora 35
-First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 35 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 35", to check if the iso on the pendrive is corrupted and install Fedora 35:
+First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
 
-![](images/fedora35/fedora35-inicio.webp)
+![](imagens/fedora35/fedora35-inicio.webp)
 
 After that you will see this screen and on it select your language, and after that click on continue:
 
-![](images/fedora35/fedora35-language.webp)
+![](imagens/fedora35/fedora35-language.webp)
 
 After that you will see the screen below and on it select "Installation destination", and then select the disk that will be installed as well as partitioned for the installation of Fedora 35, **Attention we are not responsible for any data loss**, and we recommend to back up your data on a separate drive and preferably disconnected from your pc at least during installation.
 
-![](images/fedora35/fedora35-dashboard.webp)
+![](imagens/fedora35/fedora35-dashboard.webp)
 
 After that select the disk and click on "Advanced Custom (Blivet GUI)" and click "Done":
 
-![](images/fedora35/fedora35-disk-selection.webp)
+![](imagens/fedora35/fedora35-disk-selection.webp)
 
 Then the disk partitioning screen will open, and in it create the following partitions:
 
-![](images/fedora35/fedora35-disk-partition.webp)
+![](imagens/fedora35/fedora35-disk-partition.webp)
 
 On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
@@ -41,37 +41,37 @@ Order | Type | Size
 
 Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
 
-![](images/fedora35/fedora35-network.webp)
+![](imagens/fedora35/fedora35-network.webp)
 
-![](images/fedora35/fedora35-network2.webp)
+![](imagens/fedora35/fedora35-network2.webp)
 
 After these settings click on "Software Selection" and just check "Minimum install" like the image below and if you want to use wifi, check also "Common NetworkManager Submodules":
 
-![](images/fedora35/fedora35-packages.webp)
+![](imagens/fedora35/fedora35-packages.webp)
 
-![](images/fedora35/fedora35-packages2.webp)
+![](imagens/fedora35/fedora35-packages2.webp)
 
 After that click on "Root Account" to set the root user password, now select the box "Enable root account" and enter your password and click "Done":
 
-![](images/fedora35/fedora35-root.webp)
+![](imagens/fedora35/fedora35-root.webp)
 
-![](images/fedora35/fedora35-root2.webp)
+![](imagens/fedora35/fedora35-root2.webp)
 
 After that click on "User Creation" and fill in what is being requested and click "Done":
 
-![](images/fedora35/fedora35-user.webp)
+![](imagens/fedora35/fedora35-user.webp)
 
-![](images/fedora35/fedora35-user2.webp)
+![](imagens/fedora35/fedora35-user2.webp)
 
 With everything done click on "Begin Installation" and wait for the installation:
 
-![](images/fedora35/fedora35-finishing.webp)
+![](imagens/fedora35/fedora35-finishing.webp)
 
-![](images/fedora35/fedora35-installing.webp)
+![](imagens/fedora35/fedora35-installing.webp)
 
 And end now click continue and remove the pendrive or installation media and follow the next steps:
 
-![](images/fedora35/fedora35-complete.webp)
+![](imagens/fedora35/fedora35-complete.webp)
 
 ### Post installation
 First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
@@ -89,11 +89,11 @@ Now install the rust compiler and git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" and "install.sh" file execute permission:
 
@@ -105,7 +105,7 @@ Finally run the "build.sh" and "install.sh" file:
 
 ### Uninstall
 
-	dnf remove cargo curl rust git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -120,11 +120,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -136,7 +136,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	dnf remove git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	dnf remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -147,43 +147,43 @@ Now choose which graphical environment will be installed on your PC:
 
 	mild --install-fedora-lxde
 
-![](images/fedora35/fedora35-lxde.webp)
+![](imagens/fedora35/fedora35-lxde.webp)
 
 ### Lxqt
 
 	mild --install-fedora-lxqt
 
-![](images/fedora35/fedora35-lxqt.webp)
+![](imagens/fedora35/fedora35-lxqt.webp)
 
 ### Xfce4
 
 	mild --install-fedora-xfce
 
-![](images/fedora35/fedora35-xfce4.webp)
+![](imagens/fedora35/fedora35-xfce4.webp)
 
 ### Gnome
 
 	mild --install-fedora-gnome
 
-![](images/fedora35/fedora35-gnome.webp)
+![](imagens/fedora35/fedora35-gnome.webp)
 
 ### Mate
 
 	mild --install-fedora-mate
 
-![](images/fedora35/fedora35-mate.webp)
+![](imagens/fedora35/fedora35-mate.webp)
 
 ### Kde plasma
 
 	mild --install-fedora-kdeplasma
 
-![](images/fedora35/fedora35-kdeplasma.webp)
+![](imagens/fedora35/fedora35-kdeplasma.webp)
 
 ### Cinnamon
 
 	mild --install-fedora-cinnamon
 
-![](images/fedora35/fedora35-cinnamon.webp)
+![](imagens/fedora35/fedora35-cinnamon.webp)
 
 After that you will have a clean desktop environment with no redundant apps on your **Fedora 35 !**
 
@@ -192,7 +192,7 @@ After that you will have a clean desktop environment with no redundant apps on y
 ## Arch Linux
 First download Arch Linux iso from the official website, after that make a bootable pendrive, with Arch Linux iso and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Arch Linux install medium (x86_64,BIOS)", to install Arch Linux:
 
-![](images/archlinux/archlinux-start.webp)	
+![](imagens/archlinux/archlinux-start.webp)	
 First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
 
 Now install Arch Linux as you normally do, but when you install the graphical interface clone this repository, now choose whether or not you want to compile mild on your pc:
@@ -209,11 +209,11 @@ After that rust will ask if you want to install rustup so click 1 and hit enter:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" file execute permission:
 
@@ -232,7 +232,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
 
 ## Non-make ( recommended )
 First update your system:
@@ -245,11 +245,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -261,7 +261,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	pacman -Rsn git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	pacman -Rsn git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -272,43 +272,43 @@ Now choose which graphical environment will be installed on your PC:
 
 	mild --install-arch-lxde
 
-![](images/archlinux/archlinux-lxde.webp)
+![](imagens/archlinux/archlinux-lxde.webp)
 
 ### Lxqt
 
 	mild --install-arch-lxqt
 
-![](images/archlinux/archlinux-lxqt.webp)
+![](imagens/archlinux/archlinux-lxqt.webp)
 
 ### Xfce4
 
 	mild --install-arch-xfce
 
-![](images/archlinux/archlinux-xfce.webp)
+![](imagens/archlinux/archlinux-xfce.webp)
 
 ### Gnome
 
 	mild --install-arch-gnome
 
-![](images/archlinux/archlinux-gnome.webp)
+![](imagens/archlinux/archlinux-gnome.webp)
 
 ### Mate
 
 	mild --install-arch-mate
 
-![](images/archlinux/archlinux-mate.webp)
+![](imagens/archlinux/archlinux-mate.webp)
 
 ### Kde plasma
 
 	mild --install-arch-kdeplasma
 
-![](images/archlinux/archlinux-kdeplasma.webp)
+![](imagens/archlinux/archlinux-kdeplasma.webp)
 
 ### Cinnamon
 
 	mild --install-arch-cinnamon
 
-![](images/archlinux/archlinux-cinnamon.webp)
+![](imagens/archlinux/archlinux-cinnamon.webp)
 
 After that you will have a clean desktop environment with no redundant apps on your **Arch Linux !**
 
@@ -317,51 +317,51 @@ After that you will have a clean desktop environment with no redundant apps on y
 ## Debian 11
 First download Debian 11 iso netinstall from the official website, after that make a bootable pendrive, with Debian 11 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Graphical Install", to install Debian 11:
 
-![](images/debian11/debian11-start.webp)
+![](imagens/debian11/debian11-start.webp)
 
 Now select your language to continue the installation:
 
-![](images/debian11/debian11-language.webp)
+![](imagens/debian11/debian11-language.webp)
 
 Now choose the place where you live:
 
-![](images/debian11/debian11-location.webp)
+![](imagens/debian11/debian11-location.webp)
 
 Now choose the keyboard layout and its variant:
 
-![](images/debian11/debian11-keymap.webp)
+![](imagens/debian11/debian11-keymap.webp)
 
 Write the name your pc will have on the network:
 
-![](images/debian11/debian11-namenetwork.webp)
+![](imagens/debian11/debian11-namenetwork.webp)
 
 On this screen click "continue":
 
-![](images/debian11/debian11-domainname.webp)
+![](imagens/debian11/debian11-domainname.webp)
 
 Now enter the root user password:
 
-![](images/debian11/debian11-rootpassword.webp)
+![](imagens/debian11/debian11-rootpassword.webp)
 
 Now enter the full name of the user that will be created for you:
 
-![](images/debian11/debian11-username.webp)
+![](imagens/debian11/debian11-username.webp)
 
 Now choose the username that will be used in your "/home/user":
 
-![](images/debian11/debian11-username1.webp)
+![](imagens/debian11/debian11-username1.webp)
 
 Now set the password for this user you just created:
 
-![](images/debian11/debian11-userpassword.webp)
+![](imagens/debian11/debian11-userpassword.webp)
 
 Select time zone now:
 
-![](images/debian11/debian11-timezone.webp)
+![](imagens/debian11/debian11-timezone.webp)
 
 Now partition your disk according to your bios:
 
-![](images/debian11/debian11-partition.webp)
+![](imagens/debian11/debian11-partition.webp)
 
 On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
@@ -382,53 +382,53 @@ Order | Type | Size
 
 With everything finished click on "Finish partitioning and white changes to disk":
 
-![](images/debian11/debian11-partition-end.webp)
+![](imagens/debian11/debian11-partition-end.webp)
 
 Now check the box "Yes" and click enter:
 
-![](images/debian11/debian11-write-changes.webp)
+![](imagens/debian11/debian11-write-changes.webp)
 
 Now wait for the base installation to finish:
 
-![](images/debian11/debian11-baseinstall.webp)
+![](imagens/debian11/debian11-baseinstall.webp)
 
 Check the box "No" and press enter:
 
-![](images/debian11/debian11-additional-media.webp)
+![](imagens/debian11/debian11-additional-media.webp)
 
 Now choose a mirror near you to install packages as quickly as possible:
 
-![](images/debian11/debian11-archive.webp)
+![](imagens/debian11/debian11-archive.webp)
 
-![](images/debian11/debian11-archive1.webp)
+![](imagens/debian11/debian11-archive1.webp)
 
 Now leave it blank and click "Continue":
 
-![](images/debian11/debian11-proxy.webp)
+![](imagens/debian11/debian11-proxy.webp)
 
 Select "No" and hit enter:
 
-![](images/debian11/debian11-telemetry.webp)
+![](imagens/debian11/debian11-telemetry.webp)
 
 Check only this box and click "continue":
 
-![](images/debian11/debian11-packages.webp)
+![](imagens/debian11/debian11-packages.webp)
 
 Now wait to install debian 11 core:
 
-![](images/debian11/debian11-core.webp)
+![](imagens/debian11/debian11-core.webp)
 
 On this screen select "Yes" and click on "continue":
 
-![](images/debian11/debian11-grub.webp)
+![](imagens/debian11/debian11-grub.webp)
 
 Now choose where grub will be installed and click continue:
 
-![](images/debian11/debian11-install-grub.webp)
+![](imagens/debian11/debian11-install-grub.webp)
 
 And end now click continue and remove the pendrive or installation media and follow the next steps:
 
-![](images/debian11/debian11-end.webp)
+![](imagens/debian11/debian11-end.webp)
 
 ****
 
@@ -449,11 +449,11 @@ After that rust will ask if you want to install rustup so click 1 and hit enter:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "build.sh" file execute permission:
 
@@ -472,7 +472,7 @@ Now all that's left is to install your favorite D.E.
 ### Uninstall
 To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf mild/
+	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
 
 ## Non-make ( recommended )
 First update your system:
@@ -485,11 +485,11 @@ Now install the git:
 
 Clone the repository with the following command:
 
-	git clone https://www.github.com/PEDROTUBER44/mild.git
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
 Now enter the project folder
 
-	cd mild/
+	cd Mild/
 
 Give the "install.sh" file execute permission:
 
@@ -501,7 +501,7 @@ Finally run the "install.sh" file:
 
 ### Uninstall
 
-	apt remove git -y && cd .. && rm -rf mild/ && rm -r /bin/mild 
+	apt remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
 
 Now all that's left is to install your favorite D.E.
 
@@ -512,43 +512,43 @@ Now choose which graphical environment will be installed on your PC:
 
 	mild --install-debian-lxde
 
-![](images/debian11/debian11-lxde.webp)
+![](imagens/debian11/debian11-lxde.webp)
 
 ### Lxqt
 
 	mild --install-debian-lxqt
 
-![](images/debian11/debian11-lxqt.webp)
+![](imagens/debian11/debian11-lxqt.webp)
 
 ### Xfce4
 
 	mild --install-debian-xfce
 
-![](images/debian11/debian11-xfce.webp)
+![](imagens/debian11/debian11-xfce.webp)
 
 ### Gnome
 
 	mild --install-debian-gnome
 
-![](images/debian11/debian11-gnome.webp)
+![](imagens/debian11/debian11-gnome.webp)
 
 ### Mate
 
 	mild --install-debian-mate
 
-![](images/debian11/debian11-mate.webp)
+![](imagens/debian11/debian11-mate.webp)
 
 ### Kde plasma
 
 	mild --install-debian-kdeplasma
 
-![](images/debian11/debian11-kdeplasma.webp)
+![](imagens/debian11/debian11-kdeplasma.webp)
 
 ### Cinnamon
 
 	mild --install-debian-cinnamon
 
-![](images/debian11/debian11-cinnamon.webp)
+![](imagens/debian11/debian11-cinnamon.webp)
 
 After that you will have a clean desktop environment with no redundant apps on your **Debian 11 !**
 
