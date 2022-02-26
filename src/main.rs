@@ -74,7 +74,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -82,7 +82,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -100,7 +100,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -135,7 +135,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -143,7 +143,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -161,7 +161,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -196,7 +196,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -204,7 +204,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -222,7 +222,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -257,7 +257,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -265,7 +265,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -283,7 +283,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -318,7 +318,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -326,7 +326,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -344,7 +344,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -379,7 +379,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -387,7 +387,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -405,7 +405,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -440,7 +440,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -448,7 +448,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -466,7 +466,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -536,7 +536,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -544,7 +544,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -562,7 +562,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -597,7 +597,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -605,7 +605,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -623,7 +623,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -658,7 +658,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -666,7 +666,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -684,7 +684,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -719,7 +719,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -727,7 +727,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -745,7 +745,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -780,7 +780,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -788,7 +788,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -806,7 +806,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -841,7 +841,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -849,7 +849,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -867,7 +867,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -902,7 +902,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -910,7 +910,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -928,7 +928,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1051,7 +1051,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1059,7 +1059,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1077,7 +1077,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1112,7 +1112,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1120,7 +1120,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1138,7 +1138,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1173,7 +1173,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1181,7 +1181,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1199,7 +1199,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1234,7 +1234,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1242,7 +1242,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1260,7 +1260,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1295,7 +1295,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1303,7 +1303,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1321,7 +1321,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1356,7 +1356,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1364,7 +1364,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1382,7 +1382,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1417,7 +1417,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -1425,7 +1425,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1443,7 +1443,7 @@ fn main() {
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error restarting system");
+                    Command::new("reboot").status().expect("Error to restarting system");
                 },
 
                 _ => {
