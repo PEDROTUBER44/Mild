@@ -16,6 +16,10 @@ Use mild --[option]-[distro]-[interface]
 
     --install-arch-kdeplasma => Install Minimal Kde Plasma Desktop on ArchLinux.
 
+    --install-arch-bspwm => Install Minimal Bspwm Desktop on ArchLinux.
+
+    --install-arch-cutefish => Install Minimal Cutefish Desktop on ArchLinux.
+
     --clean-arch => Cleans up ArchLinux by removing cache and orphaned packages from the system
     
 
@@ -32,6 +36,10 @@ Use mild --[option]-[distro]-[interface]
     --install-debian-mate => Install Minimal Mate Desktop on Debian 11.
 
     --install-debian-kdeplasma => Install Minimal Kde Plasma Desktop on Debian 11.
+
+    --install-debian-bspwm => Install Minimal Bspwm Desktop on Debian 11.
+
+    --install-debian-cutefish => Install Minimal Cutefish Desktop on Debian 11.
 
     --clean-debian => Cleans up Debian 11 by removing cache and orphaned packages from the system
 
@@ -50,22 +58,13 @@ Use mild --[option]-[distro]-[interface]
 
     --install-fedora-kdeplasma => Install Minimal Kde Plasma Desktop on Fedora 35.
 
+    --install-fedora-bspwm => Install Minimal Bspwm Desktop on Fedora 35.
+
+    --install-fedora-cutefish => Install Minimal Cutefish Desktop on Fedora 35.
+
     --clean-fedora => Cleans up Fedora 35 by removing cache and orphaned packages from the system.
 
 
     --help => View a usage guide.
 
-";
-
-pub const DNF : &str = "
-[main]
-gpgcheck=1
-installonly_limit=3
-clean_requirements_on_remove=True
-best=False
-skip_if_unavailable=True
-fastestmirror=True
-max_parallel_downloads=7
-defaultyes=True
-install_weak_deps=false
 ";

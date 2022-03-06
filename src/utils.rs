@@ -2,7 +2,8 @@ use std::process::Command;
 
 pub fn remove_arch() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Rsn"))
         .args(Some("lxde"))
         .args(Some("lightdm"))
@@ -74,21 +75,24 @@ pub fn remove_arch() {
         .status()
         .expect("Error removing all graphical environments");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("gdm"))
         .args(Some("-f"))
         .status()
         .expect("Error disabling gdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error disabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("sddm"))
         .args(Some("-f"))
@@ -99,7 +103,8 @@ pub fn remove_arch() {
 
 pub fn utils_archlinux() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("xorg"))
         .args(Some("networkmanager"))
@@ -124,7 +129,8 @@ pub fn utils_archlinux() {
         .status()
         .expect("Error installing archlinux utilities");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("NetworkManager"))
         .args(Some("-f"))
@@ -135,37 +141,43 @@ pub fn utils_archlinux() {
 
 pub fn remove_files_archlinux() {
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/avahi-discover.desktop"))
         .args(Some("/usr/share/applications/avahi-discover.backup"))
         .status()
         .expect("Error to rename file: avahi-discover.desktop");
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/bssh.desktop"))
         .args(Some("/usr/share/applications/bssh.backup"))
         .status()
         .expect("Error to rename file: bssh.desktop");
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/bvnc.desktop"))
         .args(Some("/usr/share/applications/bvnc.backup"))
         .status()
         .expect("Error to rename file: bvnc.desktop");
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/nm-connection-editor.desktop"))
         .args(Some("/usr/share/applications/nm-connection-editor.backup"))
         .status()
         .expect("Error to rename file: nm-connection-editor.desktop");
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/qv4l2.desktop"))
         .args(Some("/usr/share/applications/qv4l2.backup"))
         .status()
         .expect("Error to rename file: qv4l2.desktop");
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/qvidcap.desktop"))
         .args(Some("/usr/share/applications/qvidcap.backup"))
         .status()
@@ -175,7 +187,8 @@ pub fn remove_files_archlinux() {
 
 pub fn install_arch_lxde() {
     
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("lxde"))
         .args(Some("lightdm"))
@@ -186,7 +199,8 @@ pub fn install_arch_lxde() {
         .status()
         .expect("Error installing minimal lxde on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -197,7 +211,8 @@ pub fn install_arch_lxde() {
 
 pub fn install_arch_lxqt() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("lxqt"))
         .args(Some("lightdm"))
@@ -208,7 +223,8 @@ pub fn install_arch_lxqt() {
         .status()
         .expect("Error installing minimal lxqt on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -219,7 +235,8 @@ pub fn install_arch_lxqt() {
 
 pub fn install_arch_xfce() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -242,7 +259,8 @@ pub fn install_arch_xfce() {
         .status()
         .expect("Error installing xfce minimal on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -253,7 +271,8 @@ pub fn install_arch_xfce() {
 
 pub fn install_arch_gnome() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("gdm"))
         .args(Some("weston"))
@@ -272,7 +291,8 @@ pub fn install_arch_gnome() {
         .status()
         .expect("Error installing gnome minimal on archlinux");
         
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("gdm"))
         .args(Some("-f"))
@@ -291,7 +311,8 @@ pub fn install_arch_gnome() {
 
 pub fn install_arch_cinnamon() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -314,7 +335,8 @@ pub fn install_arch_cinnamon() {
         .status()
         .expect("Error installing cinnamon minimal on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -325,7 +347,8 @@ pub fn install_arch_cinnamon() {
 
 pub fn install_arch_mate() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -346,7 +369,8 @@ pub fn install_arch_mate() {
         .status()
         .expect("Error installing minimal mate on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -357,7 +381,8 @@ pub fn install_arch_mate() {
 
 pub fn install_arch_kdeplasma() {
 
-    Command::new("pacman")
+    Command::new("sudo")
+        .args(Some("pacman"))
         .args(Some("-Syu"))
         .args(Some("sddm"))
         .args(Some("plasma-desktop"))
@@ -375,7 +400,8 @@ pub fn install_arch_kdeplasma() {
         .status()
         .expect("Error installing cinnamon minimal on archlinux");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("sddm"))
         .args(Some("-f"))
@@ -384,9 +410,18 @@ pub fn install_arch_kdeplasma() {
 
 }
 
+pub fn install_arch_bspwm() {
+    
+}
+
+pub fn install_arch_cutefish() {
+    
+}
+
 pub fn remove_debian() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("remove"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -439,21 +474,24 @@ pub fn remove_debian() {
         .status()
         .expect("Error removing all graphical environments");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("gdm"))
         .args(Some("-f"))
         .status()
         .expect("Error disabling gdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error disabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("sddm"))
         .args(Some("-f"))
@@ -464,7 +502,8 @@ pub fn remove_debian() {
 
 pub fn utils_debian() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("sudo"))
         .args(Some("zip"))
@@ -483,7 +522,8 @@ pub fn utils_debian() {
         .status()
         .expect("Error installing debian utilities 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("NetworkManager"))
         .args(Some("-f"))
@@ -494,7 +534,8 @@ pub fn utils_debian() {
 
 pub fn remove_files_debian() {
 
-    Command::new("mv")
+    Command::new("sudo")
+        .args(Some("mv"))
         .args(Some("/usr/share/applications/vim.desktop"))
         .args(Some("/usr/share/applications/vim.backup"))
         .status()
@@ -504,7 +545,8 @@ pub fn remove_files_debian() {
 
 pub fn install_debian_lxde() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -520,7 +562,8 @@ pub fn install_debian_lxde() {
         .status()
         .expect("Error installing minimal lxde on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -531,7 +574,8 @@ pub fn install_debian_lxde() {
 
 pub fn install_debian_lxqt() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("lxqt-core"))
         .args(Some("lightdm"))
@@ -541,7 +585,8 @@ pub fn install_debian_lxqt() {
         .status()
         .expect("Error installing lxqt minimal on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -552,7 +597,8 @@ pub fn install_debian_lxqt() {
 
 pub fn install_debian_xfce() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -574,7 +620,8 @@ pub fn install_debian_xfce() {
         .status()
         .expect("Error installing xfce4 minimal on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -585,7 +632,8 @@ pub fn install_debian_xfce() {
 
 pub fn install_debian_gnome() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("gdm3"))
         .args(Some("gnome-session"))
@@ -600,7 +648,8 @@ pub fn install_debian_gnome() {
         .status()
         .expect("Error installing gnome minimal on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("gdm3"))
         .args(Some("-f"))
@@ -619,7 +668,8 @@ pub fn install_debian_gnome() {
 
 pub fn install_debian_cinnamon() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("cinnamon-core"))
         .args(Some("lightdm"))
@@ -628,7 +678,8 @@ pub fn install_debian_cinnamon() {
         .status()
         .expect("Error installing cinnamon minimal on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -639,7 +690,8 @@ pub fn install_debian_cinnamon() {
 
 pub fn install_debian_mate() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("mate-desktop-environment-core"))
         .args(Some("lightdm"))
@@ -649,7 +701,8 @@ pub fn install_debian_mate() {
         .status()
         .expect("Error installing minimal mate on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
@@ -660,7 +713,8 @@ pub fn install_debian_mate() {
 
 pub fn install_debian_kdeplasma() {
 
-    Command::new("apt")
+    Command::new("sudo")
+        .args(Some("apt"))
         .args(Some("install"))
         .args(Some("sddm"))
         .args(Some("kde-plasma-desktop"))
@@ -680,7 +734,8 @@ pub fn install_debian_kdeplasma() {
         .status()
         .expect("Error installing minimal kde plasma on debian 11");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("sddm"))
         .args(Some("-f"))
@@ -689,9 +744,18 @@ pub fn install_debian_kdeplasma() {
 
 }
 
+pub fn install_debian_bspwm() {
+    
+}
+
+pub fn install_debian_cutefish() {
+    
+}
+
 pub fn remove_fedora() {
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("remove"))
         .args(Some("@lxde-desktop"))
         .args(Some("@plasma-desktop"))
@@ -796,21 +860,24 @@ pub fn remove_fedora() {
         .status()
         .expect("Error removing graphical environments and their dependencies");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("sddm"))
         .args(Some("-f"))
         .status()
         .expect("Error removing sddm login screen");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error removing sddm login screen");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("disable"))
         .args(Some("gdm"))
         .args(Some("-f"))
@@ -821,7 +888,8 @@ pub fn remove_fedora() {
 
 pub fn utils_fedora() {
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm"))
         .args(Some("https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm"))
@@ -829,13 +897,15 @@ pub fn utils_fedora() {
         .status()
         .expect("Error enabling rpmfusion repository");
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("update"))
         .args(Some("-y"))
         .status()
         .expect("Error updating fedora 35");
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("unrar"))
         .args(Some("p7zip"))
@@ -852,7 +922,8 @@ pub fn utils_fedora() {
         .status()
         .expect("Error installing fedora 35 utilities");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("NetworkManager"))
         .args(Some("-f"))
@@ -863,7 +934,8 @@ pub fn utils_fedora() {
 
 pub fn install_fedora_lxde() {
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("lxappearance"))
         .args(Some("lxde-common"))
@@ -888,14 +960,16 @@ pub fn install_fedora_lxde() {
         .status()
         .expect("Error installing minimal lxde on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
@@ -904,7 +978,9 @@ pub fn install_fedora_lxde() {
 }
 
 pub fn install_fedora_lxqt() {
-    Command::new("dnf")
+    
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -934,22 +1010,27 @@ pub fn install_fedora_lxqt() {
         .status()
         .expect("Error installing lxqt minimal on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
         .expect("Error enabling graphical mode boot");
+
 }
 
 pub fn install_fedora_xfce() {
-    Command::new("dnf")
+
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("network-manager-applet"))
         .args(Some("xfwm4"))
@@ -965,23 +1046,27 @@ pub fn install_fedora_xfce() {
         .status()
         .expect("Error installing xfce4 minimal on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
         .expect("Error enabling graphical mode boot");
+
 }
 
 pub fn install_fedora_gnome() {
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("gdm"))
         .args(Some("gnome-shell"))
@@ -995,14 +1080,16 @@ pub fn install_fedora_gnome() {
         .status()
         .expect("Error installing gnome on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("gdm"))
         .args(Some("-f"))
         .spawn()
         .expect("Error enabling gdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
@@ -1020,7 +1107,8 @@ pub fn install_fedora_gnome() {
 
 pub fn install_fedora_cinnamon() {
 
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("cinnamon"))
         .args(Some("cinnamon-control-center"))
@@ -1040,14 +1128,16 @@ pub fn install_fedora_cinnamon() {
         .status()
         .expect("Error installing cinnamon on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
@@ -1057,7 +1147,8 @@ pub fn install_fedora_cinnamon() {
 
 pub fn install_fedora_mate() {
     
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("lightdm"))
         .args(Some("lightdm-gtk-greeter"))
@@ -1077,14 +1168,16 @@ pub fn install_fedora_mate() {
         .status()
         .expect("Error installing mate in fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("lightdm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling lightdm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
@@ -1094,7 +1187,8 @@ pub fn install_fedora_mate() {
 
 pub fn install_fedora_kdeplasma() {
     
-    Command::new("dnf")
+    Command::new("sudo")
+        .args(Some("dnf"))
         .args(Some("install"))
         .args(Some("sddm"))
         .args(Some("plasma-desktop"))
@@ -1112,17 +1206,27 @@ pub fn install_fedora_kdeplasma() {
         .status()
         .expect("Error installing kde plasma on fedora 35");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("enable"))
         .args(Some("sddm"))
         .args(Some("-f"))
         .status()
         .expect("Error enabling sddm on startup");
 
-    Command::new("systemctl")
+    Command::new("sudo")
+        .args(Some("systemctl"))
         .args(Some("set-default"))
         .args(Some("graphical.target"))
         .status()
         .expect("Error enabling graphical mode boot");
 
+}
+
+pub fn install_fedora_bspwm() {
+
+}
+
+pub fn install_fedora_cutefish() {
+    
 }

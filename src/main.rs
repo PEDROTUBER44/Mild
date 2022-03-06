@@ -15,31 +15,40 @@ fn main() {
 
         "--clean-arch" => {
 
-            Command::new("pacman")
+            Command::new("sudo")
+                .args(Some("pacman"))
                 .args(Some("-Rsn"))
                 .args(Some("$(pacman -Qdtq)"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Error removing entire list of orphaned packages");
-        
-            Command::new("pacman")
+                .expect("Error to removing entire list of orphaned packages");
+
+            Command::new("sudo")
+                .args(Some("pacman"))
                 .args(Some("-Scc"))
                 .args(Some("--noconfirm"))
                 .status()
-                .expect("Error clearing pacman cache");
-        
-            Command::new("flatpak")
+                .expect("Error to clearing pacman cache");
+
+            Command::new("sudo")
+                .args(Some("flatpak"))
                 .args(Some("uninstall"))
                 .args(Some("--unused"))
                 .status()
-                .expect("Error cleaning unused flatpaks");
+                .expect("Error to cleaning unused flatpaks");
         
-            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
-        
-            Command::new("journalctl")
+            Command::new("sudo")
+                .args(Some("rm"))
+                .args(Some("-rf"))
+                .args(Some("/var/lib/systemd/coredump/"))
+                .status()
+                .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+
+            Command::new("sudo")
+                .args(Some("journalctl"))
                 .args(Some("--vacuum-time=2d"))
                 .status()
-                .expect("Error limiting systemd logs to 2 days");
+                .expect("Error to limiting systemd logs to 2 days");
         
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
@@ -47,12 +56,10 @@ fn main() {
                 .expect("Error limiting systemd logs to 500M");
         
             process::exit(0);
+
         },
 
         "--install-arch-lxde" => {
-
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -74,7 +81,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -82,7 +89,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -100,7 +107,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxde();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -111,9 +118,6 @@ fn main() {
         },
 
         "--install-arch-lxqt" => {
-
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -135,7 +139,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -143,7 +147,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -161,7 +165,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_lxqt();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -172,9 +176,6 @@ fn main() {
         },
 
         "--install-arch-xfce" => {
-
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -196,7 +197,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -204,7 +205,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -222,7 +223,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_xfce();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -233,9 +234,6 @@ fn main() {
         },
 
         "--install-arch-gnome" => {
-
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -257,7 +255,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -265,7 +263,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -283,7 +281,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_gnome();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -294,9 +292,6 @@ fn main() {
         },
 
         "--install-arch-cinnamon" => {
-
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -318,7 +313,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -326,7 +321,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -344,7 +339,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_cinnamon();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -355,9 +350,6 @@ fn main() {
         },
 
         "--install-arch-mate" => {
-                        
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -379,7 +371,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -387,7 +379,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -405,7 +397,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_mate();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -416,9 +408,6 @@ fn main() {
         },
 
         "--install-arch-kdeplasma" => {
-                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -440,7 +429,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -448,7 +437,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -466,7 +455,7 @@ fn main() {
                     utils::utils_archlinux();
                     utils::install_arch_kdeplasma();
                     utils::remove_files_archlinux();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -476,45 +465,227 @@ fn main() {
             }
         },
 
-        "--clean-fedora" => {
+        "--install-arch-bspwm" => {
 
-            Command::new("dnf")
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!(""); // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_bspwm();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_bspwm();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_bspwm();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-arch-cutefish" => {
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!(""); // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cutefish();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cutefish();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_arch();
+                    utils::utils_archlinux();
+                    utils::install_arch_cutefish();
+                    utils::remove_files_archlinux();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--clean-debian" => {
+
+            Command::new("sudo")
+                .args(Some("apt"))
                 .args(Some("clean"))
-                .args(Some("all"))
                 .status()
-                .expect("Error to clean dnf cache");
-            
-            Command::new("dnf")
+                .expect("Error to clearing apt cache");
+
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("autoclean"))
+                .status()
+                .expect("Error to cleaning dead packages");
+        
+            Command::new("sudo")
+                .args(Some("apt"))
                 .args(Some("autoremove"))
                 .args(Some("-y"))
                 .status()
-                .expect("error removing orphaned dnf packages");
+                .expect("Error cleaning orphaned packages");
+
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("install"))
+                .args(Some("deborphan"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to installing deborphan");
+
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to cleaning orphaned packages");
+
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to cleaning 2 time orphaned packages");
         
-            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to cleaning 3 time orphaned packages");
         
-            Command::new("journalctl")
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("remove"))
+                .args(Some("$(deborphan)"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to cleaning 4 time orphaned packages");
+        
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("remove"))
+                .args(Some("deborphan"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to remove deborphan from system");
+        
+            Command::new("sudo")
+                .args(Some("apt"))
+                .args(Some("autoremove"))
+                .args(Some("-y"))
+                .status()
+                .expect("Error to removing deborphan dependencies");
+        
+            Command::new("sudo")
+                .args(Some("rm"))
+                .args(Some("-rf"))
+                .args(Some("/var/lib/systemd/coredump/"))
+                .status()
+                .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+        
+            Command::new("sudo")
+                .args(Some("journalctl"))
                 .args(Some("--vacuum-time=2d"))
                 .status()
-                .expect("Error limiting systemd logs to 2 days");
+                .expect("Error to limiting systemd logs to 2 days");
         
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
                 .status()
                 .expect("Error limiting systemd logs to 500M");
-        
-            Command::new("flatpak")
-                .args(Some("uninstall"))
+
+            Command::new("sudo")
+                .args(Some("flatpak"))
                 .args(Some("--unused"))
                 .status()
-                .expect("Error cleaning unused flatpaks");
+                .expect("Error to cleaning unused flatpaks");
         
             process::exit(0);
-        },        
+            
+        },
 
         "--install-debian-lxde" => {
-                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -536,7 +707,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -544,7 +715,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -562,7 +733,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxde();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -573,9 +744,6 @@ fn main() {
         },
 
         "--install-debian-lxqt" => {
-                                                
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -597,7 +765,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -605,7 +773,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -623,7 +791,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_lxqt();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -634,9 +802,6 @@ fn main() {
         },
 
         "--install-debian-xfce" => {
-                                                
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -658,7 +823,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -666,7 +831,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -684,7 +849,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_xfce();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -695,9 +860,6 @@ fn main() {
         },
 
         "--install-debian-gnome" => {
-                                                            
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -719,7 +881,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -727,7 +889,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -745,7 +907,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_gnome();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -756,9 +918,6 @@ fn main() {
         },
 
         "--install-debian-cinnamon" => {
-                                                            
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -780,7 +939,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -788,7 +947,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -806,7 +965,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_cinnamon();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -817,9 +976,6 @@ fn main() {
         },
 
         "--install-debian-mate" => {
-                                                            
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -841,7 +997,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -849,7 +1005,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -867,7 +1023,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_mate();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -878,9 +1034,6 @@ fn main() {
         },
 
         "--install-debian-kdeplasma" => {
-                                                            
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
 
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -902,7 +1055,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
@@ -910,7 +1063,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -928,7 +1081,7 @@ fn main() {
                     utils::utils_debian();
                     utils::install_debian_kdeplasma();
                     utils::remove_files_debian();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -938,99 +1091,167 @@ fn main() {
             }
         },
 
-        "--clean-debian" => {
+        "--install-debian-bspwm" => {
 
-            Command::new("apt")
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!(""); // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_bspwm();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_bspwm();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_bspwm();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-debian-cutefish" => {
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!(""); // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cutefish();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cutefish();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+                    utils::remove_debian();
+                    utils::utils_debian();
+                    utils::install_debian_cutefish();
+                    utils::remove_files_debian();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--clean-fedora" => {
+
+            Command::new("sudo")
+                .args(Some("dnf"))
                 .args(Some("clean"))
+                .args(Some("all"))
                 .status()
-                .expect("Error clearing apt cache");
-        
-            Command::new("apt")
-                .args(Some("autoclean"))
-                .status()
-                .expect("Error cleaning dead packages");
-        
-            Command::new("apt")
+                .expect("Error to clean dnf cache");
+
+            Command::new("sudo")
+                .args(Some("dnf"))
                 .args(Some("autoremove"))
                 .args(Some("-y"))
                 .status()
-                .expect("Error cleaning orphaned packages");
+                .expect("Error removing orphaned dnf packages");
         
-            Command::new("apt")
-                .args(Some("install"))
-                .args(Some("deborphan"))
-                .args(Some("-y"))
+            Command::new("sudo")
+                .args(Some("rm"))
+                .args(Some("-rf"))
+                .args(Some("/var/lib/systemd/coredump/"))
                 .status()
-                .expect("Error installing deborphan");
+                .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
         
-            Command::new("apt")
-                .args(Some("remove"))
-                .args(Some("$(deborphan)"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error cleaning orphaned packages");
-        
-            Command::new("apt")
-                .args(Some("remove"))
-                .args(Some("$(deborphan)"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error cleaning 2 time orphaned packages");
-        
-            Command::new("apt")
-                .args(Some("remove"))
-                .args(Some("$(deborphan)"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error cleaning 3 time orphaned packages");
-        
-            Command::new("apt")
-                .args(Some("remove"))
-                .args(Some("$(deborphan)"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error cleaning 4 time orphaned packages");
-        
-            Command::new("apt")
-                .args(Some("remove"))
-                .args(Some("deborphan"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error to remove deborphan");
-        
-            Command::new("apt")
-                .args(Some("autoremove"))
-                .args(Some("-y"))
-                .status()
-                .expect("Error removing deborphan dependencies");
-        
-            lib::dir("/var/lib/systemd/coredump/", "Folder /var/lib/systemd/coredump/ not found");
-        
-            Command::new("journalctl")
+            Command::new("sudo")
+                .args(Some("journalctl"))
                 .args(Some("--vacuum-time=2d"))
                 .status()
-                .expect("Error limiting systemd logs to 2 days");
+                .expect("Error to limiting systemd logs to 2 days");
         
             Command::new("journalctl")
                 .args(Some("--vacuum-size=500M"))
                 .status()
                 .expect("Error limiting systemd logs to 500M");
-        
-            Command::new("flatpak")
-                .args(Some("uninstall"))
+
+            Command::new("sudo")
+                .args(Some("flatpak"))
                 .args(Some("--unused"))
                 .status()
-                .expect("Error cleaning unused flatpaks");
-        
+                .expect("Error to cleaning unused flatpaks");
+
             process::exit(0);
-            
         },
 
         "--install-fedora-lxde" => {
-                                                                        
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1047,19 +1268,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1073,11 +1468,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxde();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1088,10 +1570,7 @@ fn main() {
         },
 
         "--install-fedora-lxqt" => {
-                                                                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1108,19 +1587,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1134,11 +1787,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_lxqt();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1149,10 +1889,7 @@ fn main() {
         },
 
         "--install-fedora-xfce" => {
-                                                                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1169,19 +1906,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1195,11 +2106,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_xfce();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1210,10 +2208,7 @@ fn main() {
         },
 
         "--install-fedora-gnome" => {
-                                                                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1230,19 +2225,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1256,11 +2425,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_gnome();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1271,10 +2527,7 @@ fn main() {
         },
 
         "--install-fedora-cinnamon" => {
-                                                                                    
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1291,19 +2544,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1317,11 +2744,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_cinnamon();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1332,10 +2846,7 @@ fn main() {
         },
 
         "--install-fedora-mate" => {
-                                                                                                
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
-          
+
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
             println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
@@ -1352,19 +2863,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1378,11 +3063,98 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+                    
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_mate();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
@@ -1393,9 +3165,6 @@ fn main() {
         },
 
         "--install-fedora-kdeplasma" => {
-                                                                                                            
-            //Put here a system language checker with a structure match lang[..] { "pt_BR" => {...}, "en" => {...}, }
-            //Also put here an option to remove configuration files from the home folder
           
             println!("The following packages will be removed from your system and after removal your system will be updated:");
             println!("");
@@ -1404,7 +3173,7 @@ fn main() {
             println!("");
             println!("The following packages will be installed:");
             println!("");
-            println!("sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover");
+            println!(""); // Place the packages to be installed
             println!("");
             print!("Do you wish to continue? (Y/n): ");
             io::stdout().flush().unwrap();
@@ -1413,19 +3182,193 @@ fn main() {
 
             match &input[..] {
                 "y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "Y" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 "n" => {
@@ -1439,11 +3382,736 @@ fn main() {
                 },
 
                 "" => {
-                    lib::texto(texts::DNF,"/etc/dnf/dnf.conf","Dnf not installed");
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
                     utils::remove_fedora();
                     utils::utils_fedora();
                     utils::install_fedora_kdeplasma();
-                    Command::new("reboot").status().expect("Error to restarting system");
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-fedora-bspwm" => {
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!("");  // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_bspwm();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_bspwm();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_bspwm();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                _ => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                }
+            }
+        },
+
+        "--install-fedora-cutefish" => {
+
+            println!("The following packages will be removed from your system and after removal your system will be updated:");
+            println!("");
+            println!("@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
+            println!("");
+            println!("");
+            println!("The following packages will be installed:");
+            println!("");
+            println!(""); // Place the packages to be installed
+            println!("");
+            print!("Do you wish to continue? (Y/n): ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).expect("Error to read user input");
+
+            match &input[..] {
+                "y" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cutefish();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "Y" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cutefish();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+                },
+
+                "n" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "N" => {
+                    println!("Aborting...");
+                    process::exit(0x0100);
+                },
+
+                "" => {
+
+                    Command::new("sudo")
+                        .args(Some("rm"))
+                        .args(Some("-r"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("Error to remove /etc/dnf/dnf.conf");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""[main]""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""gpgcheck=1""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""installonly_limit=3""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""clean_requirements_on_remove=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""best=False""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""skip_if_unavailable=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""fastestmirror=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+                    
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""max_parallel_downloads=7""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""defaultyes=True""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    Command::new("sudo")
+                        .args(Some("echo"))
+                        .args(Some(r#""install_weak_deps=false""#))
+                        .args(Some(">>"))
+                        .args(Some("/etc/dnf/dnf.conf"))
+                        .status()
+                        .expect("File: /etc/dnf/dnf.conf not found");
+
+                    utils::remove_fedora();
+                    utils::utils_fedora();
+                    utils::install_fedora_cutefish();
+                    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
                 },
 
                 _ => {
