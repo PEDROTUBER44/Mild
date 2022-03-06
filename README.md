@@ -1,194 +1,6 @@
 # MILD - Minimal Install Linux Desktop
 MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment. See below how to install in your favorite distro:
 
-## Fedora 35
-First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
-
-![](imagens/fedora35/fedora35-inicio.webp)
-
-After that you will see this screen and on it select your language, and after that click on continue:
-
-![](imagens/fedora35/fedora35-language.webp)
-
-After that you will see the screen below and on it select "Installation destination", and then select the disk that will be installed as well as partitioned for the installation of Fedora 35, **Attention we are not responsible for any data loss**, and we recommend to back up your data on a separate drive and preferably disconnected from your pc at least during installation.
-
-![](imagens/fedora35/fedora35-dashboard.webp)
-
-After that select the disk and click on "Advanced Custom (Blivet GUI)" and click "Done":
-
-![](imagens/fedora35/fedora35-disk-selection.webp)
-
-Then the disk partitioning screen will open, and in it create the following partitions:
-
-![](imagens/fedora35/fedora35-disk-partition.webp)
-
-On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
-
-Order | Type | Size
-------|------|--------
-  1°  | efi  | 500MB  
-  2°  | swap | The size of your ram.
-  3°  | root | 70GB   
-  4°  | home | Everything else.
-
-On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
-
-Order | Type | Size
-------|------|--------  
-  1°  | swap | The size of your ram.
-  2°  | root | 70GB   
-  3°  | home | Everything else.
-
-Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
-
-![](imagens/fedora35/fedora35-network.webp)
-
-![](imagens/fedora35/fedora35-network2.webp)
-
-After these settings click on "Software Selection" and just check "Minimum install" like the image below and if you want to use wifi, check also "Common NetworkManager Submodules":
-
-![](imagens/fedora35/fedora35-packages.webp)
-
-![](imagens/fedora35/fedora35-packages2.webp)
-
-After that click on "Root Account" to set the root user password, now select the box "Enable root account" and enter your password and click "Done":
-
-![](imagens/fedora35/fedora35-root.webp)
-
-![](imagens/fedora35/fedora35-root2.webp)
-
-After that click on "User Creation" and fill in what is being requested and click "Done":
-
-![](imagens/fedora35/fedora35-user.webp)
-
-![](imagens/fedora35/fedora35-user2.webp)
-
-With everything done click on "Begin Installation" and wait for the installation:
-
-![](imagens/fedora35/fedora35-finishing.webp)
-
-![](imagens/fedora35/fedora35-installing.webp)
-
-And end now click continue and remove the pendrive or installation media and follow the next steps:
-
-![](imagens/fedora35/fedora35-complete.webp)
-
-### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
-
-Now choose if you want to compile the app and install it on your machine or just install it:
-
-### Make ( not necessary )
-First update your system:
-
-	dnf update -y
-
-Now install the rust compiler and git:
-
-	dnf install cargo curl rust git -y
-
-Clone the repository with the following command:
-
-	git clone https://www.github.com/PEDROTUBER44/Mild.git
-
-Now enter the project folder
-
-	cd Mild/
-
-Give the "build.sh" and "install.sh" file execute permission:
-
-	chmod +x build.sh && chmod +x install.sh
-
-Finally run the "build.sh" and "install.sh" file:
-
-	./build.sh && ./install.sh
-
-### Uninstall
-
-	dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
-
-Now all that's left is to install your favorite D.E.
-
-## Non-make ( recommended )
-First update your system:
-
-	dnf update -y
-
-Now install the git:
-
-	dnf install git -y
-
-Clone the repository with the following command:
-
-	git clone https://www.github.com/PEDROTUBER44/Mild.git
-
-Now enter the project folder
-
-	cd Mild/
-
-Give the "install.sh" file execute permission:
-
-	chmod +x install.sh
-
-Finally run the "install.sh" file:
-
-	./install.sh
-
-### Uninstall
-
-	dnf remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
-
-Now all that's left is to install your favorite D.E.
-
-## Desktops Fedora 35
-Now choose which graphical environment will be installed on your PC:
-
-### Lxde
-
-	mild --install-fedora-lxde
-
-![](imagens/fedora35/fedora35-lxde.webp)
-
-### Lxqt
-
-	mild --install-fedora-lxqt
-
-![](imagens/fedora35/fedora35-lxqt.webp)
-
-### Xfce4
-
-	mild --install-fedora-xfce
-
-![](imagens/fedora35/fedora35-xfce4.webp)
-
-### Gnome
-
-	mild --install-fedora-gnome
-
-![](imagens/fedora35/fedora35-gnome.webp)
-
-### Mate
-
-	mild --install-fedora-mate
-
-![](imagens/fedora35/fedora35-mate.webp)
-
-### Kde plasma
-
-	mild --install-fedora-kdeplasma
-
-![](imagens/fedora35/fedora35-kdeplasma.webp)
-
-### Cinnamon
-
-	mild --install-fedora-cinnamon
-
-![](imagens/fedora35/fedora35-cinnamon.webp)
-
-After that you will have a clean desktop environment with no redundant apps on your **Fedora 35 !**
-
-****
-
 ## Arch Linux
 First download Arch Linux iso from the official website, after that make a bootable pendrive, with Arch Linux iso and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Arch Linux install medium (x86_64,BIOS)", to install Arch Linux:
 
@@ -309,6 +121,22 @@ Now choose which graphical environment will be installed on your PC:
 	mild --install-arch-cinnamon
 
 ![](imagens/archlinux/archlinux-cinnamon.webp)
+
+### BSPWM
+
+	mild --install-arch-bspwm
+
+![](imagens/archlinux/archlinux-bspwm.webp)
+
+### Cutefish Desktop
+
+	mild --install-arch-cutefish
+
+![](imagens/archlinux/archlinux-cutefish.webp)
+
+### Clean ArchLinux Desktop
+
+	mild --clean-arch
 
 After that you will have a clean desktop environment with no redundant apps on your **Arch Linux !**
 
@@ -550,7 +378,227 @@ Now choose which graphical environment will be installed on your PC:
 
 ![](imagens/debian11/debian11-cinnamon.webp)
 
+### BSPWM
+
+	mild --install-debian-bspwm
+
+![](imagens/debian11/debian11-bspwm.webp)
+
+### Cutefish Desktop
+
+	mild --install-debian-cutefish
+
+![](imagens/debian11/debian11-cutefish.webp)
+
+### Clean Debian 11 Desktop
+
+	mild --clean-debian
+
 After that you will have a clean desktop environment with no redundant apps on your **Debian 11 !**
+
+****
+
+## Fedora 35
+First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
+
+![](imagens/fedora35/fedora35-inicio.webp)
+
+After that you will see this screen and on it select your language, and after that click on continue:
+
+![](imagens/fedora35/fedora35-language.webp)
+
+After that you will see the screen below and on it select "Installation destination", and then select the disk that will be installed as well as partitioned for the installation of Fedora 35, **Attention we are not responsible for any data loss**, and we recommend to back up your data on a separate drive and preferably disconnected from your pc at least during installation.
+
+![](imagens/fedora35/fedora35-dashboard.webp)
+
+After that select the disk and click on "Advanced Custom (Blivet GUI)" and click "Done":
+
+![](imagens/fedora35/fedora35-disk-selection.webp)
+
+Then the disk partitioning screen will open, and in it create the following partitions:
+
+![](imagens/fedora35/fedora35-disk-partition.webp)
+
+On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
+
+Order | Type | Size
+------|------|--------
+  1°  | efi  | 500MB  
+  2°  | swap | The size of your ram.
+  3°  | root | 70GB   
+  4°  | home | Everything else.
+
+On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
+
+Order | Type | Size
+------|------|--------  
+  1°  | swap | The size of your ram.
+  2°  | root | 70GB   
+  3°  | home | Everything else.
+
+Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
+
+![](imagens/fedora35/fedora35-network.webp)
+
+![](imagens/fedora35/fedora35-network2.webp)
+
+After these settings click on "Software Selection" and just check "Minimum install" like the image below and if you want to use wifi, check also "Common NetworkManager Submodules":
+
+![](imagens/fedora35/fedora35-packages.webp)
+
+![](imagens/fedora35/fedora35-packages2.webp)
+
+After that click on "Root Account" to set the root user password, now select the box "Enable root account" and enter your password and click "Done":
+
+![](imagens/fedora35/fedora35-root.webp)
+
+![](imagens/fedora35/fedora35-root2.webp)
+
+After that click on "User Creation" and fill in what is being requested and click "Done":
+
+![](imagens/fedora35/fedora35-user.webp)
+
+![](imagens/fedora35/fedora35-user2.webp)
+
+With everything done click on "Begin Installation" and wait for the installation:
+
+![](imagens/fedora35/fedora35-finishing.webp)
+
+![](imagens/fedora35/fedora35-installing.webp)
+
+And end now click continue and remove the pendrive or installation media and follow the next steps:
+
+![](imagens/fedora35/fedora35-complete.webp)
+
+### Post installation
+First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
+
+Now choose if you want to compile the app and install it on your machine or just install it:
+
+### Make ( not necessary )
+First update your system:
+
+	dnf update -y
+
+Now install the rust compiler and git:
+
+	dnf install cargo curl rust git -y
+
+Clone the repository with the following command:
+
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
+
+Now enter the project folder
+
+	cd Mild/
+
+Give the "build.sh" and "install.sh" file execute permission:
+
+	chmod +x build.sh && chmod +x install.sh
+
+Finally run the "build.sh" and "install.sh" file:
+
+	./build.sh && ./install.sh
+
+### Uninstall
+
+	dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
+
+Now all that's left is to install your favorite D.E.
+
+## Non-make ( recommended )
+First update your system:
+
+	dnf update -y
+
+Now install the git:
+
+	dnf install git -y
+
+Clone the repository with the following command:
+
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
+
+Now enter the project folder
+
+	cd Mild/
+
+Give the "install.sh" file execute permission:
+
+	chmod +x install.sh
+
+Finally run the "install.sh" file:
+
+	./install.sh
+
+### Uninstall
+
+	dnf remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
+
+Now all that's left is to install your favorite D.E.
+
+## Desktops Fedora 35
+Now choose which graphical environment will be installed on your PC:
+
+### Lxde
+
+	mild --install-fedora-lxde
+
+![](imagens/fedora35/fedora35-lxde.webp)
+
+### Lxqt
+
+	mild --install-fedora-lxqt
+
+![](imagens/fedora35/fedora35-lxqt.webp)
+
+### Xfce4
+
+	mild --install-fedora-xfce
+
+![](imagens/fedora35/fedora35-xfce4.webp)
+
+### Gnome
+
+	mild --install-fedora-gnome
+
+![](imagens/fedora35/fedora35-gnome.webp)
+
+### Mate
+
+	mild --install-fedora-mate
+
+![](imagens/fedora35/fedora35-mate.webp)
+
+### Kde plasma
+
+	mild --install-fedora-kdeplasma
+
+![](imagens/fedora35/fedora35-kdeplasma.webp)
+
+### Cinnamon
+
+	mild --install-fedora-cinnamon
+
+![](imagens/fedora35/fedora35-cinnamon.webp)
+
+### BSPWM
+
+	mild --install-fedora-bspwm
+
+![](imagens/fedora35/fedora35-bspwm.webp)
+
+### Cutefish Desktop
+
+	mild --install-fedora-cutefish
+
+![](imagens/fedora35/fedora35-cutefish.webp)
+
+### Clean Fedora 35 Desktop
+
+	mild --clean-fedora
+
+After that you will have a clean desktop environment with no redundant apps on your **Fedora 35 !**
 
 ****
 
