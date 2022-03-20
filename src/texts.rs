@@ -1,4 +1,4 @@
-pub const HELP_EN : &str = "
+pub const HELP_EN_US : &str = "
 
 Use mild --[option]-[distro]-[interface]
 

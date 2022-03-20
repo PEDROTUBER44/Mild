@@ -1,4 +1,7 @@
-use std::process::Command;
+use std::{
+    process::Command, // Import Command to execute system commands
+    process::exit, // Import Exit Command to exit to program
+};
 
 pub fn remove_arch() {
 
@@ -185,6 +188,52 @@ pub fn remove_files_archlinux() {
 
 }
 
+pub fn clean_arch() {
+
+    Command::new("sudo")
+        .args(Some("pacman"))
+        .args(Some("-Rsn"))
+        .args(Some("$(pacman -Qdtq)"))
+        .args(Some("--noconfirm"))
+        .status()
+        .expect("Error to removing entire list of orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("pacman"))
+        .args(Some("-Scc"))
+        .args(Some("--noconfirm"))
+        .status()
+        .expect("Error to clearing pacman cache");
+
+    Command::new("sudo")
+        .args(Some("flatpak"))
+        .args(Some("uninstall"))
+        .args(Some("--unused"))
+        .status()
+        .expect("Error to cleaning unused flatpaks");
+        
+    Command::new("sudo")
+        .args(Some("rm"))
+        .args(Some("-rf"))
+        .args(Some("/var/lib/systemd/coredump/"))
+        .status()
+        .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+
+    Command::new("sudo")
+        .args(Some("journalctl"))
+        .args(Some("--vacuum-time=2d"))
+        .status()
+        .expect("Error to limiting systemd logs to 2 days");
+        
+    Command::new("journalctl")
+        .args(Some("--vacuum-size=500M"))
+        .status()
+        .expect("Error limiting systemd logs to 500M");
+        
+    exit(0);
+
+}
+
 pub fn install_arch_lxde() {
     
     Command::new("sudo")
@@ -287,6 +336,7 @@ pub fn install_arch_gnome() {
         .args(Some("eog"))
         .args(Some("evince"))
         .args(Some("seahorse"))
+        .args(Some("gnome-screenshot"))
         .args(Some("--noconfirm"))
         .status()
         .expect("Error installing gnome minimal on archlinux");
@@ -540,6 +590,110 @@ pub fn remove_files_debian() {
         .args(Some("/usr/share/applications/vim.backup"))
         .status()
         .expect("Error to rename file: vim.desktop");
+
+}
+
+pub fn clean_debian() {
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("clean"))
+        .status()
+        .expect("Error to clearing apt cache");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("autoclean"))
+        .status()
+        .expect("Error to cleaning dead packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("autoremove"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error cleaning orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("install"))
+        .args(Some("deborphan"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to installing deborphan");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("remove"))
+        .args(Some("$(deborphan)"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to cleaning orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("remove"))
+        .args(Some("$(deborphan)"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to cleaning 2 time orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("remove"))
+        .args(Some("$(deborphan)"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to cleaning 3 time orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("remove"))
+        .args(Some("$(deborphan)"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to cleaning 4 time orphaned packages");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("remove"))
+        .args(Some("deborphan"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to remove deborphan from system");
+
+    Command::new("sudo")
+        .args(Some("apt"))
+        .args(Some("autoremove"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error to removing deborphan dependencies");
+
+    Command::new("sudo")
+        .args(Some("rm"))
+        .args(Some("-rf"))
+        .args(Some("/var/lib/systemd/coredump/"))
+        .status()
+        .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+
+    Command::new("sudo")
+        .args(Some("journalctl"))
+        .args(Some("--vacuum-time=2d"))
+        .status()
+        .expect("Error to limiting systemd logs to 2 days");
+
+    Command::new("journalctl")
+        .args(Some("--vacuum-size=500M"))
+        .status()
+        .expect("Error limiting systemd logs to 500M");
+
+    Command::new("sudo")
+        .args(Some("flatpak"))
+        .args(Some("--unused"))
+        .status()
+        .expect("Error to cleaning unused flatpaks");
+
+    exit(0);
 
 }
 
@@ -1245,4 +1399,48 @@ pub fn install_fedora_bspwm() {
 
 pub fn install_fedora_cutefish() {
     
+}
+
+pub fn clean_fedora() {
+
+    Command::new("sudo")
+        .args(Some("dnf"))
+        .args(Some("clean"))
+        .args(Some("all"))
+        .status()
+        .expect("Error to clean dnf cache");
+
+    Command::new("sudo")
+        .args(Some("dnf"))
+        .args(Some("autoremove"))
+        .args(Some("-y"))
+        .status()
+        .expect("Error removing orphaned dnf packages");
+
+    Command::new("sudo")
+        .args(Some("rm"))
+        .args(Some("-rf"))
+        .args(Some("/var/lib/systemd/coredump/"))
+        .status()
+        .expect("Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+
+    Command::new("sudo")
+        .args(Some("journalctl"))
+        .args(Some("--vacuum-time=2d"))
+        .status()
+        .expect("Error to limiting systemd logs to 2 days");
+
+    Command::new("journalctl")
+        .args(Some("--vacuum-size=500M"))
+        .status()
+        .expect("Error limiting systemd logs to 500M");
+
+    Command::new("sudo")
+        .args(Some("flatpak"))
+        .args(Some("--unused"))
+        .status()
+        .expect("Error to cleaning unused flatpaks");
+
+    exit(0);
+
 }
