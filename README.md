@@ -453,7 +453,7 @@ Now enter your first and second name:
 
 Now type only the first lowercase name that will be used in your "/home":
 
-![](images/debian11/debian11-username1)
+![](images/debian11/debian11-username1.webp)
 
 Now enter the password of this user that will be created:
 
