@@ -1,6 +1,8 @@
 use std::{
-    process::Command, // Import Command to execute system commands
-    process::exit, // Import Exit Command to exit to program
+    process::{
+        Command, // Importing the standard command library for running operating system commands
+        exit // Importing the standard exit library to exit the program
+    }
 };
 
 pub fn remove_arch() {
@@ -461,10 +463,14 @@ pub fn install_arch_kdeplasma() {
 }
 
 pub fn install_arch_bspwm() {
+
+    println!("Coming soon");
     
 }
 
 pub fn install_arch_cutefish() {
+
+    println!("Coming soon");
     
 }
 
@@ -899,10 +905,14 @@ pub fn install_debian_kdeplasma() {
 }
 
 pub fn install_debian_bspwm() {
+
+    println!("Coming soon");
     
 }
 
 pub fn install_debian_cutefish() {
+
+    println!("Coming soon");
     
 }
 
@@ -1395,10 +1405,14 @@ pub fn install_fedora_kdeplasma() {
 
 pub fn install_fedora_bspwm() {
 
+    println!("Coming soon");
+
 }
 
 pub fn install_fedora_cutefish() {
     
+    println!("Coming soon");
+
 }
 
 pub fn clean_fedora() {
@@ -1442,5 +1456,95 @@ pub fn clean_fedora() {
         .expect("Error to cleaning unused flatpaks");
 
     exit(0);
+
+}
+
+pub fn configure_dnf_fedora() {
+    Command::new("sudo")
+        .args(Some("rm"))
+        .args(Some("-r"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("Error to remove /etc/dnf/dnf.conf");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""[main]""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""gpgcheck=1""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""installonly_limit=3""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""clean_requirements_on_remove=True""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""best=False""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""skip_if_unavailable=True""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""fastestmirror=True""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+        
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""max_parallel_downloads=7""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""defaultyes=True""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
+
+    Command::new("sudo")
+        .args(Some("echo"))
+        .args(Some(r#""install_weak_deps=false""#))
+        .args(Some(">>"))
+        .args(Some("/etc/dnf/dnf.conf"))
+        .status()
+        .expect("File: /etc/dnf/dnf.conf not found");
 
 }

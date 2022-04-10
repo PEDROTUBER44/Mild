@@ -1,13 +1,17 @@
 use std::{
-    process::Command, // Import Command to execute system commands
-    process::exit, // Import Exit Command to exit to program
-    io::Write, // Import Write Command to write files
-    env, // Import Env to read arguments from user 
-    io // Import Standard IO - Input Output
+    process::{
+        Command, // Importing the standard command library for running operating system commands
+        exit // Importing the standard exit library to exit the program
+    },
+    io::{
+        Write // Importing the default write library to write to files
+    },
+    env, // Importing the standard env library to capture user arguments
+    io // Importing the standard io (Input & Output) library to capture user input
 };
 mod texts;
 mod utils;
-mod lib;
+//mod lib;
 
 fn main() {
     
@@ -15,7 +19,7 @@ fn main() {
     let option = &args[1].trim();
 
     let all_packages_to_remove_archlinux = "lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gnome-screenshot gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish";
-    let all_packages_to_remove_debian = "plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-tweaks gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar";
+    let all_packages_to_remove_debian = "plasma-workspace-wayland plasma-nm kde-plasma-desktop sddm konsole kscreen plasma-discover ksysguard okular kde-spectacle ark kwrite dolphin mate-desktop-environment-core marco cinnamon-core adwaita-icon-theme nautilus gnome-terminal gnome-control-center adwaita-qt qt5ct gdm3 gnome-session xfdesktop4 xfwm4 xfconf xfce4-terminal xfce4-settings xfce4-session xfce4-whiskermenu-plugin xfce4-pulseaudio-plugin xfce4-panel lightdm lxde-core lightdm-gtk-greeter lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver pavucontrol lxqt-core thunar";
     let all_packages_to_remove_fedora = "@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg";
 
     match &option[..] {
@@ -53,25 +57,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -110,25 +98,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -167,25 +139,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -224,25 +180,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -281,25 +221,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -338,25 +262,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -395,25 +303,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -452,25 +344,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -509,25 +385,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -569,25 +429,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -626,25 +470,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -683,25 +511,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -716,7 +528,7 @@ fn main() {
             println!("");
             println!("The following packages will be installed:");
             println!("");
-            println!("gdm3 gnome-session gnome-control-center gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse");
+            println!("gdm3 gnome-session gnome-control-center gnome-terminal nautilus adwaita-icon-theme seahorse");
             println!("");
             println!("");
             print!("Do you wish to continue? (Y/n): ");
@@ -740,25 +552,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -797,25 +593,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -854,25 +634,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -911,25 +675,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -968,25 +716,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1025,25 +757,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1072,93 +788,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_lxde();
@@ -1171,25 +801,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1215,93 +829,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_lxqt();
@@ -1314,25 +842,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1358,93 +870,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_xfce();
@@ -1457,25 +883,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1501,93 +911,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_gnome();
@@ -1600,25 +924,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1644,93 +952,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_cinnamon();
@@ -1743,25 +965,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1787,93 +993,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_mate();
@@ -1886,25 +1006,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -1930,93 +1034,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_kdeplasma();
@@ -2029,25 +1047,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -2073,93 +1075,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_bspwm();
@@ -2172,25 +1088,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
@@ -2216,93 +1116,7 @@ fn main() {
 
             fn exec_installation() {
 
-                Command::new("sudo")
-                    .args(Some("rm"))
-                    .args(Some("-r"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("Error to remove /etc/dnf/dnf.conf");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""[main]""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""gpgcheck=1""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""installonly_limit=3""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""clean_requirements_on_remove=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""best=False""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""skip_if_unavailable=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""fastestmirror=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-                    
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""max_parallel_downloads=7""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""defaultyes=True""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
-                Command::new("sudo")
-                    .args(Some("echo"))
-                    .args(Some(r#""install_weak_deps=false""#))
-                    .args(Some(">>"))
-                    .args(Some("/etc/dnf/dnf.conf"))
-                    .status()
-                    .expect("File: /etc/dnf/dnf.conf not found");
-
+                utils::configure_dnf_fedora();
                 utils::remove_fedora();
                 utils::utils_fedora();
                 utils::install_fedora_cutefish();
@@ -2315,25 +1129,9 @@ fn main() {
                 "y" => exec_installation(),
                 "Y" => exec_installation(),
                 "" => exec_installation(),
-                
-                "n" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                "N" => {
-
-                    println!("Aborted installation");
-                    exit(0);
-
-                },
-                _ => {
-
-                    println!("Aborted installation");
-                    exit(0);
-                    
-                }
+                "n" => {println!("Aborted installation");exit(0);},
+                "N" => {println!("Aborted installation");exit(0);},
+                _ => {println!("Aborted installation");exit(0);}
 
             }
 
