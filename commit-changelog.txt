@@ -1,23 +1,20 @@
 ChangeLog of this version:
 
-- Rename in README.md "user" to "mild" and user to mild
-- Reewritten lib.rs
-- README.md modified for better reading
-- Restructured main.rs and utils.rs imports
-- Compressing match &input[..] from main.rs file
-- Create configure_dnf_fedora function to shorten the lines of code and have less repeated stuff
-- Placed println!("Coming soon"); on all install cutefish and bspwm
+- Reduced lines of code
+- Reduced the number of libraries to just what you need
+- 
+- 
 
 
 
 Total lines of code:
 
 src/lib.rs = 186
-src/main.rs = 1148
+src/main.rs = 561
 src/texts.rs = 70
-src/utils.rs = 1550
+src/utils.rs = 1735
 
-TOTAL: 2954
+TOTAL: 2552
 
 
-Total size of Mild: 3.7M
+Total size of Mild: 3.6M
