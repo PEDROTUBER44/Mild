@@ -1,20 +1,20 @@
 ChangeLog of this version:
 
 - Reduced lines of code
-- Reduced the number of libraries to just what you need
-- 
-- 
-
+- Fixing "Aborted installation" error in all systems
+- Custom terminal font in show_the_changes_that_will_be_made_to_user
+- Removed Some("x"), Some("y") ... and replaced with a method that shortens the lines of code
+- Let packages_to_remove_debian ... moved to texts.rs
 
 
 Total lines of code:
 
 src/lib.rs = 186
-src/main.rs = 561
-src/texts.rs = 70
-src/utils.rs = 1735
+src/main.rs = 574
+src/texts.rs = 103
+src/utils.rs = 655
 
-TOTAL: 2552
+TOTAL: 1518
 
 
 Total size of Mild: 3.6M

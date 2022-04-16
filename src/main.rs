@@ -14,54 +14,19 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let option = &args[1].trim();
 
-    let all_packages_to_remove_archlinux: &str = "";
-    let all_packages_to_install_archlinux_lxde: &str = "";
-    let all_packages_to_install_archlinux_lxqt: &str = "";
-    let all_packages_to_install_archlinux_xfce: &str = "";
-    let all_packages_to_install_archlinux_gnome: &str = "";
-    let all_packages_to_install_archlinux_cinnamon: &str = "";
-    let all_packages_to_install_archlinux_mate: &str = "";
-    let all_packages_to_install_archlinux_kdeplasma: &str = "";
-    let all_packages_to_install_archlinux_bspwm: &str = "";
-    let all_packages_to_install_archlinux_cutefish: &str = "";
-
-    let all_packages_to_remove_debian: &str = "";
-    let all_packages_to_install_debian_lxde: &str = "";
-    let all_packages_to_install_debian_lxqt: &str = "";
-    let all_packages_to_install_debian_xfce: &str = "";
-    let all_packages_to_install_debian_gnome: &str = "";
-    let all_packages_to_install_debian_cinnamon: &str = "";
-    let all_packages_to_install_debian_mate: &str = "";
-    let all_packages_to_install_debian_kdeplasma: &str = "";
-    let all_packages_to_install_debian_bspwm: &str = "";
-    let all_packages_to_install_debian_cutefish: &str = "";
-
-    let all_packages_to_remove_fedora: &str = "";
-    let all_packages_to_install_fedora_lxde: &str = "";
-    let all_packages_to_install_fedora_lxqt: &str = "";
-    let all_packages_to_install_fedora_xfce: &str = "";
-    let all_packages_to_install_fedora_gnome: &str = "";
-    let all_packages_to_install_fedora_cinnamon: &str = "";
-    let all_packages_to_install_fedora_mate: &str = "";
-    let all_packages_to_install_fedora_kdeplasma: &str = "";
-    let all_packages_to_install_fedora_bspwm: &str = "";
-    let all_packages_to_install_fedora_cutefish: &str = "";
-
     match &option[..] {
 
         "--install-arch-lxde" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_lxde);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXDE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","lxde"),
-                "Y" => utils::exec_installation("archlinux","lxde"),
-                "" => utils::exec_installation("archlinux","lxde"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","lxde");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -69,17 +34,15 @@ fn main() {
 
         "--install-arch-lxqt" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_lxqt);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXQT);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","lxqt"),
-                "Y" => utils::exec_installation("archlinux","lxqt"),
-                "" => utils::exec_installation("archlinux","lxqt"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","lxqt");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -87,17 +50,15 @@ fn main() {
 
         "--install-arch-xfce" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_xfce);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","xfce"),
-                "Y" => utils::exec_installation("archlinux","xfce"),
-                "" => utils::exec_installation("archlinux","xfce"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","xfce");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -105,17 +66,15 @@ fn main() {
 
         "--install-arch-gnome" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_gnome);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","gnome"),
-                "Y" => utils::exec_installation("archlinux","gnome"),
-                "" => utils::exec_installation("archlinux","gnome"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","gnome");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -123,17 +82,15 @@ fn main() {
 
         "--install-arch-cinnamon" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_cinnamon);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","cinnamon"),
-                "Y" => utils::exec_installation("archlinux","cinnamon"),
-                "" => utils::exec_installation("archlinux","cinnamon"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","cinnamon");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -141,17 +98,15 @@ fn main() {
 
         "--install-arch-mate" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_mate);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","mate"),
-                "Y" => utils::exec_installation("archlinux","mate"),
-                "" => utils::exec_installation("archlinux","mate"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","mate");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -159,17 +114,15 @@ fn main() {
 
         "--install-arch-kdeplasma" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_kdeplasma);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","kdeplasma"),
-                "Y" => utils::exec_installation("archlinux","kdeplasma"),
-                "" => utils::exec_installation("archlinux","kdeplasma"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","kdeplasma");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -177,17 +130,15 @@ fn main() {
 
         "--install-arch-bspwm" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_bspwm);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_BSPWM);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","bspwm"),
-                "Y" => utils::exec_installation("archlinux","bspwm"),
-                "" => utils::exec_installation("archlinux","bspwm"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","bspwm");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -195,17 +146,15 @@ fn main() {
 
         "--install-arch-cutefish" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_archlinux, all_packages_to_install_archlinux_cutefish);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, texts::ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CUTEFISH);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("archlinux","cutefish"),
-                "Y" => utils::exec_installation("archlinux","cutefish"),
-                "" => utils::exec_installation("archlinux","cutefish"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("archlinux","cutefish");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -216,17 +165,15 @@ fn main() {
 
         "--install-debian-lxde" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_lxde);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","gnome"),
-                "Y" => utils::exec_installation("debian","gnome"),
-                "" => utils::exec_installation("debian","gnome"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","lxde");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -234,17 +181,15 @@ fn main() {
 
         "--install-debian-lxqt" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_lxqt);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","lxqt"),
-                "Y" => utils::exec_installation("debian","lxqt"),
-                "" => utils::exec_installation("debian","lxqt"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","lxqt");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -252,17 +197,15 @@ fn main() {
 
         "--install-debian-xfce" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_xfce);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","xfce"),
-                "Y" => utils::exec_installation("debian","xfce"),
-                "" => utils::exec_installation("debian","xfce"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","xfce");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -270,17 +213,15 @@ fn main() {
 
         "--install-debian-gnome" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_gnome);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","gnome"),
-                "Y" => utils::exec_installation("debian","gnome"),
-                "" => utils::exec_installation("debian","gnome"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","gnome");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -288,17 +229,15 @@ fn main() {
 
         "--install-debian-cinnamon" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_cinnamon);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","cinnamon"),
-                "Y" => utils::exec_installation("debian","cinnamon"),
-                "" => utils::exec_installation("debian","cinnamon"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","cinnamon");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -306,17 +245,15 @@ fn main() {
 
         "--install-debian-mate" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_mate);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","mate"),
-                "Y" => utils::exec_installation("debian","mate"),
-                "" => utils::exec_installation("debian","mate"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","mate");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -324,17 +261,15 @@ fn main() {
 
         "--install-debian-kdeplasma" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_kdeplasma);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","kdeplasma"),
-                "Y" => utils::exec_installation("debian","kdeplasma"),
-                "" => utils::exec_installation("debian","kdeplasma"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","kdeplasma");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -342,17 +277,15 @@ fn main() {
 
         "--install-debian-bspwm" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_bspwm);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_BSPWM);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","bspwm"),
-                "Y" => utils::exec_installation("debian","bspwm"),
-                "" => utils::exec_installation("debian","bspwm"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","bspwm");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -360,17 +293,15 @@ fn main() {
 
         "--install-debian-cutefish" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_debian, all_packages_to_install_debian_cutefish);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, texts::ALL_PACKAGES_TO_INSTALL_DEBIAN_CUTEFISH);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("debian","cutefish"),
-                "Y" => utils::exec_installation("debian","cutefish"),
-                "" => utils::exec_installation("debian","cutefish"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("debian","cutefish");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -381,17 +312,15 @@ fn main() {
 
         "--install-fedora-lxde" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_lxde);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_LXDE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","lxde"),
-                "Y" => utils::exec_installation("fedora","lxde"),
-                "" => utils::exec_installation("fedora","lxde"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","lxde");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -399,17 +328,15 @@ fn main() {
 
         "--install-fedora-lxqt" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_lxqt);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_LXQT);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","lxqt"),
-                "Y" => utils::exec_installation("fedora","lxqt"),
-                "" => utils::exec_installation("fedora","lxqt"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","lxqt");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -417,17 +344,15 @@ fn main() {
 
         "--install-fedora-xfce" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_xfce);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_XFCE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","lxqt"),
-                "Y" => utils::exec_installation("fedora","lxqt"),
-                "" => utils::exec_installation("fedora","lxqt"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","xfce");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -435,17 +360,15 @@ fn main() {
 
         "--install-fedora-gnome" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_gnome);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_GNOME);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","gnome"),
-                "Y" => utils::exec_installation("fedora","gnome"),
-                "" => utils::exec_installation("fedora","gnome"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","gnome");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -453,17 +376,15 @@ fn main() {
 
         "--install-fedora-cinnamon" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_cinnamon);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_CINNAMON);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","cinnamon"),
-                "Y" => utils::exec_installation("fedora","cinnamon"),
-                "" => utils::exec_installation("fedora","cinnamon"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","cinnamon");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -471,17 +392,15 @@ fn main() {
 
         "--install-fedora-mate" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_mate);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_MATE);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","mate"),
-                "Y" => utils::exec_installation("fedora","mate"),
-                "" => utils::exec_installation("fedora","mate"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","mate");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -489,17 +408,15 @@ fn main() {
 
         "--install-fedora-kdeplasma" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_kdeplasma);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_KDEPLASMA);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","kdeplasma"),
-                "Y" => utils::exec_installation("fedora","kdeplasma"),
-                "" => utils::exec_installation("fedora","kdeplasma"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","kdeplasma");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -507,17 +424,15 @@ fn main() {
 
         "--install-fedora-bspwm" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_bspwm);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_BSPWM);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","bspwm"),
-                "Y" => utils::exec_installation("fedora","bspwm"),
-                "" => utils::exec_installation("fedora","bspwm"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","bspwm");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
@@ -525,17 +440,15 @@ fn main() {
 
         "--install-fedora-cutefish" => {
 
-            utils::show_the_changes_that_will_be_made_to_user(all_packages_to_remove_fedora, all_packages_to_install_fedora_cutefish);
+            utils::show_the_changes_that_will_be_made_to_user(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, texts::ALL_PACKAGES_TO_INSTALL_FEDORA_CUTEFISH);
             
             let mut input = String::new();
             io::stdin().read_line(&mut input).expect("Error to read user input");
+            let input = input.trim().to_lowercase();
 
             match &input[..] {
-                "y" => utils::exec_installation("fedora","cutefish"),
-                "Y" => utils::exec_installation("fedora","cutefish"),
-                "" => utils::exec_installation("fedora","cutefish"),
-                "n" => {println!("Aborted installation");exit(0);},
-                "N" => {println!("Aborted installation");exit(0);},
+                "y" | "yes" | ""  => {utils::exec_installation("fedora","cutefish");exit(0)},
+                "n" | "no" => {println!("Aborted installation");exit(0);},
                 _ => {println!("Aborted installation");exit(0);}
             }
 
