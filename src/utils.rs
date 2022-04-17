@@ -90,7 +90,7 @@ pub fn install_utils(system: &str) {
 
         "archlinux" => {
 
-            let utils_to_install = "pacman -Syu xorg networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip firefox zip unzip unrar system-config-printer adwaita-icon-theme xf86-video-intel libgl mesa nvidia nvidia-libgl xf86-video-amdgpu --noconfirm";
+            let utils_to_install = "pacman -Syu xorg networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip firefox zip unzip unrar system-config-printer adwaita-icon-theme xf86-video-intel libgl mesa nvidia nvidia-libgl xf86-video-amdgpu ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer --noconfirm";
             let enable_networkmanager_on_systemd = "systemctl enable NetworkManager -f";
 
             Command::new("sudo").args(utils_to_install.split_ascii_whitespace()).status().expect("Error installing archlinux utilities");
@@ -100,7 +100,7 @@ pub fn install_utils(system: &str) {
 
         "debian" => {
 
-            let utils_to_install = "apt install sudo zip unzip unrar-free network-manager xorg firefox-esr gvfs pulseaudio exfat-utils p7zip-full system-config-printer adwaita-icon-theme -y";
+            let utils_to_install = "apt install sudo zip unzip unrar-free network-manager xorg firefox-esr gvfs pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder exfat-utils p7zip-full system-config-printer totem adwaita-icon-theme bluez -y";
             let enable_networkmanager_on_systemd = "systemctl enable NetworkManager -f";
 
             Command::new("sudo").args(utils_to_install.split_ascii_whitespace()).status().expect("Error installing debian utilities 11");
@@ -371,7 +371,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxde" => {
 
-                    let command_to_install_debian_lxde = "apt install lightdm lightdm-gtk-greeter lxde-core lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver -y";
+                    let command_to_install_debian_lxde = "apt install lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu menu-xdg gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver -y";
                     let enable_lightdm_in_systemd = "systemctl enable lightdm -f";
 
                     Command::new("sudo").args(command_to_install_debian_lxde.split_ascii_whitespace()).status().expect("Error installing minimal lxde on debian 11");

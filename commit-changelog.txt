@@ -1,10 +1,10 @@
 ChangeLog of this version:
 
-- Reduced lines of code
-- Fixing "Aborted installation" error in all systems
-- Custom terminal font in show_the_changes_that_will_be_made_to_user
-- Removed Some("x"), Some("y") ... and replaced with a method that shortens the lines of code
-- Let packages_to_remove_debian ... moved to texts.rs
+- Remove Log In as Root on install.sh
+- Added this images : archlinux-loginscreen.webp, debian11-loginscreen.webp e fedora35-loginscreen.webp
+- Added and removed packages in debian lxde install and added codec packs in debian install utils
+- 
+- 
 
 
 Total lines of code:

@@ -8,7 +8,7 @@ If you don't know how to install **Arch Linux** follow this [tutorial](installar
 
 After installing Arch Linux make sure you are connected to the internet after that click `Ctrl` + `Alt` + `F4` to proceed with the installation:
 
-![]()
+![](images/archlinux/archlinux-loginscreen.webp)
 
 After you have entered your username and password, follow the next steps. If you want to compile **Mild** follow the "Make" option and if you just want to install and run Mild follow the "Non-make" option:
 
@@ -144,7 +144,7 @@ If you don't know how to install **Debian 11** follow this [tutorial](installdeb
 
 After installing Debian 11 make sure you are connected to the internet after that click `Ctrl` + `Alt` + `F4` to proceed with the installation:
 
-![]()
+![](images/debian11/debian11-loginscreen.webp)
 
 After you have entered your username and password, follow the next steps. If you want to compile **Mild** follow the "Make" option and if you just want to install and run Mild follow the "Non-make" option:
 
