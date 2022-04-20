@@ -1,20 +1,19 @@
 ChangeLog of this version:
 
-- Remove Log In as Root on install.sh
-- Added this images : archlinux-loginscreen.webp, debian11-loginscreen.webp e fedora35-loginscreen.webp
-- Added and removed packages in debian lxde install and added codec packs in debian install utils
-- 
+- Added more packages to install
+- Added the loop for the user to type something that is not in the match
+- Reduced lines of code
+- commandsystem_asroot() function created
 - 
 
 
 Total lines of code:
 
-src/lib.rs = 186
-src/main.rs = 574
+src/main.rs = 257
 src/texts.rs = 103
-src/utils.rs = 655
+src/utils.rs = 532
 
-TOTAL: 1518
+TOTAL: 892
 
 
 Total size of Mild: 3.6M
