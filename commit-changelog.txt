@@ -1,19 +1,19 @@
 ChangeLog of this version:
 
 - Added more packages to install
-- Added the loop for the user to type something that is not in the match
-- Reduced lines of code
-- commandsystem_asroot() function created
-- 
+- Added install_aur function and systemcommand as user function
+- Added preload to optimizing system
+- Removing application cache folders
+- Xorg replaced by Wayland in Gnome and KDEPlasma installations
 
 
 Total lines of code:
 
 src/main.rs = 257
 src/texts.rs = 103
-src/utils.rs = 532
+src/utils.rs = 558
 
-TOTAL: 892
+TOTAL: 918
 
 
-Total size of Mild: 3.6M
+Total size of Mild: 3.739.216 bytes

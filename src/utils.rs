@@ -41,12 +41,26 @@ pub fn show_the_changes_that_will_be_made_to_user(all_packages_to_remove: &str, 
 
 }
 
-/*pub fn systemcommand(command: &str, err: &str) {}*/
+pub fn systemcommand_asuser(package: &str, command: &str, err: &str) {
+
+    Command::new(package).args(command.split_ascii_whitespace()).status().expect(err);
+
+}
 
 pub fn systemcommand_asroot(command: &str, err: &str) {
 
     Command::new("sudo").args(command.split_ascii_whitespace()).status().expect(err);
     
+}
+
+pub fn install_aur(url: &str, folder: &str) {
+
+    Command::new("git").args(Some("clone")).args(Some(url)).status().expect("Error git repository not found");
+    systemcommand_asuser("cd", folder, "Error folder not found");
+    systemcommand_asuser("makepkg", "-sicr", "Error to compile aur");
+    systemcommand_asuser("cd", "..", "Error exiting directory");
+    systemcommand_asuser("rm", "-rf", "Error to remove aur folder");
+
 }
 
 pub fn remove_extra_packages(system: &str) {
@@ -64,7 +78,7 @@ pub fn remove_extra_packages(system: &str) {
 
         "debian" => {
 
-            systemcommand_asroot("apt remove lightdm lightdm-gtk-greeter lxde-core lxterminal lxappearance pavucontrol lxsession-default-apps xscreensaver policykit-1 xarchiver lxqt-core pavucontrol thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct gdm3 gnome-session gnome-control-center gnome-terminal gnome-tweaks nautilus adwaita-icon-theme cinnamon-core marco mate-desktop-environment-core dolphin kwrite ark kde-spectacle okular ksysguard plasma-discover kscreen konsole sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland -y","Error removing all graphical environments");
+            systemcommand_asroot("apt remove lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver lxqt-core vlc ark ktorrent partitionmanager qpdfview thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal  thunar-archive-plugin xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter gdm3 gnome-session gnome-control-center gnome-software eog totem gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot transmission-gtk cinnamon-core mate-desktop-environment sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite okular plasma-discover konsole kde-spectacle gwenview -y","Error removing all graphical environments");
             systemcommand_asroot("systemctl disable gdm -f", "Error disabling gdm on startup");
             systemcommand_asroot("systemctl disable lightdm -f", "Error disabling lightdm on startup");
             systemcommand_asroot("systemctl disable sddm -f", "Error disabling sddm on startup");
@@ -77,7 +91,6 @@ pub fn remove_extra_packages(system: &str) {
             systemcommand_asroot("systemctl disable gdm -f", "Error disabling gdm on startup");
             systemcommand_asroot("systemctl disable lightdm -f", "Error disabling lightdm on startup");
             systemcommand_asroot("systemctl disable sddm -f", "Error disabling sddm on startup");
-            systemcommand_asroot("", "");
 
         },
 
@@ -97,15 +110,20 @@ pub fn install_utils(system: &str) {
 
         "archlinux" => {
 
-            systemcommand_asroot("pacman -Syu xorg networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip firefox zip unzip unrar system-config-printer adwaita-icon-theme xf86-video-intel libgl mesa nvidia nvidia-libgl xf86-video-amdgpu ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer --noconfirm", "Error installing archlinux utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error starting NetworkManager at startup");
+            systemcommand_asroot("pacman -Syu networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils bluez p7zip firefox zip unzip unrar system-config-printer adwaita-icon-theme xf86-video-intel libgl mesa nvidia nvidia-libgl xf86-video-amdgpu ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer git --noconfirm", "Error installing archlinux utilities");
+            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
+            install_aur("https://aur.archlinux.org/preload.git", "preload/");
+            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
+            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
             
         },
 
         "debian" => {
 
-            systemcommand_asroot("apt install sudo zip unzip unrar-free network-manager xorg firefox-esr gvfs pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder exfat-utils p7zip-full system-config-printer totem adwaita-icon-theme bluez -y", "Error installing debian 11 utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error starting NetworkManager at startup");
+            systemcommand_asroot("apt install sudo zip unzip unrar-free network-manager preload firefox-esr gvfs pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder exfat-utils p7zip-full system-config-printer adwaita-icon-theme bluez -y", "Error installing debian 11 utilities");
+            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
+            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
+            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
 
         },
 
@@ -113,8 +131,9 @@ pub fn install_utils(system: &str) {
 
             systemcommand_asroot("dnf update -y", "Error updating fedora 35");
             systemcommand_asroot("dnf install unrar p7zip zip unzip NetworkManager fedora-workstation-backgrounds firefox exfat-utils gvfs-mtp gvfs-goa system-config-printer gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm -y", "Error installing fedora 35 utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error starting NetworkManager at startup");
-            systemcommand_asroot("", "");
+            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
+            // Adicionar o preload
+            // Adicionar o bluetooth
 
         },
 
@@ -175,6 +194,8 @@ pub fn clean_system(system: &str) {
             systemcommand_asroot("pacman -Scc --noconfirm", "Error to clearing pacman cache");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
             systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
             systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
             exit(0);
@@ -194,6 +215,8 @@ pub fn clean_system(system: &str) {
             systemcommand_asroot("apt autoremove -y", "Error to removing deborphan dependencies");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
             systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
             systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
             exit(0);
@@ -206,6 +229,8 @@ pub fn clean_system(system: &str) {
             systemcommand_asroot("dnf autoremove -y", "Error removing orphaned dnf packages");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
             systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
+            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
             systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
             exit(0);
@@ -232,21 +257,21 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxde" => {
 
-                    systemcommand_asroot("pacman -Syu lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver --noconfirm", "Error installing minimal lxde on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver mousepad totem atril gnome-screenshot gnome-disk-utility bluez transmission-gtk --noconfirm", "Error installing minimal lxde on archlinux");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "lxqt" => {
 
-                    systemcommand_asroot("pacman -Syu lxqt lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver --noconfirm", "Error installing minimal lxqt on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lxqt lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver vlc --noconfirm", "Error installing minimal lxqt on archlinux");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "xfce" => {
 
-                    systemcommand_asroot("pacman -Syu lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller --noconfirm", "Error installing xfce minimal on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller --noconfirm", "Error installing xfce minimal on archlinux");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
@@ -255,27 +280,27 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                     systemcommand_asroot("pacman -Syu gdm weston gnome-session gnome-terminal nautilus file-roller gnome-control-center gedit adwaita-icon-theme eog evince seahorse --noconfirm", "Error installing gnome minimal on archlinux");
                     systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
-                    Command::new("gsettings").args("set org.gnome.desktop.interface enable-animations false".split_ascii_whitespace()).status().expect("Error to disable animations on gnome");
+                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
 
                 },
 
                 "cinnamon" => {
 
-                    systemcommand_asroot("pacman -Syu lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller --noconfirm", "Error installing cinnamon minimal on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller --noconfirm", "Error installing cinnamon minimal on archlinux");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "mate" => {
 
-                    systemcommand_asroot("pacman -Syu lightdm lightdm-gtk-greeter mate-desktop adwaita-icon-theme mate-control-center mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja --noconfirm", "Error installing minimal mate on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter mate-desktop adwaita-icon-theme mate-control-center mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja --noconfirm", "Error installing minimal mate on archlinux");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "kdeplasma" => {
 
-                    systemcommand_asroot("pacman -Syu sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard adwaita-icon-theme spectacle dolphin discover --noconfirm", "Error installing cinnamon minimal on archlinux");
+                    systemcommand_asroot("pacman -Syu weston sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard adwaita-icon-theme spectacle dolphin discover --noconfirm", "Error installing cinnamon minimal on archlinux");
                     systemcommand_asroot("systemctl enable sddm -f", "Error enabling lightdm on startup");
 
                 },
@@ -311,50 +336,51 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxde" => {
 
-                    systemcommand_asroot("apt install lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver -y", "Error installing minimal lxde on debian 11");
+                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver -y", "Error installing minimal lxde on debian 11");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "lxqt" => {
 
-                    systemcommand_asroot("apt install lightdm lightdm-gtk-greeter lxqt-core vlc ark ktorrent connman partitionmanager qpdfview pavucontrol -y", "Error installing lxqt minimal on debian 11");
+                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter lxqt-core vlc ark ktorrent connman partitionmanager qpdfview pavucontrol -y", "Error installing lxqt minimal on debian 11");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "xfce" => {
 
-                    systemcommand_asroot("apt install lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct --no-install-recommends -y", "Error installing xfce4 minimal on debian 11");
+                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol mousepad thunar-archive-plugin evince xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter --no-install-recommends -y", "Error installing xfce4 minimal on debian 11");
+                    systemcommand_asroot("apt install vlc gnome-disk-utility xarchiver ristretto transmission -y", "Error to install more xfce4 packages in debian 11");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "gnome" => {
 
-                    systemcommand_asroot("apt install gdm3 gnome-session gnome-control-center gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse --no-install-recommends -y", "Error installing gnome minimal on debian 11");
+                    systemcommand_asroot("apt install weston gdm3 gnome-session gnome-control-center gnome-software eog totem evince gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility --no-install-recommends -y", "Error installing gnome minimal on debian 11");
                     systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm3 on startup");
-                    Command::new("gsettings").args("set org.gnome.desktop.interface enable-animations false".split_ascii_whitespace()).status().expect("Error to disable animations on gnome");
+                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
 
                 },
 
                 "cinnamon" => {
 
-                    systemcommand_asroot("apt install lightdm lightdm-gtk-greeter cinnamon-core --no-install-recommends -y", "Error installing cinnamon minimal on debian 11");
+                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter cinnamon-core gnome-terminal eog totem evince gedit gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility --no-install-recommends -y", "Error installing cinnamon minimal on debian 11");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "mate" => {
 
-                    systemcommand_asroot("apt install lightdm lightdm-gtk-greeter mate-desktop-environment-core marco -y", "Error installing minimal mate on debian 11");
+                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter mate-desktop-environment gnome-disk-utility transmission-gtk file-roller totem -y", "Error installing minimal mate on debian 11");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
 
                 "kdeplasma" => {
 
-                    systemcommand_asroot("apt install sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland dolphin kwrite ark kde-spectacle okular ksysguard plasma-discover kscreen konsole --no-install-recommends -y", "Error installing minimal kde plasma on debian 11");
+                    systemcommand_asroot("apt install weston sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite ark okular plasma-discover konsole ktorrent kde-spectacle gwenview -y", "Error installing minimal kde plasma on debian 11");
                     systemcommand_asroot("systemctl enable sddm -f", "Error enabling sddm on startup");
 
                 },

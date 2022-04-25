@@ -9,14 +9,14 @@ pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA: &str = "sddm plasma-deskt
 pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_BSPWM: &str = "";
 pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CUTEFISH: &str = "";
 
-pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver";
+pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver lxqt-core vlc ark ktorrent partitionmanager qpdfview thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal  thunar-archive-plugin xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter gdm3 gnome-session gnome-control-center gnome-software eog totem gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot transmission-gtk cinnamon-core mate-desktop-environment sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite okular plasma-discover konsole kde-spectacle gwenview";
 pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE: &str = "lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT: &str = "lightdm lightdm-gtk-greeter lxqt-core pavucontrol";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE: &str = "lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME: &str = "gdm3 gnome-session gnome-control-center gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse eog evince totem";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON: &str = "lightdm lightdm-gtk-greeter cinnamon-core";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE: &str = "lightdm lightdm-gtk-greeter mate-desktop-environment-core marco";
-pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland dolphin kwrite ark kde-spectacle okular ksysguard plasma-discover kscreen konsole";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT: &str = "lightdm lightdm-gtk-greeter lxqt-core vlc ark ktorrent connman partitionmanager qpdfview pavucontrol";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE: &str = "lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol mousepad thunar-archive-plugin evince xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME: &str = "gdm3 gnome-session gnome-control-center gnome-software eog totem evince gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON: &str = "lightdm lightdm-gtk-greeter cinnamon-core gnome-terminal eog totem evince gedit gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE: &str = "lightdm lightdm-gtk-greeter mate-desktop-environment gnome-disk-utility transmission-gtk file-roller totem";
+pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite ark okular plasma-discover konsole ktorrent kde-spectacle gwenview";
 pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_BSPWM: &str = "";
 pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CUTEFISH: &str = "";
 

@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/bin/bash
 cargo build --release &&
 rm -rf app/* ;
 cp target/release/mild app/ &&
