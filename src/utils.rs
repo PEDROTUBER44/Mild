@@ -6,7 +6,8 @@ use std::{
     io::{
         Write // Importing the default write library to write to files and more
     },
-    io // Importing the standard io (Input & Output) library to capture user input
+    io, // Importing the standard io (Input & Output) library to capture user input
+    fs // Import standard manipulator of files and folders
 };
 use colored::Colorize; // Library to customize the terminal font
 
@@ -53,13 +54,26 @@ pub fn systemcommand_asroot(command: &str, err: &str) {
     
 }
 
+pub fn remove_folder(folder: &str) {
+
+    let remove_dir = fs::remove_dir(&folder);
+
+    match remove_dir {
+
+        Err(e) => {println!("Could not remove folder: {}  Error: {}",folder,e);},
+        Ok(_) => {println!("Folder successfully removed");}
+
+    };
+
+}
+
 pub fn install_aur(url: &str, folder: &str) {
 
     Command::new("git").args(Some("clone")).args(Some(url)).status().expect("Error git repository not found");
     systemcommand_asuser("cd", folder, "Error folder not found");
     systemcommand_asuser("makepkg", "-sicr", "Error to compile aur");
     systemcommand_asuser("cd", "..", "Error exiting directory");
-    systemcommand_asuser("rm", "-rf", "Error to remove aur folder");
+    remove_folder(folder);
 
 }
 
@@ -190,10 +204,10 @@ pub fn clean_system(system: &str) {
 
         "archlinux" => {
 
-            systemcommand_asroot("pacman -Rsn $(pacman -Qdtq) --noconfirm", "Error to removing entire list of orphaned packages");
+            //systemcommand_asroot("pacman -Rsn $(pacman -Qdtq) --noconfirm", "Error to removing entire list of orphaned packages");
             systemcommand_asroot("pacman -Scc --noconfirm", "Error to clearing pacman cache");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            remove_folder("/var/lib/systemd/coredump/");
             systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
             systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
@@ -214,7 +228,7 @@ pub fn clean_system(system: &str) {
             systemcommand_asroot("apt remove deborphan -y", "Error to remove deborphan from system");
             systemcommand_asroot("apt autoremove -y", "Error to removing deborphan dependencies");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            remove_folder("/var/lib/systemd/coredump/");
             systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
             systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
@@ -228,7 +242,7 @@ pub fn clean_system(system: &str) {
             systemcommand_asroot("dnf clean all", "Error to clean dnf cache");
             systemcommand_asroot("dnf autoremove -y", "Error removing orphaned dnf packages");
             systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            systemcommand_asroot("rm -rf /var/lib/systemd/coredump/", "Error to remove folder: /var/lib/systemd/coredump/, folder not found");
+            remove_folder("/var/lib/systemd/coredump/");
             systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
             systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
             systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
@@ -415,7 +429,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxde" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet -y", "Error installing minimal lxde on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet @multimedia -y", "Error installing minimal lxde on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     
 
@@ -423,7 +437,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxqt" => {
                     
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora -y", "Error installing lxqt minimal on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora @multimedia -y", "Error installing lxqt minimal on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -431,7 +445,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "xfce" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet -y", "Error installing xfce4 minimal on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet @multimedia -y", "Error installing xfce4 minimal on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -439,16 +453,16 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "gnome" => {
 
-                    systemcommand_asroot("dnf install gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse -y", "Error installing gnome on fedora 35");
+                    systemcommand_asroot("dnf install gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse @multimedia -y", "Error installing gnome on fedora 35");
                     systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
-                    Command::new("gsettings").args("set org.gnome.desktop.interface enable-animations false".split_ascii_whitespace()).status().expect("Error to disable animations on gnome");
+                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
                 },
 
                 "cinnamon" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller -y", "Error installing cinnamon on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller @multimedia -y", "Error installing cinnamon on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -456,7 +470,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "mate" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet -y", "Error installing mate in fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet @multimedia -y", "Error installing mate in fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -464,7 +478,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "kdeplasma" => {
 
-                    systemcommand_asroot("dnf install sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx -y", "Error installing kde plasma on fedora 35");
+                    systemcommand_asroot("dnf install sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx @multimedia -y", "Error installing kde plasma on fedora 35");
                     systemcommand_asroot("systemctl enable sddm -f", "Error enabling sddm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -553,6 +567,6 @@ pub fn exec_installation(system: &str, desktop: &str) {
     install_utils(system);
     install_desktop_in_system(system, desktop);
     remove_extra_files(system);
-    Command::new("sudo").args(Some("reboot")).status().expect("Error to restarting system");
+    systemcommand_asroot("reboot", "Error to restarting system");
 
 }

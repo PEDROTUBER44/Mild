@@ -1,19 +1,19 @@
 ChangeLog of this version:
 
-- Added more packages to install
-- Added install_aur function and systemcommand as user function
-- Added preload to optimizing system
-- Removing application cache folders
-- Xorg replaced by Wayland in Gnome and KDEPlasma installations
+- Replaced Command::new with systemcommand_asroot or systemcommand_asuser
+- Fixing error when removing aur folder in install_aur()
+- Function to remove folders created
+- 
+- 
 
 
 Total lines of code:
 
 src/main.rs = 257
 src/texts.rs = 103
-src/utils.rs = 558
+src/utils.rs = 572
 
-TOTAL: 918
+TOTAL: 932
 
 
-Total size of Mild: 3.739.216 bytes
+Total size of Mild: 3.739.144 bytes

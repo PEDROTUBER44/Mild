@@ -33,7 +33,7 @@ pub const ALL_PACKAGES_TO_INSTALL_FEDORA_CUTEFISH: &str = "";
 
 pub const HELP_EN_US: &str = "
 
-Use mild --[option]-[distro]-[interface]
+Use mild --[option]-[distribution]-[interface]
 
     --install-arch-lxde => Install Minimal Lxde Desktop on ArchLinux.
 
