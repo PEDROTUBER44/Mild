@@ -42,9 +42,9 @@ pub fn show_the_changes_that_will_be_made_to_user(all_packages_to_remove: &str, 
 
 }
 
-pub fn systemcommand_asuser(package: &str, command: &str, err: &str) {
+pub fn systemcommand_asuser(command: &str, args: &str, err: &str) {
 
-    Command::new(package).args(command.split_ascii_whitespace()).status().expect(err);
+    Command::new(command).args(args.split_ascii_whitespace()).status().expect(err);
 
 }
 
@@ -144,10 +144,10 @@ pub fn install_utils(system: &str) {
         "fedora" => {
 
             systemcommand_asroot("dnf update -y", "Error updating fedora 35");
-            systemcommand_asroot("dnf install unrar p7zip zip unzip NetworkManager fedora-workstation-backgrounds firefox exfat-utils gvfs-mtp gvfs-goa system-config-printer gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm -y", "Error installing fedora 35 utilities");
+            systemcommand_asroot("dnf install bluez preload @multimedia unrar p7zip zip unzip NetworkManager fedora-workstation-backgrounds firefox exfat-utils gvfs-mtp gvfs-goa system-config-printer gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm -y", "Error installing fedora 35 utilities");
             systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
-            // Add the preload
-            // Add the bluetooth
+            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
+            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
 
         },
 
@@ -292,7 +292,8 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "gnome" => {
 
-                    systemcommand_asroot("pacman -Syu gdm weston gnome-session gnome-terminal nautilus file-roller gnome-control-center gedit adwaita-icon-theme eog evince seahorse --noconfirm", "Error installing gnome minimal on archlinux");
+                    systemcommand_asroot("pacman -Syu gdm weston gnome-session nautilus file-roller gnome-control-center gedit adwaita-icon-theme eog evince seahorse --noconfirm", "Error installing gnome minimal on archlinux");
+                    install_aur("https://aur.archlinux.org/gnome-console.git", "gnome-console/");
                     systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
                     systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
 
@@ -300,7 +301,8 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "cinnamon" => {
 
-                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller --noconfirm", "Error installing cinnamon minimal on archlinux");
+                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller --noconfirm", "Error installing cinnamon minimal on archlinux");
+                    install_aur("https://aur.archlinux.org/gnome-console.git", "gnome-console/");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
 
                 },
@@ -429,7 +431,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxde" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet @multimedia -y", "Error installing minimal lxde on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet -y", "Error installing minimal lxde on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     
 
@@ -437,7 +439,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "lxqt" => {
                     
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora @multimedia -y", "Error installing lxqt minimal on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora -y", "Error installing lxqt minimal on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -445,7 +447,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "xfce" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet @multimedia -y", "Error installing xfce4 minimal on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet -y", "Error installing xfce4 minimal on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -453,7 +455,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "gnome" => {
 
-                    systemcommand_asroot("dnf install gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse @multimedia -y", "Error installing gnome on fedora 35");
+                    systemcommand_asroot("dnf install gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse -y", "Error installing gnome on fedora 35");
                     systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
                     systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
@@ -462,7 +464,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "cinnamon" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller @multimedia -y", "Error installing cinnamon on fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller -y", "Error installing cinnamon on fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -470,7 +472,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "mate" => {
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet @multimedia -y", "Error installing mate in fedora 35");
+                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet -y", "Error installing mate in fedora 35");
                     systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 
@@ -478,7 +480,7 @@ pub fn install_desktop_in_system(system: &str, desktop: &str) {
 
                 "kdeplasma" => {
 
-                    systemcommand_asroot("dnf install sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx @multimedia -y", "Error installing kde plasma on fedora 35");
+                    systemcommand_asroot("dnf install sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx -y", "Error installing kde plasma on fedora 35");
                     systemcommand_asroot("systemctl enable sddm -f", "Error enabling sddm on startup");
                     systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
 

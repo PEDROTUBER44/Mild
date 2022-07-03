@@ -280,7 +280,7 @@ If you don't know how to install **Fedora 35** follow this [tutorial](installfed
 
 After installing Fedora 35 make sure you are connected to the internet after that click `Ctrl` + `Alt` + `F4` to proceed with the installation:
 
-![]()
+![](images/fedora35/fedora36-loginscreen.webp)
 
 After you have entered your username and password, follow the next steps. If you want to compile **Mild** follow the "Make" option and if you just want to install and run Mild follow the "Non-make" option:
 
