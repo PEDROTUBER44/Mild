@@ -193,7 +193,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                     "fedora" => {
                         system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
                         remove_and_install_pkgs("sudo dnf remove -y", "sudo dnf install -y", all_packages_to_remove, all_packages_to_install);
-                        system_command(texts::INSTALL_UTILS_FOR_FEDORA);
+                        system_command(r#"sudo dnf install flatpak @base-x @multimedia unrar p7zip zip unzip NetworkManager exfat-utils lame\* gvfs-mtp gvfs-goa gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
                         system_command(texts::INSTALL_FLATHUB);
                         system_command(texts::ENABLE_NETWORKMANAGER);
                     },
