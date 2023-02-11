@@ -129,16 +129,16 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
         },
 
         "fedora" => {
-            system_command(r#"sudo echo '[main]' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'gpgcheck=1' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'installonly_limit=3' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'clean_requirements_on_remove=True' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'best=False' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'skip_if_unavailable=True' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'fastestmirror=True' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'max_parallel_downloads=7' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'defaultyes=True' >> /etc/dnf/dnf.conf"#);
-            system_command(r#"sudo echo 'install_weak_deps=false' >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "[main]" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "gpgcheck=1" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "installonly_limit=3" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "clean_requirements_on_remove=True" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "best=False" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "skip_if_unavailable=True" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "fastestmirror=True" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "max_parallel_downloads=7" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "defaultyes=True" >> /etc/dnf/dnf.conf"#);
+            system_command(r#"sudo echo "install_weak_deps=false" >> /etc/dnf/dnf.conf"#);
         },
 
         _ => {
