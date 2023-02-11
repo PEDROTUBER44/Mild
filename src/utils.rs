@@ -108,7 +108,7 @@ pub fn remove_folder(folder: &str) {
 }
 
 pub fn install_flatpak_package_from_flathub(package_name: &str, id: &str) {
-    let command_to_install = Command::new("sh").arg("-c").arg(format!("flatpak install flathub {}", id)).status();
+    let command_to_install = Command::new("sh").arg("-c").arg(format!("flatpak install flathub {} -y", id)).status();
 
     match command_to_install {
         Ok(_) => println!("Application: {} From Flathub {} Installed", package_name, "Successfully".green().bold()),
@@ -597,11 +597,11 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 "debian" => {
-                                    system_command("apt install cups system-config-printer simple-scan -y");
+                                    system_command("sudo apt install cups system-config-printer simple-scan -y");
                                     break;
                                 },
                                 "fedora" => {
-                                    system_command("dnf install cups system-config-printer simple-scan -y");
+                                    system_command("sudo dnf install cups system-config-printer simple-scan -y");
                                     break;
                                 },
                                 _ => {
@@ -623,11 +623,10 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                 }
 
                 loop /* Basic Utilities And Compressed File Support */ {
-                    println!("Do You Want To Install Basic Utilities?");
+                    println!("Do You Want To Install Basic Utilities (*Required)?");
                     println!("");
                     println!("{} - {}", "1".red().bold(), "Basic Utilities".yellow().bold());
                     println!("{} - {}", "2".red().bold(), "Basic Utilities/Compressed File Support/EXFAT File System Support".yellow().bold());
-                    println!("{} - {}", "3".red().bold(), "None".yellow().bold());
                     println!("");
                     print!("Which Option Do You Want?: ");
 
@@ -696,8 +695,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 }
                             }
                         },
-
-                        "3" => break,
 
                         _ => {
                             println!("{}","Please Enter A Valid Option!".red().bold());
@@ -1115,5 +1112,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
             
             _ => continue
         }
+
+        break;
     }
 }
