@@ -2,9 +2,7 @@ use std::{
     process::exit,
     env
 };
-
 mod texts;
-
 mod utils;
 
 pub fn clean_systemd() {

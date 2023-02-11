@@ -1,13 +1,9 @@
 pub const ALL_PACKAGES_TO_REMOVE_ARCHLINUX: &str = "";
-
 pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "";
-
 pub const ALL_PACKAGES_TO_REMOVE_FEDORA: &str = "";
 
 pub const PACMAN_CONFIG_FILE: &str = "";
-
 pub const DEBIAN_CONFIG_FILE: &str = "";
-
 pub const DNF_CONFIG_FILE: &str = r#"[main]
 gpgcheck=1
 installonly_limit=3
@@ -32,9 +28,6 @@ pub const ENABLE_LIGHTDM: &str = "sudo systemctl enable lightdm -f";
 pub const ENABLE_SDDM: &str = "sudo systemctl enable sddm -f";
 pub const ENABLE_LXDM: &str = "sudo systemctl enable lxdm -f";
 pub const ENABLE_GRAPHICAL_INITIALIZATION: &str = "sudo systemctl set-default graphical.target";
-
-
-
 
 
 pub const HELP_EN_US: &str = "
@@ -77,4 +70,3 @@ Use mild --[option]-[distribution]-[interface]
     --help => View a usage guide.
 
 ";
-

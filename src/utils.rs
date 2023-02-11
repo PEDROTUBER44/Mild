@@ -36,7 +36,7 @@ pub fn remove_and_install_pkgs(remove_cmd: &str, install_cmd: &str, pkgs_to_remo
 }
 
 pub fn system_command(command: &str) {
-    let exec_command = Command::new("sh").arg("-c").args(command.split_ascii_whitespace()).status();
+    let exec_command = Command::new("sh").arg("-c").arg(&format!("'{}'",command)).status();
     match exec_command {
         Ok(_) => println!("Command Executed {}", "Successfully".green().bold()),
         Err(e) => {
@@ -129,7 +129,16 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
         },
 
         "fedora" => {
-            text(texts::DNF_CONFIG_FILE, "/etc/dnf/dnf.conf");
+            system_command("sudo echo '[main]' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'gpgcheck=1' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'installonly_limit=3' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'clean_requirements_on_remove=True' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'best=False' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'skip_if_unavailable=True' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'fastestmirror=True' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'max_parallel_downloads=7' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'defaultyes=True' >> /etc/dnf/dnf.conf");
+            system_command("sudo echo 'install_weak_deps=false' >> /etc/dnf/dnf.conf");
         },
 
         _ => {
