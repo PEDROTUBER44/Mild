@@ -1,194 +1,461 @@
 use std::{
-    process::{
-        exit // Importing the standard exit library to exit the program
-    },
-    env // Importing the standard env library to capture user arguments
+    process::exit,
+    env
 };
+
 mod texts;
+
 mod utils;
 
+pub fn clean_systemd() {
+    utils::remove_folder("/var/lib/systemd/coredump/"); /* Command To Clear SystemD Logs */
+    utils::system_command("journalctl --vacuum-time=2d"); /* Command to Limit SystemD Logs to Up to 2 Days */
+    utils::system_command("journalctl --vacuum-size=500M"); /* Command to Limit SystemD Logs to Up to 500MB */
+}
+
 fn main() {
-    const ALL_PACKAGES_TO_REMOVE_ARCHLINUX: &str = "lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish";
-    const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver lxqt-core vlc ark ktorrent partitionmanager qpdfview thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal  thunar-archive-plugin xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter gdm3 gnome-session gnome-control-center gnome-software eog totem gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot transmission-gtk cinnamon-core mate-desktop-environment sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite okular plasma-discover konsole kde-spectacle gwenview";
-    const ALL_PACKAGES_TO_REMOVE_FEDORA: &str = "@lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg";
     let args: Vec<String> = env::args().collect();
     let option = &args[1].trim();
 
     match &option[..] {
-
-        "--install-arch-lxde" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver");
-            utils::exec_installation("archlinux","lxde");
+        "--clean-arch" => {
+            utils::system_command("sudo pacman -Rsn $(pacman -Qdtq) --noconfirm"); /* Command To Clean Up Dead Pacman Packages */
+            utils::system_command("sudo pacman -Scc --noconfirm"); /* Command To Clear Pacman Cache */
+            clean_systemd();
+            utils::system_command("flatpak uninstall --unused"); /* Command To Uninstall Orphaned Flatpak Packages */
             exit(0);
         },
 
-        "--install-arch-lxqt" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxqt lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller");
-            utils::exec_installation("archlinux","lxqt");
+        "--clean-debian" => {
+            utils::system_command("sudo apt clean"); /* Command To Clear APT Cache */
+            utils::system_command("sudo apt autoclean"); /* Command To Clean Up Dead APT Packages */
+            utils::system_command("sudo apt install deborphan -y"); /* Command To Install Deborphan */
+            for _i in 0..4 {
+                utils::system_command("sudo apt remove $(deborphan) -y"); /* Command To Clean Up Orphaned Packages With Deborphan */
+            }
+            utils::system_command("sudo apt remove deborphan -y"); /* Command To Uninstall Deborphan From The System */
+            utils::system_command("sudo apt autoremove -y"); /* Command To Clean Up Orphaned APT Packages */
+            clean_systemd();
+            utils::system_command("flatpak uninstall --unused"); /* Command To Uninstall Orphaned Flatpak Packages */
             exit(0);
         },
 
-        "--install-arch-xfce" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller");
-            utils::exec_installation("archlinux","xfce");
+        "--clean-fedora" => {
+            utils::system_command("sudo dnf clean all"); /* Command To Clear DNF Cache */
+            utils::system_command("sudo dnf autoremove -y"); /* Command To Clean Up DNF Orphaned Packages */
+            clean_systemd();
             exit(0);
         },
 
-        "--install-arch-gnome" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "gdm weston gnome-session gnome-terminal nautilus file-roller gnome-control-center gedit adwaita-icon-theme eog evince seahorse");
-            utils::exec_installation("archlinux","gnome");
+        "--install-archlinux-lxde" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - lxappearance: Feature-Rich GTK+ Theme Switcher Of The LXDE Desktop
+            // - lxappearance-obconf: Plugin For LXAppearance To Configure Openbox
+            // - lxde-common: Common Files Of The LXDE Desktop
+            // - lxde-icon-theme: LXDE Default Icon Theme Based On NuoveXT2
+            // - lxhotkey: Keyboard Shortcuts Configurator
+            // - lxinput: Small Program To Configure Keyboard And Mouse For LXDE
+            // - lxlauncher: Open Source Clone Of The Asus Launcher For EeePC
+            // - lxpanel: Lightweight X11 Desktop Panel For LXDE
+            // - lxrandr: Monitor Configuration Tool
+            // - lxsession: Lightweight X11 Session Manager
+            // - pcmanfm: Extremely Fast And Lightweight File Manager
+            // - openbox: Highly Configurable And lightweight X11 Window Manager
+            //
+            // https://archlinux.org/groups/x86_64/lxde/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxappearance lxappearance-obconf lxde-common lxde-icon-theme lxhotkey lxinput lxlauncher lxpanel lxrandr lxsession pcmanfm openbox", "archlinux");
             exit(0);
         },
 
-        "--install-arch-cinnamon" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller");
-            utils::exec_installation("archlinux","cinnamon");
+        "--install-archlinux-lxqt" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - lxqt-admin: LXQt System Administration Tool
+            // - lxqt-config: LXQt System Configuration
+            // - lxqt-globalkeys: LXQt Daemon And Library For Global Keyboard Shortcuts Registration
+            // - lxqt-notificationd: LXQt Notification Daemon And Library
+            // - lxqt-panel: The LXQt Desktop Panel
+            // - lxqt-policykit: The LXQt PolicyKit Authentication Agent
+            // - lxqt-powermanagement: LXQt Power Management Daemon
+            // - lxqt-themes: LXQt Themes, Graphics And Icons
+            // - obconf-qt: Openbox Configuration Tool. Qt Port Of ObConf
+            // - openbox: Highly Configurable And LightWeight X11 Window Manager
+            // - pavucontrol-qt: A Pulseaudio Mixer In Qt (port of pavucontrol)
+            // - pcmanfm-qt: The LXQt File Manager, Qt Port Of PCManFM
+            //
+            // https://archlinux.org/groups/x86_64/lxqt/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxqt-admin lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-themes obconf-qt openbox pavucontrol-qt pcmanfm-qt", "archlinux");
             exit(0);
         },
 
-        "--install-arch-mate" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lightdm lightdm-gtk-greeter mate-desktop adwaita-icon-theme mate-control-center mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja");
-            utils::exec_installation("archlinux","mate");
+        "--install-archlinux-xfce" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - exo: Application Library For The Xfce Desktop Environment
+            // - garcon: Freedesktop.org Compliant Menu Library
+            // - thunar: Modern, Fast And easy-to-use File Manager For Xfce
+            // - thunar-volman: Automatic management Of Removable Drives And Media For Thunar
+            // - tumbler: Thumbnail Service Implementing The Thumbnail Management D-Bus Specification
+            // - xfce4-panel: Panel For The Xfce Desktop Environment
+            // - xfce4-power-manager: Power Manager For Xfce
+            // - xfce4-settings: Xfce's Configuration System
+            // - xfconf: D-Bus-based Configuration Storage System
+            // - xfdesktop: Xfce's Desktop Manager
+            // - xfwm4: Xfce's Window Manager
+            // - xfwm4-themes: A Set Of Additional Themes For The Xfce Window Manager
+            //
+            // https://archlinux.org/groups/x86_64/xfce4/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "exo garcon thunar thunar-volman tumbler xfce4-panel xfce4-power-manager xfce4-settings xfconf xfdesktop xfwm4 xfwm4-themes", "archlinux");
             exit(0);
         },
 
-        "--install-arch-kdeplasma" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard adwaita-icon-theme spectacle dolphin discover");
-            utils::exec_installation("archlinux","kdeplasma");
+        "--install-archlinux-gnome" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - gnome-shell: Next Generation Desktop Shell
+            // - nautilus: Default File Manager For GNOME
+            // - gnome-control-center: GNOME's Main Interface To Configure Various Aspects Of The Desktop
+            // - gnome-text-editor: A Simple Text Editor For The GNOME Desktop
+            //
+            // https://archlinux.org/groups/x86_64/gnome/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "gnome-shell nautilus gnome-control-center gnome-text-editor", "archlinux");
+            utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
 
-        "--install-arch-bspwm" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "");
-            utils::exec_installation("archlinux","bspwm");
+        "--install-archlinux-cinnamon" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - accountsservice: D-Bus Interface For User Account Query And Manipulation
+            // - cinnamon-control-center: The Control Center For Cinnamon
+            // - cinnamon-menus: Cinnamon Menu Specifications
+            // - cinnamon-settings-daemon: The Cinnamon Settings Daemon
+            // - gnome-themes-extra: Extra Themes For GNOME Applications
+            // - gsound: Small Library For Playing System Sounds
+            // - muffin: Cinnamon Window Manager Based On Mutter
+            // - nemo: Cinnamon File Manager
+            // - network-manager-applet: Applet For Managing Network Connections
+            // - polkit-gnome: Legacy Polkit Authentication Agent For GNOME
+            //
+            // https://archlinux.org/packages/community/x86_64/cinnamon/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "accountsservice cinnamon-control-center cinnamon-menus cinnamon-settings-daemon gnome-themes-extra gsound muffin nemo network-manager-applet polkit-gnome", "archlinux");
             exit(0);
         },
 
-        "--install-arch-cutefish" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "");
-            utils::exec_installation("archlinux","cutefish");
+        "--install-archlinux-mate" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - caja: File Manager For The MATE Desktop
+            // - marco: A Window Manager For MATE
+            // - mate-control-center: The Control Center For MATE
+            // - mate-desktop: Library With Common API For Various MATE Modules
+            // - mate-icon-theme: MATE Icon Theme
+            // - mate-menus: MATE Menu Specifications
+            // - mate-notification-daemon: Notification Daemon For MATE
+            // - mate-panel: The MATE Panel
+            // - mate-polkit: PolicyKit Integration For The MATE Desktop
+            // - mate-settings-daemon: The MATE Settings Daemon
+            // - mate-themes: Default Themes For The MATE Desktop
+            //
+            // https://archlinux.org/groups/x86_64/mate/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "caja marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-settings-daemon mate-themes", "archlinux");
             exit(0);
         },
 
-        "--clean-arch" => utils::clean_system("archlinux"),
-
+        "--install-archlinux-kdeplasma" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - breeze: Artwork, Styles And Assets For The Breeze Visual Style For The Plasma Desktop
+            // - breeze-gtk: Breeze Widget Theme For GTK 2 And 3
+            // - kde-gtk-config: GTK2 And GTK3 Configurator For KDE
+            // - kdecoration: Plugin Based Library To Create Window Decorations
+            // - kdeplasma-addons: All Kind Of Addons To Improve Your Plasma Experience
+            // - khotkeys: KHotKeys	
+            // - kmenuedit: KDE Menu Editor
+            // - kpipewire: Components Relating To Pipewire Use In Plasma
+            // - kwallet-pam: KWallet PAM Integration
+            // - kwayland-integration: Provides Integration Plugins For Various KDE Frameworks For The Wayland Windowing System
+            // - kwin: An Easy To Use, But Flexible And Composited Window Manager
+            // - layer-shell-qt: Qt Component To Allow Applications To Make Use Of The Wayland wl-layer-shell Protocol
+            // - libkscreen: KDE Screen Management Software	
+            // - libksysguard: Library To Retrieve Information On The Current Status Of Computer Hardware	
+            // - milou: A Dedicated Search Application Built On Top Of Baloo	
+            // - plasma-browser-integration: Components Necessary To Integrate Browsers Into The Plasma Desktop
+            // - plasma-desktop: KDE Plasma Desktop
+            // - plasma-integration: Qt Platform Theme Integration Plugins For The Plasma Workspaces
+            // - plasma-nm: Plasma applet Written In QML For Managing Network Connections
+            // - plasma-workspace: KDE Plasma Workspace
+            // - polkit-kde-agent: Daemon Providing A Polkit Authentication UI For KDE
+            // - powerdevil: Manages The Power Consumption Settings Of A Plasma Shell
+            // - sddm-kcm: 	KDE Config Module For SDDM
+            // - systemsettings: KDE System Manager For Hardware, Software And Workspaces
+            // - xdg-desktop-portal-kde: A Backend Implementation For xdg-desktop-portal Using Qt/KF5
+            // - plasma-wayland-session: Plasma Wayland Session
+            // - kcm-fcitx: KDE Config Module For Fcitx
+            // - kscreen: KDE Screen Management Software
+            // - dolphin: KDE File Manager
+            //
+            // https://archlinux.org/groups/x86_64/plasma/
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "breeze breeze-gtk kde-gtk-config kdecoration kdeplasma-addons khotkeys kmenuedit kpipewire kwallet-pam kwayland-integration kwin layer-shell-qt libkscreen libksysguard milou plasma-browser-integration plasma-desktop plasma-integration plasma-nm plasma-workspace polkit-kde-agent powerdevil sddm-kcm systemsettings xdg-desktop-portal-kde plasma-wayland-session kcm-fcitx kscreen dolphin", "archlinux");
+            exit(0);
+        },
 
         "--install-debian-lxde" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver");
-            utils::exec_installation("debian","lxde");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - lxappearance: LXDE GTK+ Theme Switcher
+            // - lxappearance-obconf: LXDE GTK+ Theme Switcher (Plugin)
+            // - gtk2-engines: Theme Engines For GTK+ 2.x
+            // - lxde-settings-daemon: XSettings Compliant Configuration Manager For LXDE
+            // - lxpanel: LXDE Panel
+            // - pcmanfm: Extremely Fast And Lightweight File Manager
+            // - lxde-icon-theme: LXDE Standard Icon Theme
+            // - lxhotkey-gtk: LXHotkey Keyboard Shortcuts Configurator (GTK+ GUI Plugin)
+            // - lxinput: LXDE Keyboard And Mouse Configuration
+            // - lxrandr: LXDE Monitor Configuration Tool
+            // - lxsession-edit: Configure What Application Start Up Automatically In LXDE
+            // - lxpolkit: LXDE PolicyKit Authentication Agent
+            // - lx-session: LXDE Session Manager And Configuration Files
+            // - lxsession-default-apps: Utility To Configure LXSession And Its Default Applications
+            // - xscreensaver: Screensaver Daemon And Frontend For X11
+            // - policykit-1: Framework For Managing Administrative Policies And Privileges
+            // 
+            // https://packages.debian.org/bullseye/lxde
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "lxappearance lxappearance-obconf gtk2-engines lxde-settings-daemon lxpanel pcmanfm lxde-icon-theme lxhotkey-gtk lxinput lxrandr lxsession-edit lxpolkit lx-session lxsession-default-apps xscreensaver policykit-1 --no-install-recommends", "debian");
             exit(0);
         },
 
         "--install-debian-lxqt" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "lightdm lightdm-gtk-greeter lxqt-core vlc ark ktorrent connman partitionmanager qpdfview pavucontrol");
-            utils::exec_installation("debian","lxqt");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - lxqt-config: LXQt System Settings Center
+            // - lxqt-globalkeys: Daemon Used To Register Global Keyboard Shortcuts (Appl.)
+            // - lxqt-notificationd: LXQt Notification Daemon
+            // - lxqt-panel: LXQt Desktop Panel
+            // - lxqt-policykit: LXQt Authentication Agent For PolicyKit
+            // - lxqt-qtplugin: LXQt System Integration Plugin For Qt
+            // - lxqt-session: Session Manager Component For LXQt
+            // - lxqt-system-theme: System Theme For LXQt
+            // - pcmanfm-qt: extremely Fast And Lightweight File And Desktop Icon Manager
+            // - lxqt-powermanagement: Power Management Module For LXQt
+            // 
+            // https://packages.debian.org/bullseye/lxde
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-qtplugin lxqt-session lxqt-system-theme pcmanfm-qt lxqt-powermanagement", "debian");
             exit(0);
         },
 
         "--install-debian-xfce" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol mousepad thunar-archive-plugin evince xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter");
-            utils::exec_installation("debian","xfce");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - xfce4-notifyd: Simple, Visually-Appealing Notification Daemon For Xfce
+            // - xfwm4: Window Manager Of The Xfce Project
+            // - xfce4-whiskermenu-plugin: Alternate Menu Plugin For The Xfce Desktop Environment
+            // - xdg-user-dirs: Tool To Manage Well Known User Directories
+            // - xfdesktop4: Xfce Desktop Background, Icons And Root Menu Manager
+            // - xfconf: Utilities For Managing Settings In Xfce
+            // - xfce4-settings: Graphical Application For Managing Xfce Settings
+            // - xfce4-session: Xfce4 Session Manager
+            // - xfce4-pulseaudio-plugin: Xfce4 Panel Plugin To Control Pulseaudio
+            // - xfce4-panel: Panel For Xfce4 Desktop Environment
+            // - libxfce4ui-utils: Utility Files For LibXfce4UI
+            // - thunar: File Manager For Xfce
+            // - thunar-archive-plugin: Archive Plugin For Thunar File Manager
+            // - thunar-media-tags-plugin: Media Tags Plugin For Thunar File Manager
+            // 
+            // https://packages.debian.org/bullseye/xfce4
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "xfce4-notifyd xfwm4 xfce4-whiskermenu-plugin xdg-user-dirs xfdesktop4 xfconf xfce4-settings xfce4-session xfce4-pulseaudio-plugin xfce4-panel libxfce4ui-utils thunar thunar-archive-plugin thunar-media-tags-plugin --no-install-recommends", "debian");
             exit(0);
         },
 
         "--install-debian-gnome" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "gdm3 gnome-session gnome-control-center gnome-software eog totem evince gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility");
-            utils::exec_installation("debian","gnome");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - adwaita-icon-theme: Default Icon Theme Of GNOME
+            // - at-spi2-core: Assistive Technology Service Provider Interface (Dbus Core)
+            // - caribou: Configurable On Screen Keyboard With Scanning Mode
+            // - dconf-cli: Simple Configuration Storage System - Utilities
+            // - dconf-gsettings-backend: Simple Configuration Storage System - GSettings back-end
+            // - evolution-data-server: Evolution Database Backend Server
+            // - fonts-cantarell: Sans Serif Font Family Designed For On-Screen Readability
+            // - gkbd-capplet: GNOME Control Center Tools For LibGnomeKBD
+            // - gnome-control-center: Utilities To Configure The GNOME Desktop
+            // - gnome-session: GNOME Session Manager - GNOME 3 Session
+            // - gnome-settings-daemon: Daemon Handling The GNOME Session Settings
+            // - gnome-sushi: Sushi Is A Quick Previewer For Nautilus
+            // - gnome-shell: Graphical Shell For The GNOME Desktop
+            // - network-manager-gnome: Network Management Framework (GNOME Frontend)
+            // - nautilus: File Manager And Graphical Shell For GNOME
+            // 
+            // https://packages.debian.org/bullseye/gnome-core
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "adwaita-icon-theme at-spi2-core caribou dconf-cli dconf-gsettings-backend evolution-data-server fonts-cantarell gkbd-capplet gnome-control-center gnome-session gnome-settings-daemon gnome-sushi gnome-shell network-manager-gnome nautilus --no-install-recommends", "debian");
+            utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
 
         "--install-debian-cinnamon" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "lightdm lightdm-gtk-greeter cinnamon-core gnome-terminal eog totem evince gedit gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility");
-            utils::exec_installation("debian","cinnamon");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - cinnamon-core: Cinnamon Desktop Environment - Essential Components
+            // 
+            // https://packages.debian.org/bullseye/cinnamon-core
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "cinnamon-core", "debian");
             exit(0);
         },
 
         "--install-debian-mate" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "lightdm lightdm-gtk-greeter mate-desktop-environment gnome-disk-utility transmission-gtk file-roller totem");
-            utils::exec_installation("debian","mate");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - caja: File Manager For The MATE Desktop
+            // - dconf-gsettings-backend: Simple Configuration Storage System - GSettings Back-End
+            // - fonts-cantarell: Sans Serif Font Family Designed For On-Screen Readability
+            // - gvfs-backends: Userspace Virtual Filesystem - Backends
+            // - marco: Lightweight GTK+ Window Manager For MATE
+            // - mate-control-center: Utilities To Configure The MATE Desktop
+            // - mate-desktop: Library With Common API For Various MATE Modules
+            // - mate-icon-theme: MATE Desktop Icon Theme
+            // - mate-menus: Implementation Of The FreeDesktop Menu Specification For MATE
+            // - mate-notification-daemon: Daemon To Display Passive PopUp Notifications
+            // - mate-panel: Launcher And Docking Facility For MATE
+            // - mate-polkit: MATE Authentication Agent For PolicyKit-1
+            // - mate-session-manager: Session manager of the MATE desktop environment
+            // - mate-settings-daemon: Daemon Handling The MATE Session Settings
+            // - mate-themes: Official Themes For The MATE Desktop
+            // 
+            // https://packages.debian.org/bullseye/mate-desktop-environment-core
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "caja dconf-gsettings-backend fonts-cantarell gvfs-backends marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-session-manager mate-settings-daemon mate-themes", "debian");
             exit(0);
         },
 
         "--install-debian-kdeplasma" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite ark okular plasma-discover konsole ktorrent kde-spectacle gwenview");
-            utils::exec_installation("debian","kdeplasma");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - plasma-desktop: Tools And Widgets For The Desktop
+            // - dolphin: File Manager
+            // - kdialog: Dialog Display Utility
+            // - keditbookmarks: bookmarks editor utility for KDE
+            // - kfind: File Search Utility By KDE
+            // - plasma-workspace: Plasma Workspace For KF5
+            // - udisks2: D-Bus Service To Access And Manipulate Storage Devices
+            // - upower: Abstraction For Power Management
+            // - plasma-nm: Plasma Network Connections Management
+            // - plasma-workspace-wayland: Plasma Workspace For KF5 - Wayland Integration
+            // 
+            // https://packages.debian.org/bullseye/plasma-desktop
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_DEBIAN, "plasma-desktop dolphin kdialog keditbookmarks kfind plasma-workspace udisks2 upower plasma-nm plasma-workspace-wayland", "debian");
             exit(0);
         },
-
-        "--install-debian-bspwm" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "");
-            utils::exec_installation("debian","bspwm");
-            exit(0);
-        },
-
-        "--install-debian-cutefish" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_DEBIAN, "");
-            utils::exec_installation("debian","cutefish");
-            exit(0);
-        },
-
-        "--clean-debian" => utils::clean_system("debian"),
-
 
         "--install-fedora-lxde" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet");
-            utils::exec_installation("fedora","lxde");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - lxappearance: Feature-rich GTK+ Theme Switcher For LXDE
+            // - lxde-common: Default Configuration Files For LXDE
+            // - lxinput: Keyboard And Mouse Settings Dialog For LXDE
+            // - lxmenu-data: Data Files For The LXDE Menu
+            // - lxpanel: A Lightweight X11 Desktop Panel
+            // - lxpolkit: Simple PolicyKit Authentication Agent
+            // - lxrandr: Simple Monitor Configuration Tool
+            // - xcompmgr: X11 Composite Manager
+            // - pcmanfm: Extremly Fast And Lightweight File Manager
+            // - network-manager-applet: A Network Control And Status Applet For NetworkManager
+            // - openbox: A Highly Configurable And Standards-Compliant X11 Window Manager
+            // - obconf: A Graphical Configuration Editor For The Openbox Window Manager
+            // 
+            // sudo dnf info {package}
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "lxappearance lxde-common lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr pcmanfm network-manager-applet openbox obconf", "fedora");
             exit(0);
         },
 
         "--install-fedora-lxqt" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora");
-            utils::exec_installation("fedora","lxqt");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - breeze-gtk: Breeze Widget Theme For GTK
+            // - breeze-icon-theme: Breeze Icon Theme
+            // - network-manager-applet: A Network Control And Status Applet For NetworkManager
+            // - notification-daemon: Desktop Notification Daemon
+            // - obconf: A Graphical Configuration Editor For The Openbox Window Manager
+            // - openbox: A Highly Configurable And Standards-Compliant X11 Window Manager
+            // - pcmanfm-qt: LxQt File Manager PCManFM
+            // - lxqt-config: Config Tools For LXQt Desktop Suite
+            // - lxqt-notificationd: Notification Daemon For LXQt Desktop Suite
+            // - lxqt-panel: Main Panel Bar For LXQt Desktop Suite
+            // - lxqt-policykit: PolicyKit Agent For LXQt Desktop Suite
+            // - lxqt-powermanagement: Powermanagement Daemon For LXQt Desktop Suite
+            // - lxqt-qtplugin: Qt Plugin Framework For LXQt Desktop Suite
+            // - lxqt-themes: LXQt Standard Themes
+            // - lxqt-session: Main Session For LXQt Desktop Suite
+            // - breeze-cursor-theme: Breeze Cursor Theme
+            // 
+            // sudo dnf info {package}
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "breeze-gtk breeze-icon-theme network-manager-applet notification-daemon obconf openbox pcmanfm-qt lxqt-config lxqt-notificationd lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-themes lxqt-session breeze-cursor-theme", "fedora");
             exit(0);
         },
 
         "--install-fedora-xfce" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet");
-            utils::exec_installation("fedora","xfce");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - 
+            // - 
+            // - 
+            // 
+            // sudo dnf info @gnome-desktop
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "network-manager-applet xfwm4 xfce4-power-manager xfce4-settings xfce4-whiskermenu-plugin xfdesktop", "fedora");
             exit(0);
         },
 
         "--install-fedora-gnome" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse");
-            utils::exec_installation("fedora","gnome");
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - gnome-shell: GNOME Shell provides core user interface functions for the GNOME 3 desktop, like switching to windows and launching applications. 
+            // - gnome-control-center: This package contains configuration utilities for the GNOME desktop, which allow to configure accessibility options, desktop fonts, keyboard and mouse properties, sound setup, desktop theme and background, user interface properties, screen resolution, and other settings.
+            // - nautilus: Nautilus is the file manager and graphical shell for the GNOME desktop that makes it easy to manage your files and the rest of your system.
+            // 
+            // sudo dnf info @gnome-desktop
+            //
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "gnome-shell gnome-control-center nautilus", "fedora");
+            utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
 
         "--install-fedora-cinnamon" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller");
-            utils::exec_installation("fedora","cinnamon");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus nemo nemo-fileroller cinnamon-translations cjs muffin", "fedora");
             exit(0);
         },
 
         "--install-fedora-mate" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet");
-            utils::exec_installation("fedora","mate");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "mate-control-center mate-desktop mate-power-manager mate-screensaver mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja", "fedora");
             exit(0);
         },
 
         "--install-fedora-kdeplasma" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx");
-            utils::exec_installation("fedora","kdeplasma");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm  kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin", "fedora");
             exit(0);
         },
 
-        "--install-fedora-bspwm" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "");
-            utils::exec_installation("fedora","bspwm");
-            exit(0);
+        "--help" => {
+            println!("{}",texts::HELP_EN_US); // Shows User List Of Mild Commands
         },
 
-        "--install-fedora-cutefish" => {
-            utils::show_the_changes_that_will_be_made_to_user(ALL_PACKAGES_TO_REMOVE_FEDORA, "");
-            utils::exec_installation("fedora","cutefish");
-            exit(0);
-        },
-
-        "--clean-fedora" => utils::clean_system("fedora"),
-
-
-        "--help" => {println!("{}",texts::HELP_EN_US);},
-
-        _ => {println!("{}",texts::HELP_EN_US);}
+        _ => {
+            println!("{}", texts::HELP_EN_US); // Shows User List Of Mild Commands
+        }
     }
 }

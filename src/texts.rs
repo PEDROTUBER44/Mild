@@ -1,3 +1,42 @@
+pub const ALL_PACKAGES_TO_REMOVE_ARCHLINUX: &str = "";
+
+pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "";
+
+pub const ALL_PACKAGES_TO_REMOVE_FEDORA: &str = "";
+
+pub const PACMAN_CONFIG_FILE: &str = "";
+
+pub const DEBIAN_CONFIG_FILE: &str = "";
+
+pub const DNF_CONFIG_FILE: &str = r#"[main]
+gpgcheck=1
+installonly_limit=3
+clean_requirements_on_remove=True
+best=False
+skip_if_unavailable=True
+fastestmirror=True
+max_parallel_downloads=7
+defaultyes=True
+install_weak_deps=false"#;
+
+pub const DISABLE_DISPLAY_MANAGERS_CMD: &str = "sudo systemctl disable gdm -f && sudo systemctl disable lightdm -f && sudo systemctl disable sddm -f && sudo systemctl disable lxdm -f";
+pub const INSTALL_UTILS_FOR_ARCHLINUX: &str = "sudo pacman -S flatpak xorg xorg-server networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm";
+pub const INSTALL_UTILS_FOR_DEBIAN: &str = "sudo apt install flatpak sudo zip unzip unrar-free network-manager xorg gvfs pulseaudio exfat-utils p7zip-full adwaita-icon-theme gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad gstreamer1.0-plugins-base ffmpeg sox twolame vorbis-tools lame faad -y";
+pub const INSTALL_UTILS_FOR_FEDORA: &str = r#"sudo dnf install flatpak @base-x @multimedia unrar p7zip zip unzip NetworkManager exfat-utils lame\* gvfs-mtp gvfs-goa gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#;
+pub const INSTALL_FLATHUB: &str = "flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo";
+pub const ENABLE_NETWORKMANAGER: &str = "sudo systemctl enable NetworkManager -f";
+pub const ENABLE_PRELOAD: &str = "sudo systemctl enable preload -f";
+pub const ENABLE_BLUETOOTH: &str = "sudo systemctl enable bluetooth -f";
+pub const ENABLE_GDM: &str = "sudo systemctl enable gdm -f";
+pub const ENABLE_LIGHTDM: &str = "sudo systemctl enable lightdm -f";
+pub const ENABLE_SDDM: &str = "sudo systemctl enable sddm -f";
+pub const ENABLE_LXDM: &str = "sudo systemctl enable lxdm -f";
+pub const ENABLE_GRAPHICAL_INITIALIZATION: &str = "sudo systemctl set-default graphical.target";
+
+
+
+
+
 pub const HELP_EN_US: &str = "
 
 Use mild --[option]-[distribution]-[interface]
@@ -38,3 +77,4 @@ Use mild --[option]-[distribution]-[interface]
     --help => View a usage guide.
 
 ";
+

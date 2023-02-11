@@ -1,574 +1,1100 @@
 use std::{
     process::{
-        Command, // Importing the standard command library for running operating system commands
-        exit // Importing the standard exit library to exit the program
+        Command,
+        exit
     },
+
     io::{
-        Write // Importing the default write library to write to files and more
+        Write,
+        self,
+        stdout,
+        stdin
     },
-    io, // Importing the standard io (Input & Output) library to capture user input
-    fs // Import standard manipulator of files and folders
+
+    path::Path,
+    fs
 };
-use colored::Colorize; // Library to customize the terminal font
 
-pub fn show_the_changes_that_will_be_made_to_user(all_packages_to_remove: &str, all_packages_to_install: &str) {
+use colored::Colorize;
+use crate::texts;
 
-    loop {
 
-        println!("These packages will be removed from your system which will then be updated:");
-        println!("");
-        println!("{}",all_packages_to_remove.red().bold());
-        println!("");
-        println!("");
-        println!("These packages will be installed:");
-        println!("");
-        println!("{}",all_packages_to_install.green().bold());
-        println!("");
-        println!("");
-        print!("Do you want to continue? ({}/{}): ","Y".green().bold(), "n".red().bold());
-
-        io::stdout().flush().unwrap();
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).expect("Error to read user input");
-        let input = input.trim().to_lowercase();
-
-        match &input[..] {
-            "y" | "yes" | ""  => break,
-            "n" | "no" => {println!("Aborted installation");exit(0);},
-            _ => continue
-        }
-
+pub fn remove_and_install_pkgs(remove_cmd: &str, install_cmd: &str, pkgs_to_remove: &str, pkgs_to_install: &str) {
+    let remove_result = Command::new("sh").arg("-c").arg(format!("{} {}", remove_cmd, pkgs_to_remove)).status();
+    
+    match remove_result {
+        Ok(_) => println!("Packages Removed {}", "Successfully".green().bold()),
+        Err(_) => println!("{} To Remove Packages, {}: {:?}", "Error".red().bold(), "Error".red().bold(), remove_result.err())
     }
 
-}
-
-pub fn systemcommand_asuser(command: &str, args: &str, err: &str) {
-
-    Command::new(command).args(args.split_ascii_whitespace()).status().expect(err);
-
-}
-
-pub fn systemcommand_asroot(command: &str, err: &str) {
-
-    Command::new("sudo").args(command.split_ascii_whitespace()).status().expect(err);
+    let install_result = Command::new("sh").arg("-c").arg(format!("{} {}", install_cmd, pkgs_to_install)).status();
     
+    match install_result {
+        Ok(_) => println!("Packages Installed {}", "Successfully".green().bold()),
+        Err(_) => println!("{} To Installing Packages, {}: {:?}", "Error".red().bold(), "Error".red().bold(), install_result.err())
+    }
+}
+
+pub fn system_command(command: &str) {
+    let exec_command = Command::new("sh").arg("-c").args(command.split_ascii_whitespace()).status();
+    match exec_command {
+        Ok(_) => println!("Command Executed {}", "Successfully".green().bold()),
+        Err(e) => {
+            println!("{}: {} To Execute Command", e, "Error".red().bold());
+            exit(1);
+        }
+    }
+}
+
+pub fn text(text: &str, path: &str) {
+    let cpath = Path::new(&path);
+    let display = cpath.display();
+
+    match fs::remove_file(&cpath) {
+        Ok(()) => println!("File: {}, Removed {}", display, "Successfully".green().bold()),
+        Err(e) => {
+            if e.kind() != io::ErrorKind::NotFound {
+                println!("Could Not Remove File: {} {}: {}", display, "Error".red().bold(), e);
+                exit(1);
+            }
+        }
+    }
+
+    let mut file = match fs::File::create(&cpath) {
+        Ok(file) => file,
+        Err(e) => {
+            println!("Could Not Create File: {} {}: {}", display, "Error".red().bold(), e);
+            exit(0);
+        }
+    };
+
+    match file.write_all(text.as_bytes()) {
+        Ok(()) => println!("File: {}, Written {}", display, "Successfully".green().bold()),
+        Err(e) => {
+            println!("Could Not Write File: {} {}: {}", display, "Error".red().bold(), e);
+            exit(0);
+        }
+    };
 }
 
 pub fn remove_folder(folder: &str) {
-
     let remove_dir = fs::remove_dir(&folder);
 
     match remove_dir {
-
-        Err(e) => {println!("Could not remove folder: {}  Error: {}",folder,e);},
-        Ok(_) => {println!("Folder successfully removed");}
-
+        Ok(_) => println!("Folder: {}, {} Removed", folder, "Successfully".green().bold()),
+        Err(e) => {
+            println!("Could Not Remove Folder: {} {}: {}", folder, "Error".red().bold(), e);
+            exit(1);
+        }
     };
+}
 
+pub fn install_flatpak_package_from_flathub(package_name: &str, id: &str) {
+    let command_to_install = Command::new("sh").arg("-c").arg(format!("'flatpak install flathub {}'", id)).status();
+
+    match command_to_install {
+        Ok(_) => println!("Application: {} From Flathub {} Installed", package_name, "Successfully".green().bold()),
+        Err(e) => {
+            println!("{}: {} To Installing {} From Flathub", "Error".red().bold(), e, package_name);
+            exit(1);
+        }
+    }
 }
 
 pub fn install_aur(url: &str, folder: &str) {
-
-    Command::new("git").args(Some("clone")).args(Some(url)).status().expect("Error git repository not found");
-    systemcommand_asuser("cd", folder, "Error folder not found");
-    systemcommand_asuser("makepkg", "-sicr", "Error to compile aur");
-    systemcommand_asuser("cd", "..", "Error exiting directory");
+    system_command(&format!("git clone {}", url));
+    system_command(&format!("cd {}", folder));
+    system_command("makepkg -sicr");
+    system_command("cd ..");
     remove_folder(folder);
-
 }
 
-pub fn remove_extra_packages(system: &str) {
 
-    match system {
 
+pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_to_install: &str, system: &str) {
+    match &system[..] /* Configure System */ {
         "archlinux" => {
-
-            systemcommand_asroot("pacman -Rsn lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver lxqt xfce4-settings xfce4-pulseaudio-plugin exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller gdm weston gnome-session gnome-terminal nautilus-terminal nautilus gnome-control-center gedit eog evince cinnamon cinnamon-session cinnamon-desktop gnome-terminal cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations cjs muffin nemo nemo-fileroller mate-control-center mate-desktop mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard spectacle dolphin discover cutefish --noconfirm", "Error removing all graphical environments");
-            systemcommand_asroot("systemctl disable gdm -f", "Error disabling gdm on startup");
-            systemcommand_asroot("systemctl disable lightdm -f", "Error disabling lightdm on startup");
-            systemcommand_asroot("systemctl disable sddm -f", "Error disabling sddm on startup");
-            
+            text(texts::PACMAN_CONFIG_FILE, "/etc/pacman.conf");
+            system_command("mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
+            system_command("mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
+            system_command("mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
+            system_command("mv /usr/share/applications/nm-connection-editor.desktop /usr/share/applications/nm-connection-editor.backup");
+            system_command("mv /usr/share/applications/qv4l2.desktop /usr/share/applications/qv4l2.backup");
+            system_command("mv /usr/share/applications/qvidcap.desktop /usr/share/applications/qvidcap.backup");
         },
 
         "debian" => {
-
-            systemcommand_asroot("apt remove lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver lxqt-core vlc ark ktorrent partitionmanager qpdfview thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal  thunar-archive-plugin xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter gdm3 gnome-session gnome-control-center gnome-software eog totem gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot transmission-gtk cinnamon-core mate-desktop-environment sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite okular plasma-discover konsole kde-spectacle gwenview -y","Error removing all graphical environments");
-            systemcommand_asroot("systemctl disable gdm -f", "Error disabling gdm on startup");
-            systemcommand_asroot("systemctl disable lightdm -f", "Error disabling lightdm on startup");
-            systemcommand_asroot("systemctl disable sddm -f", "Error disabling sddm on startup");
-        
+            text(texts::DEBIAN_CONFIG_FILE, "/etc/apt/sources.list");
+            system_command("mv /usr/share/applications/vim.desktop /usr/share/applications/vim.backup");
         },
 
         "fedora" => {
-
-            systemcommand_asroot("dnf remove @lxde-desktop @plasma-desktop @gnome-desktop @cinnamon-desktop @lxqt-desktop @mate-desktop @xfce-desktop lxappearance lxde-common lxdm lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr xarchiver lxsession lxtask pcmanfm lxterminal network-manager-applet openbox obconf lightdm-gtk-greeter lightdm sddm plasma-desktop plasma-nm konsole kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin plasma-discover gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus cinnamon-screensaver cinnamon-session nemo nemo-fileroller cinnamon-translations cjs muffin gnome-terminal breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora network-manager-applet xfwm4 xfce4-power-manager xfce4-session xfce4-settings xfce4-whiskermenu-plugin xfdesktop xfce4-terminal mate-control-center mate-desktop mate-power-manager mate-screensaver mate-screenshot mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg -y", "Error removing graphical environments and their dependencies");
-            systemcommand_asroot("systemctl disable gdm -f", "Error disabling gdm on startup");
-            systemcommand_asroot("systemctl disable lightdm -f", "Error disabling lightdm on startup");
-            systemcommand_asroot("systemctl disable sddm -f", "Error disabling sddm on startup");
-
+            text(texts::DNF_CONFIG_FILE, "/etc/dnf/dnf.conf");
         },
 
         _ => {
-
-            println!("Internal error, system not found");
-
+            println!("{}", "Internal Error: System Not Found".red().bold());
+            exit(1);
         }
-
     }
 
-}
-
-pub fn install_utils(system: &str) {
-
-    match system {
-
-        "archlinux" => {
-
-            systemcommand_asroot("pacman -Syu networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils bluez p7zip firefox zip unzip unrar system-config-printer adwaita-icon-theme xf86-video-intel libgl mesa nvidia nvidia-libgl xf86-video-amdgpu ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer git --noconfirm", "Error installing archlinux utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
-            install_aur("https://aur.archlinux.org/preload.git", "preload/");
-            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
-            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
-            
-        },
-
-        "debian" => {
-
-            systemcommand_asroot("apt install sudo zip unzip unrar-free network-manager preload firefox-esr gvfs pulseaudio gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder exfat-utils p7zip-full system-config-printer adwaita-icon-theme bluez -y", "Error installing debian 11 utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
-            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
-            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
-
-        },
-
-        "fedora" => {
-
-            systemcommand_asroot("dnf update -y", "Error updating fedora 35");
-            systemcommand_asroot("dnf install bluez preload @multimedia unrar p7zip zip unzip NetworkManager fedora-workstation-backgrounds firefox exfat-utils gvfs-mtp gvfs-goa system-config-printer gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-35.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-35.noarch.rpm -y", "Error installing fedora 35 utilities");
-            systemcommand_asroot("systemctl enable NetworkManager -f", "Error enabling NetworkManager autostart at system boot");
-            systemcommand_asroot("systemctl enable bluez -f", "Error enabling bluetooth deamon autostart at system boot");
-            systemcommand_asroot("systemctl enable preload -f", "Error enabling preload deamon autostart at system boot");
-
-        },
-
-        _ => {
-
-            println!("Internal error, system not found");
-
-        }
-
-    }
-
-}
-
-pub fn remove_extra_files(system: &str) {
-
-    match system {
-
-        "archlinux" => {
-
-            systemcommand_asroot("mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup", "Error to rename file: avahi-discover.desktop");
-            systemcommand_asroot("mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup", "Error to rename file: bssh.desktop");
-            systemcommand_asroot("mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup", "Error to rename file: bvnc.desktop");
-            systemcommand_asroot("mv /usr/share/applications/nm-connection-editor.desktop /usr/share/applications/nm-connection-editor.backup", "Error to rename file: nm-connection-editor.desktop");
-            systemcommand_asroot("mv /usr/share/applications/qv4l2.desktop /usr/share/applications/qv4l2.backup", "Error to rename file: qv4l2.desktop");
-            systemcommand_asroot("mv /usr/share/applications/qvidcap.desktop /usr/share/applications/qvidcap.backup", "Error to rename file: qvidcap.desktop");
-
-        },
-
-        "debian" => {
-
-            systemcommand_asroot("mv /usr/share/applications/vim.desktop /usr/share/applications/vim.backup", "Error to rename file: vim.desktop");
-
-        },
-
-        "fedora" => {
-
-            println!("No extra files to remove");
-
-        },
-
-        _ => {
-
-            println!("Internal error, system not found");
-
-        }
-
-    }
-
-}
-
-pub fn clean_system(system: &str) {
-
-    match system {
-
-        "archlinux" => {
-
-            //systemcommand_asroot("pacman -Rsn $(pacman -Qdtq) --noconfirm", "Error to removing entire list of orphaned packages");
-            systemcommand_asroot("pacman -Scc --noconfirm", "Error to clearing pacman cache");
-            systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            remove_folder("/var/lib/systemd/coredump/");
-            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
-            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
-            systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
-            systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
-            exit(0);
-
-        },
-
-        "debian" => {
-
-            systemcommand_asroot("apt clean", "Error to clearing apt cache");
-            systemcommand_asroot("apt autoclean", "Error to cleaning dead packages");
-            systemcommand_asroot("apt install deborphan -y", "Error to installing deborphan");
-            systemcommand_asroot("apt remove $(deborphan) -y", "Error cleaning orphaned packages for the first time");
-            systemcommand_asroot("apt remove $(deborphan) -y", "Error cleaning orphaned packages for the second time");
-            systemcommand_asroot("apt remove $(deborphan) -y", "Error cleaning orphaned packages for the third time");
-            systemcommand_asroot("apt remove $(deborphan) -y", "Error cleaning orphaned packages for the fourth time");
-            systemcommand_asroot("apt remove deborphan -y", "Error to remove deborphan from system");
-            systemcommand_asroot("apt autoremove -y", "Error to removing deborphan dependencies");
-            systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            remove_folder("/var/lib/systemd/coredump/");
-            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
-            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
-            systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
-            systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
-            exit(0);
-
-        },
-
-        "fedora" => {
-
-            systemcommand_asroot("dnf clean all", "Error to clean dnf cache");
-            systemcommand_asroot("dnf autoremove -y", "Error removing orphaned dnf packages");
-            systemcommand_asroot("flatpak uninstall --unused", "Error to cleaning unused flatpaks");
-            remove_folder("/var/lib/systemd/coredump/");
-            systemcommand_asroot("rm -rf $HOME/.var/app/*/cache/*", "Error removing flatpaks cache folder, folder not found");
-            systemcommand_asroot("rm -rf $HOME/.cache/*", "Error removing cache folder, folder not found");
-            systemcommand_asroot("journalctl --vacuum-time=2d", "Error to limiting systemd logs to 2 days");
-            systemcommand_asroot("journalctl --vacuum-size=500M", "Error limiting systemd logs to 500M");
-            exit(0);
-            
-        },
-
-        _ => {
-
-            println!("Internal error, system not found");
-
-        }
-
-    }
-
-}
-
-pub fn install_desktop_in_system(system: &str, desktop: &str) {
-
-    match system {
-
-        "archlinux" => {
-
-            match desktop {
-
-                "lxde" => {
-
-                    systemcommand_asroot("pacman -Syu xorg lxde lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver mousepad totem atril gnome-screenshot gnome-disk-utility bluez transmission-gtk --noconfirm", "Error installing minimal lxde on archlinux");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "lxqt" => {
-
-                    systemcommand_asroot("pacman -Syu xorg lxqt lightdm lightdm-gtk-greeter adwaita-icon-theme xarchiver vlc --noconfirm", "Error installing minimal lxqt on archlinux");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "xfce" => {
-
-                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter xfce4-settings xfce4-pulseaudio-plugin adwaita-icon-theme exo garcon tumbler xfce4-panel xfce4-session xfce4-whiskermenu-plugin xfce4-terminal xfconf xfdesktop xfwm4 thunar file-roller --noconfirm", "Error installing xfce minimal on archlinux");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "gnome" => {
-
-                    systemcommand_asroot("pacman -Syu gdm weston gnome-session nautilus file-roller gnome-control-center gedit adwaita-icon-theme eog evince seahorse --noconfirm", "Error installing gnome minimal on archlinux");
-                    install_aur("https://aur.archlinux.org/gnome-console.git", "gnome-console/");
-                    systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
-                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
-
-                },
-
-                "cinnamon" => {
-
-                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter cinnamon cinnamon-session cinnamon-desktop cinnamon-control-center cinnamon-menus cinnamon-screensaver cinnamon-settings-daemon cinnamon-translations adwaita-icon-theme cjs muffin nemo nemo-fileroller file-roller --noconfirm", "Error installing cinnamon minimal on archlinux");
-                    install_aur("https://aur.archlinux.org/gnome-console.git", "gnome-console/");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "mate" => {
-
-                    systemcommand_asroot("pacman -Syu xorg lightdm lightdm-gtk-greeter mate-desktop adwaita-icon-theme mate-control-center mate-power-manager mate-screensaver mate-common mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja --noconfirm", "Error installing minimal mate on archlinux");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "kdeplasma" => {
-
-                    systemcommand_asroot("pacman -Syu weston sddm plasma-desktop plasma-nm konsole plasma-wayland-session kcm-fcitx kscreen ksysguard adwaita-icon-theme spectacle dolphin discover --noconfirm", "Error installing cinnamon minimal on archlinux");
-                    systemcommand_asroot("systemctl enable sddm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "bspwm" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                "cutefish" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                _ => {
-
-                    println!("Internal error, system not found");
-        
+    loop {
+        println!("These Packages Will Be Removed From Your System And After That Your System Will Be Updated:");
+        println!("");
+        println!("{}", all_packages_to_remove.red().bold());
+        println!("");
+        println!("");
+        println!("The Following Packages Will Be Installed:");
+        println!("");
+        println!("{}", all_packages_to_install.green().bold());
+        println!("");
+        println!("");
+        print!("Do You Want To Continue? ({}/{}): ","Y".green().bold(), "n".red().bold());
+
+        stdout().flush().unwrap();
+        let mut input: String = String::new();
+        stdin().read_line(&mut input).expect("Error To Read User Input");
+
+        match &input.trim().to_lowercase()[..] {
+            "y" | "yes" | "" => {
+                match &system[..] /* Remove Packages And Install New Enviroment */ {
+                    "archlinux" => {
+                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
+                        remove_and_install_pkgs("sudo pacman -Rsn --noconfirm", "sudo pacman -Syu --noconfirm", all_packages_to_remove, all_packages_to_install);
+                        system_command(texts::INSTALL_UTILS_FOR_ARCHLINUX);
+                        system_command(texts::INSTALL_FLATHUB);
+                        system_command(texts::ENABLE_NETWORKMANAGER);
+                    },
+                    "debian" => {
+                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
+                        remove_and_install_pkgs("sudo apt remove -y", "sudo apt install -y", all_packages_to_remove, all_packages_to_install);
+                        system_command(texts::INSTALL_UTILS_FOR_DEBIAN);
+                        system_command(texts::INSTALL_FLATHUB);
+                        system_command(texts::ENABLE_NETWORKMANAGER);
+                    },
+                    "fedora" => {
+                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
+                        remove_and_install_pkgs("sudo dnf remove -y", "sudo dnf install -y", all_packages_to_remove, all_packages_to_install);
+                        system_command(texts::INSTALL_UTILS_FOR_FEDORA);
+                        system_command(texts::INSTALL_FLATHUB);
+                        system_command(texts::ENABLE_NETWORKMANAGER);
+                    },
+                    _ => {
+                        println!("Internal {}: System Not Found", "Error".red().bold());
+                        exit(1);
+                    }
                 }
 
+                loop /* Internet Browser */ {
+                    println!("Do You Want To Install An Internet Browser (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {}","1".red().bold(), "Firefox".yellow().bold());
+                    println!("{} - {}","2".red().bold(), "Chromium Browser".yellow().bold());
+                    println!("{} - {}","3".red().bold(), "Brave".yellow().bold());
+                    println!("{} - {}","4".red().bold(), "Microsoft Edge".yellow().bold());
+                    println!("{} - {}","5".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-            }
-
-        },
-
-        "debian" => {
-
-            match desktop {
-
-                "lxde" => {
-
-                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter lxde-core lxterminal deluge file-roller mousepad gpicview gnome-disk-utility evince lxappearance pavucontrol lxsession-default-apps lxinput menu gnome-system-tools connman connman-gtk xscreensaver policykit-1 policykit-1-gnome xarchiver -y", "Error installing minimal lxde on debian 11");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "lxqt" => {
-
-                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter lxqt-core vlc ark ktorrent connman partitionmanager qpdfview pavucontrol -y", "Error installing lxqt minimal on debian 11");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "xfce" => {
-
-                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter thunar xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-session xfce4-settings xfce4-terminal pavucontrol mousepad thunar-archive-plugin evince xfconf xfdesktop4 xfwm4 adwaita-qt qt5ct xfce4-taskmanager xfce4-screenshooter --no-install-recommends -y", "Error installing xfce4 minimal on debian 11");
-                    systemcommand_asroot("apt install vlc gnome-disk-utility xarchiver ristretto transmission -y", "Error to install more xfce4 packages in debian 11");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "gnome" => {
-
-                    systemcommand_asroot("apt install weston gdm3 gnome-session gnome-control-center gnome-software eog totem evince gedit gnome-terminal gnome-tweaks nautilus adwaita-icon-theme seahorse gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility --no-install-recommends -y", "Error installing gnome minimal on debian 11");
-                    systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm3 on startup");
-                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
-
-                },
-
-                "cinnamon" => {
-
-                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter cinnamon-core gnome-terminal eog totem evince gedit gnome-system-monitor gnome-screenshot file-roller transmission-gtk gnome-disk-utility --no-install-recommends -y", "Error installing cinnamon minimal on debian 11");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "mate" => {
-
-                    systemcommand_asroot("apt install xorg lightdm lightdm-gtk-greeter mate-desktop-environment gnome-disk-utility transmission-gtk file-roller totem -y", "Error installing minimal mate on debian 11");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-
-                },
-
-                "kdeplasma" => {
-
-                    systemcommand_asroot("apt install weston sddm kde-plasma-desktop plasma-nm plasma-workspace-wayland systemsettings dolphin kwrite ark okular plasma-discover konsole ktorrent kde-spectacle gwenview -y", "Error installing minimal kde plasma on debian 11");
-                    systemcommand_asroot("systemctl enable sddm -f", "Error enabling sddm on startup");
-
-                },
-
-                "bspwm" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                "cutefish" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                _ => {
-
-                    println!("Internal error, system not found");
-        
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Firefox", "org.mozilla.firefox");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Chromium", "org.chromium.Chromium");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("Brave", "com.brave.Browser");
+                            break;
+                        },
+                        "4" => {
+                            install_flatpak_package_from_flathub("Microsoft Edge", "com.microsoft.Edge");
+                            break;
+                        },
+                        "5" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
                 }
 
-            }
+                loop /* Text Editor */ {
+                    println!("Do You Want To Install An Text Editor (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "Gnome Text Editor".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "Kwrite".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","3".red().bold(), "Mousepad".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","4".red().bold(), "Gedit".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {}","5".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-        },
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Gnome Text Editor", "org.gnome.TextEditor");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Kwrite", "org.kde.kwrite");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("Mousepad", "org.xfce.mousepad");
+                            break;
+                        },
+                        "4" => {
+                            install_flatpak_package_from_flathub("Gedit", "org.gnome.gedit");
+                            break;
+                        },
+                        "5" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
 
-        "fedora" => {
+                loop /* Image Viewer */ {
+                    println!("Do You Want To Install An Image Viewer (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "EOG - Eye Of Gnome".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "Gwenview".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","3".red().bold(), "Ristretto".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","4".red().bold(), "Nomacs".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {}","5".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-            match desktop {
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("EOG - Eye Of Gnome", "org.gnome.eog");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Gwenview", "org.kde.gwenview");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("Ristretto", "org.xfce.ristretto");
+                            break;
+                        },
+                        "4" => {
+                            install_flatpak_package_from_flathub("Nomacs", "org.nomacs.ImageLounge");
+                            break;
+                        },
+                        "5" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
 
-                "lxde" => {
+                loop /* Video Player */ {
+                    println!("Do You Want To Install An Video Player (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "Vlc".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "Totem".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","3".red().bold(), "Clapper".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","4".red().bold(), "SMPlayer".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","5".red().bold(), "Celluloid".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {}","6".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxde-common lxdm openbox lxappearance lxsession lxterminal pcmanfm lxinput lxmenu-data lxpanel lxpolkit lxrandr lxtask xcompmgr xarchiver obconf network-manager-applet -y", "Error installing minimal lxde on fedora 35");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Vlc", "org.videolan.VLC");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Totem", "org.gnome.Totem");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("Clapper", "com.github.rafostar.Clapper");
+                            break;
+                        },
+                        "4" => {
+                            install_flatpak_package_from_flathub("SMPlayer", "info.smplayer.SMPlayer");
+                            break;
+                        },
+                        "5" => {
+                            install_flatpak_package_from_flathub("Celluloid", "io.github.celluloid_player.Celluloid");
+                            break;
+                        },
+                        "6" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Document Viewer */ {
+                    println!("Do You Want To Install An Document Viewer (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "Evince".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "Okular".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {}","3".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Evince", "org.gnome.Evince");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Okular", "org.kde.okular");
+                            break;
+                        },
+                        "3" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Torrent Manager */ {
+                    println!("Do You Want To Install An Torrent Manager (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "Ktorrent".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "Transmission".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})","3".red().bold(), "Fragments".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {}","4".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Ktorrent", "org.kde.ktorrent");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Transmission", "com.transmissionbt.Transmission");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("Fragments", "de.haeckerfelix.Fragments");
+                            break;
+                        },
+                        "4" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Office Suite */ {
+                    println!("Do You Want To Install An Office Suite (Flatpak Format)?");
+                    println!("");
+                    println!("{} - {} ({})","1".red().bold(), "Onlyoffice".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","2".red().bold(), "WPS Office".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})","3".red().bold(), "LibreOffice".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {}","4".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("Fragments", "de.haeckerfelix.Fragments");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("WPS Office", "com.wps.Office");
+                            break;
+                        },
+                        "3" => {
+                            install_flatpak_package_from_flathub("LibreOffice", "org.libreoffice.LibreOffice");
+                            break;
+                        },
+                        "4" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Video Drivers */ {
+                    println!("Do You Want To Install A Video Driver?");
+                    println!("");
+                    println!("{} - {}", "1".red().bold(), "Nvidia".yellow().bold());
+                    println!("{} - {}", "2".red().bold(), "Intel".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "Amd".yellow().bold());
+                    println!("{} - {}", "4".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -Syu mesa nvidia nvidia-settings --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install mesa -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install mesa -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "2" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("pacman -S xf86-video-intel mesa libgl --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("apt install xorg mesa -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("apt install @base-x -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "3" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S xorg-server xorg-xinit xorg-apps xf86-video-intel mesa libgl xf86-video-amdgpu --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install xorg mesa -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo apt install @base-x -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "4" => break,
+
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Printer Support */ {
+                    println!("Do You Want To Install Printer Support?");
+                    println!("");
+                    println!("{} - {}", "1".red().bold(), "CUPS/Printer Manager".yellow().bold());
+                    println!("{} - {}", "2".red().bold(), "CUPS/Printer Manager/Simple Scan".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S cups system-config-printer --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install cups system-config-printer -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install cups system-config-printer -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "2" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S cups system-config-printer simple-scan --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("apt install cups system-config-printer simple-scan -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("dnf install cups system-config-printer simple-scan -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "3" => break,
+
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Basic Utilities And Compressed File Support */ {
+                    println!("Do You Want To Install Basic Utilities?");
+                    println!("");
+                    println!("{} - {}", "1".red().bold(), "Basic Utilities".yellow().bold());
+                    println!("{} - {}", "2".red().bold(), "Basic Utilities/Compressed File Support/EXFAT File System Support".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google --noconfirm");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    install_aur("https://aur.archlinux.org/preload.git", "preload/");
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload -y");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("dnf copr enable elxreno/preload -y");
+                                    system_command(r#"dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
+                                    system_command("dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
+                                    system_command("dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "2" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google p7zip zip unzip unrar exfat-utils --noconfirm");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    install_aur("https://aur.archlinux.org/preload.git", "preload/");
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload exfat-fuse exfat-utils p7zip-full zip unzip unrar-free -y");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf copr enable elxreno/preload -y");
+                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager unrar p7zip zip unzip --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
+                                    system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
+                                    system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
+                                    system_command(texts::ENABLE_NETWORKMANAGER);
+                                    system_command(texts::ENABLE_PRELOAD);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "3" => break,
+
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Compressed File Manager */ {
+                    println!("Do You Want To Install Compressed File Manager?");
+                    println!("");
+                    println!("{} - {} ({})", "1".red().bold(), "File Roller".yellow().bold(), "GTK".blue().bold());
+                    println!("{} - {} ({})", "1".red().bold(), "Ark".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {}", "3".red().bold(), "None".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
+
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            install_flatpak_package_from_flathub("File Roller", "org.gnome.FileRoller");
+                            break;
+                        },
+                        "2" => {
+                            install_flatpak_package_from_flathub("Ark", "org.kde.ark");
+                            break;
+                        },
+                        "3" => break,
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+
+                loop /* Bluetooth Support */ {
+                    print!("Do You Want To Install {} {} ({}/{})", "Bluetooth".red().bold(), "Support".yellow().bold(), "y".green().bold(), "n".red().bold());
                     
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "y" | "yes" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S bluez bluedevil --noconfirm");
+                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install bluez -y");
+                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install bluez -y");
+                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                },
+                        "n" | "no" => break,
 
-                "lxqt" => {
-                    
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter lxqt-about lxqt-archiver lxqt-config lxqt-notificationd lxqt-openssh-askpass lxqt-panel breeze-cursor-theme breeze-gtk breeze-icon-theme firewall-config network-manager-applet notification-daemon obconf openbox pcmanfm-qt qterminal lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-session lxqt-themes lxqt-themes-fedora -y", "Error installing lxqt minimal on fedora 35");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+                loop /* Terminal */ {
+                    println!("Which Terminal Do You Want To Use (*Required)?");
+                    println!("");
+                    println!("{} - {}", "1".red().bold(), "Console".yellow().bold());
+                    println!("{} - {}", "2".red().bold(), "Xfce4 Terminal".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "Lxterminal".yellow().bold());
+                    println!("{} - {}", "4".red().bold(), "Konsole".yellow().bold());
+                    println!("{} - {}", "5".red().bold(), "Cutefish Terminal".yellow().bold());
+                    println!("{} - {}", "6".red().bold(), "Qterminal".yellow().bold());
+                    println!("{} - {}", "7".red().bold(), "Mate Terminal".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-                },
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("pacman -S gnome-console --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install gnome-console --no-install-requirements -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install gnome-console -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                "xfce" => {
+                        "2" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S xfce4-terminal --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install xfce4-terminal --no-install-requirements -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install xfce4-terminal -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter xfwm4 xfce4-session xfdesktop xfce4-settings xfce4-terminal xfce4-whiskermenu-plugin xfce4-power-manager network-manager-applet -y", "Error installing xfce4 minimal on fedora 35");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
+                        "3" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S lxterminal --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install lxterminal --no-install-requirements -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install lxterminal -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                },
+                        "4" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S konsole --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install konsole --no-install-requirements -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install konsole -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                "gnome" => {
+                        "5" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S cutefish-terminal --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("clear");
+                                    println!("Coming soon!!");
+                                    system_command("sleep");
+                                    continue;
+                                },
+                                "fedora" => {
+                                    system_command("clear");
+                                    println!("Coming soon!!");
+                                    system_command("sleep");
+                                    continue;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                    systemcommand_asroot("dnf install gdm gnome-shell nautilus gnome-terminal fedora-workstation-backgrounds file-roller gnome-terminal-nautilus seahorse -y", "Error installing gnome on fedora 35");
-                    systemcommand_asroot("systemctl enable gdm -f", "Error enabling gdm on startup");
-                    systemcommand_asuser("gsettings", "set org.gnome.desktop.interface enable-animations false", "Error to disable animations on gnome");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
+                        "6" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S qterminal --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install qterminal --no-install-requirements -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install qterminal -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                },
+                        "7" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S mate-terminal --noconfirm");
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install mate-terminal -y");
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install mate-terminal -y");
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-                "cinnamon" => {
-
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter cinnamon cinnamon-desktop cinnamon-session cinnamon-menus cinnamon-screensaver gnome-terminal cinnamon-translations muffin cinnamon-control-center cjs nemo nemo-fileroller -y", "Error installing cinnamon on fedora 35");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
-
-                },
-
-                "mate" => {
-
-                    systemcommand_asroot("dnf install lightdm lightdm-gtk-greeter mate-desktop mate-control-center mate-screensaver mate-power-manager mate-screenshot mate-session-manager mate-settings-daemon mate-terminal mate-panel marco caja network-manager-applet -y", "Error installing mate in fedora 35");
-                    systemcommand_asroot("systemctl enable lightdm -f", "Error enabling lightdm on startup");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
-
-                },
-
-                "kdeplasma" => {
-
-                    systemcommand_asroot("dnf install sddm plasma-desktop plasma-nm konsole plasma-discover dolphin kscreen ksysguard spectacle plasma-user-manager kcm_colors kcm-fcitx -y", "Error installing kde plasma on fedora 35");
-                    systemcommand_asroot("systemctl enable sddm -f", "Error enabling sddm on startup");
-                    systemcommand_asroot("systemctl set-default graphical.target", "Error enabling graphical mode boot");
-
-                },
-
-                "bspwm" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                "cutefish" => {
-
-                    println!("Coming soon");
-                    exit(0);
-
-                },
-
-                _ => {
-
-                    println!("Internal error, system not found");
-        
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
                 }
 
-            }
+                loop /* Display Manager */ {
+                    println!("Which Display Manager Do You Want To Use (*Required)?");
+                    println!("");
+                    println!("{} - {}", "1".red().bold(), "Gdm".yellow().bold());
+                    println!("{} - {}", "2".red().bold(), "Lightdm".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "Lightdm Gtk Greeter".yellow().bold());
+                    println!("{} - {}", "4".red().bold(), "SDDM".yellow().bold());
+                    println!("{} - {}", "5".red().bold(), "LXDM".yellow().bold());
+                    println!("");
+                    print!("Which Option Do You Want?: ");
 
-        },
+                    stdout().flush().unwrap();
+                    let mut option: String = String::new();
+                    stdin().read_line(&mut option).expect("Error To Read User Input");
+                    match &option.trim().to_lowercase()[..] {
+                        "1" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S gdm --noconfirm");
+                                    system_command(texts::ENABLE_GDM);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install gdm3 --no-install-requirements -y");
+                                    system_command(texts::ENABLE_GDM);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install gdm -y");
+                                    system_command(texts::ENABLE_GDM);
+                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-        _ => {
+                        "2" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S lightdm --noconfirm");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install lightdm --no-install-requirements -y");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install lightdm -y");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
-            println!("Internal error, system not found");
+                        "3" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S lightdm lightdm-gtk-greeter --noconfirm");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install lightdm lightdm-gtk-greeter --no-install-requirements -y");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install lightdm lightdm-gtk-greeter -y");
+                                    system_command(texts::ENABLE_LIGHTDM);
+                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
 
+                        "4" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S sddm --noconfirm");
+                                    system_command(texts::ENABLE_SDDM);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install sddm --no-install-requirements -y");
+                                    system_command(texts::ENABLE_SDDM);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install sddm -y");
+                                    system_command(texts::ENABLE_SDDM);
+                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        "5" => {
+                            match &system[..] {
+                                "archlinux" => {
+                                    system_command("sudo pacman -S lxdm --noconfirm");
+                                    system_command(texts::ENABLE_LXDM);
+                                    break;
+                                },
+                                "debian" => {
+                                    system_command("sudo apt install lxdm --no-install-requirements -y");
+                                    system_command(texts::ENABLE_LXDM);
+                                    break;
+                                },
+                                "fedora" => {
+                                    system_command("sudo dnf install lxdm -y");
+                                    system_command(texts::ENABLE_LXDM);
+                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    break;
+                                },
+                                _ => {
+                                    println!("Internal {}: System Not Found", "Error".red().bold());
+                                    exit(1);
+                                }
+                            }
+                        },
+
+                        _ => {
+                            println!("{}","Please Enter A Valid Option!".red().bold());
+                            system_command("sleep 4");
+                            system_command("clear");
+                            continue;
+                        }
+                    }
+                }
+            },
+
+            "n" | "no" => {
+                system_command("clear");
+                println!("Aborted installation");
+                exit(0);
+            },
+            
+            _ => continue
         }
-
     }
-
-}
-
-pub fn configure(system: &str) {
-
-    match system {
-
-        "archlinux" => {
-
-            println!("Nothing to configure");
-        
-        },
-
-        "debian" => {
-
-            println!("Nothing to configure");
-        
-        },
-
-        "fedora" => {
-
-            systemcommand_asroot("rm -r /etc/dnf/dnf.conf", "Error to remove /etc/dnf/dnf.conf");
-            systemcommand_asroot(r#"echo "[main]" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "gpgcheck=1" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "installonly_limit=3" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "clean_requirements_on_remove=True" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "best=False" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "skip_if_unavailable=True" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "fastestmirror=True" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "max_parallel_downloads=7" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "defaultyes=True" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-            systemcommand_asroot(r#"echo "install_weak_deps=false" >> /etc/dnf/dnf.conf"#, "Error writing to /etc/dnf/dnf.conf file");
-
-        },
-
-        _ => {
-
-            println!("Internal error, system not found");
-
-        }
-
-    }
-
-}
-
-pub fn exec_installation(system: &str, desktop: &str) {
-
-    configure(system);
-    remove_extra_packages(system);
-    install_utils(system);
-    install_desktop_in_system(system, desktop);
-    remove_extra_files(system);
-    systemcommand_asroot("reboot", "Error to restarting system");
-
 }
