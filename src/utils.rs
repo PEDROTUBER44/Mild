@@ -36,7 +36,7 @@ pub fn remove_and_install_pkgs(remove_cmd: &str, install_cmd: &str, pkgs_to_remo
 }
 
 pub fn system_command(command: &str) {
-    let exec_command = Command::new("sh").arg(&format!(r#" -c "{}""#,command.split_whitespace())).status();
+    let exec_command = Command::new("sh").arg(&format!(r#" -c "{}""#,command)).status();
     match exec_command {
         Ok(_) => println!("Command Executed {}", "Successfully".green().bold()),
         Err(e) => {
