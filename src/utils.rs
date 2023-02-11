@@ -108,7 +108,7 @@ pub fn remove_folder(folder: &str) {
 }
 
 pub fn install_flatpak_package_from_flathub(package_name: &str, id: &str) {
-    let command_to_install = Command::new("sh").arg("-c").arg(format!("'flatpak install flathub {}'", id)).status();
+    let command_to_install = Command::new("sh").arg("-c").arg(format!("flatpak install flathub {}", id)).status();
 
     match command_to_install {
         Ok(_) => println!("Application: {} From Flathub {} Installed", package_name, "Successfully".green().bold()),
