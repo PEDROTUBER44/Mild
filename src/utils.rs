@@ -552,7 +552,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 "fedora" => {
-                                    system_command("apt install @base-x -y");
+                                    system_command("dnf install @base-x -y");
                                     break;
                                 },
                                 _ => {
