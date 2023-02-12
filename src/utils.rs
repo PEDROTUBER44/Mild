@@ -10,7 +10,11 @@ use std::{
         stdin
     },
 
-    fs
+    path::Path,
+
+    fs,
+
+    io
 };
 
 use colored::Colorize;
@@ -44,22 +48,89 @@ pub fn system_command(command: &str) {
     }
 }
 
-pub fn text_root(text: &str, path: &str) {
-    let cmd = Command::new("sudo")
-        .arg("sh")
-        .arg("-c")
-        .arg(format!("echo '{}' > {}", text, path))
-        .output();
-    
-    match cmd {
-        Ok(_) => println!("Command Executed {}", "Successfully".green().bold()),
-        Err(e) => {
-            println!("{}: {} To Execute Command", e, "Error".red().bold());
-            exit(1);
+pub fn write_text_in_file(text: &str, path: &str, delete_file: bool, as_root: bool) {
+    match delete_file {
+        true => {
+            match as_root {
+                true => {
+                    let remove_file = Command::new("sudo").arg("sh").arg("-c").arg(format!("rm -r {}", path)).output();
+
+                    match remove_file {
+                        Ok(_) => println!("File Removed {}", "Successfully".green().bold()),
+                        Err(_) => {
+                            println!("{} Removing File: {}", "Error".red().bold(), path);
+                            exit(1);
+                        }
+                    }
+
+                    let cmd_root = Command::new("sudo").arg("sh").arg("-c").arg(format!("echo '{}' > {}", text, path)).output();
+                    
+                    match cmd_root {
+                        Ok(_) => println!("File Written {}", "Successfully".green().bold()),
+                        Err(_) => {
+                            println!("{} Writing to File: {}", "Error".red().bold(), path);
+                            exit(1);
+                        }
+                    }
+                },
+                false => {
+                    let cpath = Path::new(&path);
+                    let display = cpath.display();
+
+                    match fs::remove_file(&cpath) {
+                        Ok(()) => println!("File: {}, Removed {}", display, "Successfully".green().bold()),
+                        Err(e) => {
+                            if e.kind() != io::ErrorKind::NotFound {
+                                println!("Could Not Remove File: {} {}: {}", display, "Error".red().bold(), e);
+                                exit(1);
+                            }
+                        }
+                    }
+
+                    let mut file = match fs::File::create(&cpath) {
+                        Ok(file) => file,
+                        Err(e) => {
+                            println!("Could Not Create File: {} {}: {}", display, "Error".red().bold(), e);
+                            exit(0);
+                        }
+                    };
+
+                    match file.write_all(text.as_bytes()) {
+                        Ok(()) => println!("File: {}, Written {}", display, "Successfully".green().bold()),
+                        Err(e) => {
+                            println!("Could Not Write File: {} {}: {}", display, "Error".red().bold(), e);
+                            exit(0);
+                        }
+                    };
+                }
+            }
+        },
+        false => {
+            match as_root {
+                true => {
+                    let cmd_root = Command::new("sudo").arg("sh").arg("-c").arg(format!("echo '{}' > {}", text, path)).output();
+                    
+                    match cmd_root {
+                        Ok(_) => println!("File Written {}", "Successfully".green().bold()),
+                        Err(_) => {
+                            println!("{} Writing to File: {}", "Error".red().bold(), path);
+                            exit(1);
+                        }
+                    }
+                },
+                false => {
+                    match fs::write(path, text) {
+                        Ok(()) => println!("File: {}, Written {}", path, "Successfully".green().bold()),
+                        Err(e) => {
+                            println!("Could Not Write File: {} {}: {}", path, "Error".red().bold(), e);
+                            exit(0);
+                        }
+                    };
+                }
+            }
         }
     }
 }
-
 
 pub fn remove_folder(folder: &str) {
     let remove_dir = fs::remove_dir(&folder);
@@ -98,7 +169,7 @@ pub fn install_aur(url: &str, folder: &str) {
 pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_to_install: &str, system: &str) {
     match &system[..] /* Configure System */ {
         "archlinux" => {
-            text_root(texts::PACMAN_CONFIG_FILE, "/etc/pacman.conf");
+            write_text_in_file(texts::PACMAN_CONFIG_FILE, "/etc/pacman.conf", true, true);
             system_command("mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
             system_command("mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
             system_command("mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
@@ -108,12 +179,12 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
         },
 
         "debian" => {
-            text_root(texts::DEBIAN_CONFIG_FILE, "/etc/apt/sources.list");
+            write_text_in_file(texts::DEBIAN_CONFIG_FILE, "/etc/apt/sources.list", true, true);
             system_command("mv /usr/share/applications/vim.desktop /usr/share/applications/vim.backup");
         },
 
         "fedora" => {
-            text_root(texts::DNF_CONFIG_FILE, "/etc/dnf/dnf.conf");
+            write_text_in_file(texts::DNF_CONFIG_FILE, "/etc/dnf/dnf.conf", true, true);
         },
 
         _ => {
