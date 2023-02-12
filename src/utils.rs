@@ -5,14 +5,11 @@ use std::{
     },
 
     io::{
-        Error,
         Write,
-        self,
         stdout,
         stdin
     },
 
-    path::Path,
     fs
 };
 
@@ -45,37 +42,6 @@ pub fn system_command(command: &str) {
             exit(1);
         }
     }
-}
-
-pub fn text(text: &str, path: &str) {
-    let cpath = Path::new(&path);
-    let display = cpath.display();
-
-    match fs::remove_file(&cpath) {
-        Ok(()) => println!("File: {}, Removed {}", display, "Successfully".green().bold()),
-        Err(e) => {
-            if e.kind() != io::ErrorKind::NotFound {
-                println!("Could Not Remove File: {} {}: {}", display, "Error".red().bold(), e);
-                exit(1);
-            }
-        }
-    }
-
-    let mut file = match fs::File::create(&cpath) {
-        Ok(file) => file,
-        Err(e) => {
-            println!("Could Not Create File: {} {}: {}", display, "Error".red().bold(), e);
-            exit(0);
-        }
-    };
-
-    match file.write_all(text.as_bytes()) {
-        Ok(()) => println!("File: {}, Written {}", display, "Successfully".green().bold()),
-        Err(e) => {
-            println!("Could Not Write File: {} {}: {}", display, "Error".red().bold(), e);
-            exit(0);
-        }
-    };
 }
 
 pub fn text_root(text: &str, path: &str) {
@@ -490,7 +456,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 "debian" => {
-                                    system_command("sudo apt install mesa -y");
+                                    system_command("sudo apt install xorg mesa -y");
                                     break;
                                 },
                                 "fedora" => {
@@ -959,9 +925,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                     println!("");
                     println!("{} - {}", "1".red().bold(), "Gdm".yellow().bold());
                     println!("{} - {}", "2".red().bold(), "Lightdm".yellow().bold());
-                    println!("{} - {}", "3".red().bold(), "Lightdm Gtk Greeter".yellow().bold());
-                    println!("{} - {}", "4".red().bold(), "SDDM".yellow().bold());
-                    println!("{} - {}", "5".red().bold(), "LXDM".yellow().bold());
+                    println!("{} - {}", "3".red().bold(), "SDDM".yellow().bold());
+                    println!("{} - {}", "4".red().bold(), "LXDM".yellow().bold());
                     println!("");
                     print!("Which Option Do You Want?: ");
 
@@ -997,31 +962,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                         "2" => {
                             match &system[..] {
                                 "archlinux" => {
-                                    system_command("sudo pacman -S lightdm --noconfirm");
-                                    system_command(texts::ENABLE_LIGHTDM);
-                                    break;
-                                },
-                                "debian" => {
-                                    system_command("sudo apt install lightdm --no-install-requirements -y");
-                                    system_command(texts::ENABLE_LIGHTDM);
-                                    break;
-                                },
-                                "fedora" => {
-                                    system_command("sudo dnf install lightdm -y");
-                                    system_command(texts::ENABLE_LIGHTDM);
-                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
-                                    break;
-                                },
-                                _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
-                                }
-                            }
-                        },
-
-                        "3" => {
-                            match &system[..] {
-                                "archlinux" => {
                                     system_command("sudo pacman -S lightdm lightdm-gtk-greeter --noconfirm");
                                     system_command(texts::ENABLE_LIGHTDM);
                                     break;
@@ -1044,7 +984,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             }
                         },
 
-                        "4" => {
+                        "3" => {
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S sddm --noconfirm");
@@ -1069,7 +1009,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             }
                         },
 
-                        "5" => {
+                        "4" => {
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S lxdm --noconfirm");
