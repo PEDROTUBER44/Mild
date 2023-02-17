@@ -687,10 +687,10 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 "fedora" => {
-                                    system_command("dnf copr enable elxreno/preload -y");
-                                    system_command(r#"dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
-                                    system_command("dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
-                                    system_command("dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
+                                    system_command("sudo dnf copr enable elxreno/preload -y");
+                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
+                                    system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
+                                    system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
@@ -746,7 +746,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                     println!("Do You Want To Install Compressed File Manager?");
                     println!("");
                     println!("{} - {} ({})", "1".red().bold(), "File Roller".yellow().bold(), "GTK".blue().bold());
-                    println!("{} - {} ({})", "1".red().bold(), "Ark".yellow().bold(), "QT".blue().bold());
+                    println!("{} - {} ({})", "2".red().bold(), "Ark".yellow().bold(), "QT".blue().bold());
                     println!("{} - {}", "3".red().bold(), "None".yellow().bold());
                     println!("");
                     print!("Which Option Do You Want?: ");
@@ -774,7 +774,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                 }
 
                 loop /* Bluetooth Support */ {
-                    print!("Do You Want To Install {} {} ({}/{})", "Bluetooth".red().bold(), "Support".yellow().bold(), "y".green().bold(), "n".red().bold());
+                    print!("Do You Want To Install {} {} ({}/{}): ", "Bluetooth".red().bold(), "Support".yellow().bold(), "y".green().bold(), "n".red().bold());
                     
                     stdout().flush().unwrap();
                     let mut option: String = String::new();

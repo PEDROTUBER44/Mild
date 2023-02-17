@@ -444,7 +444,7 @@ fn main() {
         },
 
         "--install-fedora-kdeplasma" => {
-            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm  kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin", "fedora");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin", "fedora");
             exit(0);
         },
 
