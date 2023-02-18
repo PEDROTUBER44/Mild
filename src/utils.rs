@@ -688,7 +688,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf copr enable elxreno/preload -y");
-                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
+                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
                                     system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
                                     system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
@@ -719,7 +719,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf copr enable elxreno/preload -y");
-                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager unrar p7zip zip unzip --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
+                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager unrar p7zip zip unzip --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
                                     system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
                                     system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
