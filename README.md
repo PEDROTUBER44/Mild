@@ -11,7 +11,7 @@ Then, proceed to follow the step-by-step instructions below to complete the pre-
 
 ## UEFI
 
-![](media/fedora/instalationguide/Fedora37-Instalation-UEFI.mp4)
+https://user-images.githubusercontent.com/77652411/219970332-cd97dc53-d04b-40ed-9278-6342dc98a207.mp4
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
@@ -24,7 +24,7 @@ Order |  Type  | Size
 
 ## BIOS/LEGACY
 
-![](media/fedora/instalationguide/Fedora37-Instalation-BIOS.mp4)
+https://user-images.githubusercontent.com/77652411/219970336-0c494982-bbe7-43a6-ac76-2cf44b9f3ad8.mp4
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
