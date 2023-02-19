@@ -1,5 +1,4 @@
 target/*
 Cargo.lock
-media/*
 read/*
 newfeatures.txt

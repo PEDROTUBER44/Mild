@@ -413,7 +413,7 @@ fn main() {
             // - 
             // - 
             // 
-            // sudo dnf info @gnome-desktop
+            // sudo dnf info @xfce-desktop
             //
             utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "network-manager-applet xfwm4 xfce4-power-manager xfce4-settings xfce4-whiskermenu-plugin xfdesktop", "fedora");
             exit(0);
@@ -434,16 +434,40 @@ fn main() {
         },
 
         "--install-fedora-cinnamon" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - 
+            // - 
+            // - 
+            // 
+            // sudo dnf info @cinnamon-desktop
+            //
             utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "cinnamon cinnamon-control-center cinnamon-desktop cinnamon-menus nemo nemo-fileroller cinnamon-translations cjs muffin", "fedora");
             exit(0);
         },
 
         "--install-fedora-mate" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - 
+            // - 
+            // - 
+            // 
+            // sudo dnf info @mate-desktop
+            //
             utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "mate-control-center mate-desktop mate-power-manager mate-screensaver mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja", "fedora");
             exit(0);
         },
 
         "--install-fedora-kdeplasma" => {
+            // List Of Graphical Environment Packages And What They Are For:
+            //
+            // - 
+            // - 
+            // - 
+            // 
+            // sudo dnf info @plasma-desktop
+            //
             utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin", "fedora");
             exit(0);
         },
