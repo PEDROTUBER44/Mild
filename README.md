@@ -34,6 +34,7 @@ Order |  Type  | Size
   2°  |  swap  | The Size Of Your Ram Memory   
   3°  | system | Everything Else
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 ## Post Install
@@ -131,5 +132,3 @@ You can now select which graphical environment you want to install on your PC:
 Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
 
 ****
-=======
->>>>>>> 6ee00b67679768d061a4e235be0bd489f8905a83
