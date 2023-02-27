@@ -11,7 +11,7 @@ Then, proceed to follow the step-by-step instructions below to complete the pre-
 
 ## UEFI
 
-![](media/fedora/installationguide/Fedora37-Instalation-UEFI.mp4)
+https://user-images.githubusercontent.com/77652411/219970332-cd97dc53-d04b-40ed-9278-6342dc98a207.mp4
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
@@ -24,7 +24,7 @@ Order |  Type  | Size
 
 ## BIOS/LEGACY
 
-![](media/fedora/installationguide/Fedora37-Instalation-BIOS.mp4)
+https://user-images.githubusercontent.com/77652411/219970336-0c494982-bbe7-43a6-ac76-2cf44b9f3ad8.mp4
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
@@ -33,6 +33,7 @@ Order |  Type  | Size
   1°  |  bios  | 2MIB
   2°  |  swap  | The Size Of Your Ram Memory   
   3°  | system | Everything Else
+<<<<<<< HEAD
 
 
 ## Post Install
@@ -130,3 +131,5 @@ You can now select which graphical environment you want to install on your PC:
 Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
 
 ****
+=======
+>>>>>>> 6ee00b67679768d061a4e235be0bd489f8905a83
