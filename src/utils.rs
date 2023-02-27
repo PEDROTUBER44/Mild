@@ -46,6 +46,7 @@ pub fn system_command(command: &str) {
     }
 }
 
+
 pub fn write_text_in_file(text: &str, path: &str, delete_file: bool, as_root: bool) {
     match delete_file {
         true => {
@@ -162,7 +163,10 @@ pub fn install_aur(url: &str, folder: &str) {
     remove_folder(folder);
 }
 
-
+pub fn error_system_not_found() {
+    println!("Internal {}: System Not Found", "Error".red().bold());
+    exit(1);
+}
 
 pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_to_install: &str, system: &str) {
     match &system[..] /* Configure System */ {
@@ -234,8 +238,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                         system_command(texts::ENABLE_NETWORKMANAGER);
                     },
                     _ => {
-                        println!("Internal {}: System Not Found", "Error".red().bold());
-                        exit(1);
+                        error_system_not_found();
                     }
                 }
 
@@ -533,8 +536,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -554,8 +556,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -575,8 +576,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -619,8 +619,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -640,8 +639,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -694,8 +692,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -725,8 +722,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -796,8 +792,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -844,8 +839,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -865,8 +859,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -886,8 +879,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -907,8 +899,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -932,8 +923,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     continue;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -953,8 +943,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -974,8 +963,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -1022,8 +1010,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -1047,8 +1034,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -1072,8 +1058,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
@@ -1097,8 +1082,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     break;
                                 },
                                 _ => {
-                                    println!("Internal {}: System Not Found", "Error".red().bold());
-                                    exit(1);
+                                    error_system_not_found();
                                 }
                             }
                         },
