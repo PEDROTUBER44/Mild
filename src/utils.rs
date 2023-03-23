@@ -175,6 +175,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
             println!("{} The Multilib Repositories", "Uncomment".bold().yellow());
             system_command("sleep 4");
             system_command("sudo nano /etc/pacman.conf");
+            system_command("sudo pacman -Sy --noconfirm"); /* Update Repositories list */
             system_command("sudo mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
             system_command("sudo mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
             system_command("sudo mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
@@ -547,15 +548,15 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                         "2" => {
                             match &system[..] {
                                 "archlinux" => {
-                                    system_command("pacman -S xf86-video-intel mesa libgl --noconfirm");
+                                    system_command("sudo pacman -S xf86-video-intel mesa libgl --noconfirm");
                                     break;
                                 },
                                 "debian" => {
-                                    system_command("apt install xorg mesa -y");
+                                    system_command("sudo apt install xorg mesa -y");
                                     break;
                                 },
                                 "fedora" => {
-                                    system_command("dnf install @base-x -y");
+                                    system_command("sudo dnf install @base-x -y");
                                     break;
                                 },
                                 _ => {
