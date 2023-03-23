@@ -19,15 +19,15 @@ use colored::Colorize;
 use crate::texts;
 
 
-pub fn remove_and_install_pkgs(remove_cmd: &str, install_cmd: &str, pkgs_to_remove: &str, pkgs_to_install: &str) {
-    let remove_result = Command::new("sh").arg("-c").arg(format!("{} {}", remove_cmd, pkgs_to_remove)).status();
+pub fn remove_and_install_pkgs(remove_command: &str, install_command: &str) {
+    let remove_result = Command::new("sh").arg("-c").arg(remove_command).status();
     
     match remove_result {
         Ok(_) => println!("Packages Removed {}", "Successfully".green().bold()),
         Err(_) => println!("{} To Remove Packages, {}: {:?}", "Error".red().bold(), "Error".red().bold(), remove_result.err())
     }
 
-    let install_result = Command::new("sh").arg("-c").arg(format!("{} {}", install_cmd, pkgs_to_install)).status();
+    let install_result = Command::new("sh").arg("-c").arg(install_command).status();
     
     match install_result {
         Ok(_) => println!("Packages Installed {}", "Successfully".green().bold()),
@@ -172,12 +172,12 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
     match &system[..] /* Configure System */ {
         "archlinux" => {
             write_text_in_file(texts::PACMAN_CONFIG_FILE, "/etc/pacman.conf", true, true);
-            system_command("mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
-            system_command("mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
-            system_command("mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
-            system_command("mv /usr/share/applications/nm-connection-editor.desktop /usr/share/applications/nm-connection-editor.backup");
-            system_command("mv /usr/share/applications/qv4l2.desktop /usr/share/applications/qv4l2.backup");
-            system_command("mv /usr/share/applications/qvidcap.desktop /usr/share/applications/qvidcap.backup");
+            system_command("sudo mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
+            system_command("sudo mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
+            system_command("sudo mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
+            system_command("sudo mv /usr/share/applications/nm-connection-editor.desktop /usr/share/applications/nm-connection-editor.backup");
+            system_command("sudo mv /usr/share/applications/qv4l2.desktop /usr/share/applications/qv4l2.backup");
+            system_command("sudo mv /usr/share/applications/qvidcap.desktop /usr/share/applications/qvidcap.backup");
         },
 
         "debian" => {
@@ -217,21 +217,21 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                 match &system[..] /* Remove Packages And Install New Enviroment */ {
                     "archlinux" => {
                         system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs("sudo pacman -Rsn --noconfirm", "sudo pacman -Syu --noconfirm", all_packages_to_remove, all_packages_to_install);
+                        remove_and_install_pkgs(&format!("sudo pacman -Rsn {} --noconfirm",all_packages_to_remove), &format!("sudo pacman -Syu {} --noconfirm", all_packages_to_install));
                         system_command(texts::INSTALL_UTILS_FOR_ARCHLINUX);
                         system_command(texts::INSTALL_FLATHUB);
                         system_command(texts::ENABLE_NETWORKMANAGER);
                     },
                     "debian" => {
                         system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs("sudo apt remove -y", "sudo apt install -y", all_packages_to_remove, all_packages_to_install);
+                        remove_and_install_pkgs(&format!("sudo apt remove {} -y",all_packages_to_remove), &format!("sudo apt install {} -y", all_packages_to_install));
                         system_command(texts::INSTALL_UTILS_FOR_DEBIAN);
                         system_command(texts::INSTALL_FLATHUB);
                         system_command(texts::ENABLE_NETWORKMANAGER);
                     },
                     "fedora" => {
                         system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs("sudo dnf remove -y", "sudo dnf install -y", all_packages_to_remove, all_packages_to_install);
+                        remove_and_install_pkgs(&format!("sudo dnf remove {} -y",all_packages_to_remove), &format!("sudo dnf install {} -y", all_packages_to_install));
                         system_command(texts::INSTALL_RPMFUSION_REPOSITORY);
                         system_command(texts::INSTALL_UTILS_FOR_FEDORA);
                         system_command(texts::INSTALL_FLATHUB);
