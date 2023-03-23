@@ -668,11 +668,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google --noconfirm");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command("git clone https://aur.archlinux.org/preload.git");
-                                    system_command("cd preload/");
-                                    system_command("makepkg -sicr");
-                                    system_command("cd ..");
-                                    remove_folder("preload/");
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
                                 },
@@ -702,16 +697,11 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google p7zip zip unzip unrar exfat-utils --noconfirm");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command("git clone https://aur.archlinux.org/preload.git");
-                                    system_command("cd preload/");
-                                    system_command("makepkg -sicr");
-                                    system_command("cd ..");
-                                    remove_folder("preload/");
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
                                 },
                                 "debian" => {
-                                    system_command("apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload exfat-fuse exfat-utils p7zip-full zip unzip unrar-free -y");
+                                    system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload exfat-fuse exfat-utils p7zip-full zip unzip unrar-free -y");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
