@@ -2,7 +2,27 @@ pub const ALL_PACKAGES_TO_REMOVE_ARCHLINUX: &str = "";
 pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "";
 pub const ALL_PACKAGES_TO_REMOVE_FEDORA: &str = "";
 
-pub const PACMAN_CONFIG_FILE: &str = "";
+pub const PACMAN_CONFIG_FILE: &str = "[options]
+HoldPkg = pacman glibc
+Architecture = auto
+
+CheckSpace
+
+SigLevel = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacnan.d/mirrorlist
+
+[multilib]
+Include = /etc/pacnan.d/mirrorlist
+";
 pub const DEBIAN_CONFIG_FILE: &str = "";
 pub const DNF_CONFIG_FILE: &str = r#"[main]
 gpgcheck=1
