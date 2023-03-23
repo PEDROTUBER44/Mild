@@ -171,7 +171,10 @@ pub fn error_system_not_found() {
 pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_to_install: &str, system: &str) {
     match &system[..] /* Configure System */ {
         "archlinux" => {
-            write_text_in_file(texts::PACMAN_CONFIG_FILE, "/etc/pacman.conf", true, true);
+            system_command("clear");
+            println!("{} The Multilib Repositories", "Uncomment".bold().yellow());
+            system_command("sleep 4");
+            system_command("sudo nano /etc/pacman.conf");
             system_command("sudo mv /usr/share/applications/avahi-discover.desktop /usr/share/applications/avahi-discover.backup");
             system_command("sudo mv /usr/share/applications/bssh.desktop /usr/share/applications/bssh.backup");
             system_command("sudo mv /usr/share/applications/bvnc.desktop /usr/share/applications/bvnc.backup");
