@@ -21,6 +21,8 @@ fn main() {
             utils::system_command("sudo pacman -Scc --noconfirm"); /* Command To Clear Pacman Cache */
             clean_systemd();
             utils::system_command("flatpak uninstall --unused"); /* Command To Uninstall Orphaned Flatpak Packages */
+            utils::remove_folder("/*/*/.var/app/*/cache/"); /* Remove cache folder content of all flatpak's */
+            utils::remove_folder("/*/*/.cache/"); /* Remove cache folder content */
             exit(0);
         },
 
@@ -35,12 +37,16 @@ fn main() {
             utils::system_command("sudo apt autoremove -y"); /* Command To Clean Up Orphaned APT Packages */
             clean_systemd();
             utils::system_command("flatpak uninstall --unused"); /* Command To Uninstall Orphaned Flatpak Packages */
+            utils::remove_folder("/*/*/.var/app/*/cache/"); /* Remove cache folder content of all flatpak's */
+            utils::remove_folder("/*/*/.cache/"); /* Remove cache folder content */
             exit(0);
         },
 
         "--clean-fedora" => {
             utils::system_command("sudo dnf clean all"); /* Command To Clear DNF Cache */
             utils::system_command("sudo dnf autoremove -y"); /* Command To Clean Up DNF Orphaned Packages */
+            utils::remove_folder("/*/*/.var/app/*/cache/"); /* Remove cache folder content of all flatpak's */
+            utils::remove_folder("/*/*/.cache/"); /* Remove cache folder content */
             clean_systemd();
             exit(0);
         },
@@ -409,9 +415,11 @@ fn main() {
         "--install-fedora-xfce" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
-            // - 
-            // - 
-            // - 
+            // - xfwm4: Xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
+            // - xfce4-power-manager: Xfce Power Manager uses the information and facilities provided by HAL to display icons and handle user callbacks in an interactive Xfce session. Xfce Power Preferences allows authorised users to set policy and change preferences.
+            // - xfce4-settings: This package includes the settings manager applications for the Xfce desktop.
+            // - xfce4-whiskermenu-plugin: Alternate application launcher for Xfce. When you open it you are shown a list of applications you have marked as favorites. You can browse through all of your installed applications by clicking on the category buttons on the side. Top level categories make browsing fast, and simple to switch between. Additionally, Whisker Menu keeps a list of the last ten applications that you’ve launched from it
+            // - xfdesktop: This package includes a desktop manager for the Xfce Desktop Environment.
             // 
             // sudo dnf info @xfce-desktop
             //
@@ -436,9 +444,15 @@ fn main() {
         "--install-fedora-cinnamon" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
-            // - 
-            // - 
-            // - 
+            // - cinnamon: Cinnamon is a Linux desktop which provides advanced innovative features and a traditional user experience.
+            // - cinnamon-control-center: This package contains configuration utilities for the Cinnamon desktop, which allow to configure accessibility options, desktop fonts, keyboard and mouse properties, sound setup, desktop theme and background, user interface properties, screen resolution, and other settings.
+            // - cinnamon-desktop: The cinnamon-desktop package contains an internal library (libcinnamon-desktop) used to implement some portions of the CINNAMON desktop, and also some data files and other shared components of the CINNAMON user environment.
+            // - cinnamon-menus: Cinnamon-menus is an implementation of the draft "Desktop Menu Specification" from freedesktop.org. This package also contains the Cinnamon menu layout configuration files, .directory files and assorted menu related utility programs, Python bindings, and a simple menu editor.
+            // - nemo: Nemo is the file manager and graphical shell for the Cinnamon desktop that makes it easy to manage your files and the rest of your system. It allows to browse directories on local and remote filesystems, preview files and launch applications associated with them. It is also responsible for handling the icons on the Cinnamon desktop.
+            // - nemo-fileroller: This package contains the file-roller extension for the Nemo.
+            // - cinnamon-translations: Translations for Cinnamon, Nemo and Mintlocale.
+            // - cjs: Cjs allows using Cinnamon libraries from Javascript. It's based on the Spidermonkey Javascript engine from Mozilla and the GObject introspection framework.
+            // - muffin: Muffin is a window and compositing manager that displays and manages your desktop via OpenGL. Muffin combines a sophisticated display engine using the Clutter toolkit with solid window-management logic inherited from the Metacity window manager.
             // 
             // sudo dnf info @cinnamon-desktop
             //
@@ -449,9 +463,17 @@ fn main() {
         "--install-fedora-mate" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
-            // - 
-            // - 
-            // - 
+            // - mate-control-center: MATE Control Center configures system settings such as themes, keyboards shortcuts, etc.
+            // - mate-desktop: The mate-desktop package contains an internal library (libmatedesktop) used to implement some portions of the MATE desktop, and also some data files and other shared components of the MATE user environment.
+            // - mate-power-manager: MATE Power Manager uses the information and facilities provided by UPower displaying icons and handling user callbacks in an interactive MATE session.
+            // - mate-screensaver: Mate-screensaver is a screen saver and locker that aims to have simple, sane, secure defaults and be well integrated with the desktop.
+            // - mate-session-manager: This package contains a session that can be started from a display manager such as MDM. It will load all necessary applications for a full-featured user session.
+            // - mate-settings-daemon: This package contains the daemon which is responsible for setting the various parameters of a MATE session and the applications that run under it.
+            // - mate-terminal: Mate-terminal is a terminal emulator for MATE. It supports translucent backgrounds, opening multiple terminals in a single window (tabs) and clickable URLs.
+            // - network-manager-applet: This package contains a network control and status notification area applet for use with NetworkManager.
+            // - mate-panel: MATE Desktop panel applets
+            // - marco: MATE Desktop window manager
+            // - caja: Caja (mate-file-manager) is the file manager and graphical shell for the MATE desktop, that makes it easy to manage your files and the rest of your system. It allows to browse directories on local and remote file systems, preview files and launch applications associated with them. It is also responsible for handling the icons on the MATE desktop.
             // 
             // sudo dnf info @mate-desktop
             //
@@ -462,13 +484,18 @@ fn main() {
         "--install-fedora-kdeplasma" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
-            // - 
-            // - 
-            // - 
+            // - plasma-desktop: Plasma Desktop shell.
+            // - plasma-nm: Plasma applet and editor for managing your network connections in KDE 4 using the default NetworkManager service.
+            // - kcm_colors: The Color Selection module is comprised of several sections * The Scheme tab, used to manage schemes * The Options tab, used to change the options of the current scheme * The Colors tab, used to change the colors of the current scheme * The state effects tabs (Inactive, Disabled) 
+            // - kcm-fcitx: Kcm-fcitx is a System Settings module to manage Fcitx. You can config fcitx through "Personalization" - "Regional Settings" - "Input Method" now.
+            // - kscreen: KCM and KDED modules for managing displays in KDE.
+            // - ksysguard: KDE Process Management application.
+            // - spectacle: Screenshot capture utility.
+            // - dolphin: KDE File Manager.
             // 
             // sudo dnf info @plasma-desktop
             //
-            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm kcm_colors kcm-fcitx kscreen ksysguard spectacle plasma-user-manager dolphin", "fedora");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_FEDORA, "plasma-desktop plasma-nm kcm_colors kcm-fcitx kscreen ksysguard spectacle dolphin", "fedora");
             exit(0);
         },
 
