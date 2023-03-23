@@ -155,14 +155,6 @@ pub fn install_flatpak_package_from_flathub(package_name: &str, id: &str) {
     }
 }
 
-pub fn install_aur(url: &str, folder: &str) {
-    system_command(&format!("git clone {}", url));
-    system_command(&format!("cd {}", folder));
-    system_command("makepkg -sicr");
-    system_command("cd ..");
-    remove_folder(folder);
-}
-
 pub fn error_system_not_found() {
     println!("Internal {}: System Not Found", "Error".red().bold());
     exit(1);
@@ -676,7 +668,11 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google --noconfirm");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
-                                    install_aur("https://aur.archlinux.org/preload.git", "preload/");
+                                    system_command("git clone https://aur.archlinux.org/preload.git");
+                                    system_command("cd preload/");
+                                    system_command("makepkg -sicr");
+                                    system_command("cd ..");
+                                    remove_folder("preload/");
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
                                 },
@@ -706,7 +702,11 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google p7zip zip unzip unrar exfat-utils --noconfirm");
                                     system_command(texts::ENABLE_NETWORKMANAGER);
-                                    install_aur("https://aur.archlinux.org/preload.git", "preload/");
+                                    system_command("git clone https://aur.archlinux.org/preload.git");
+                                    system_command("cd preload/");
+                                    system_command("makepkg -sicr");
+                                    system_command("cd ..");
+                                    remove_folder("preload/");
                                     system_command(texts::ENABLE_PRELOAD);
                                     break;
                                 },
