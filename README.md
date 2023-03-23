@@ -26,7 +26,7 @@ Order |  Type  | Size
 
 ## BIOS/LEGACY
 
--Archlinux Install UEFI Video-
+-Archlinux Install BIOS Video-
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
