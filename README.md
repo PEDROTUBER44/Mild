@@ -123,13 +123,15 @@ You can now select which graphical environment you want to install on your PC:
 
 	mild --install-archlinux-lxde
 
--Imagem Archlinux Lxde-
+![Archlinux Lxde](https://user-images.githubusercontent.com/77652411/228049028-75174e0b-68f2-4d68-b7eb-06fbcff807a6.png)
+
 
 ### Lxqt
 
 	mild --install-archlinux-lxqt
 
--Imagem Archlinux Lxqt-
+![Archlinux Lxqt](https://user-images.githubusercontent.com/77652411/228049259-ab447cd7-35ad-4808-ba0f-5b47fb4d1fb5.png)
+
 
 ### Xfce4
 
