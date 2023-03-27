@@ -76,6 +76,7 @@ fn main() {
         "--install-archlinux-lxqt" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - lxqt-session: The LXQt session manager
             // - lxqt-admin: LXQt System Administration Tool
             // - lxqt-config: LXQt System Configuration
             // - lxqt-globalkeys: LXQt Daemon And Library For Global Keyboard Shortcuts Registration
@@ -91,7 +92,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/lxqt/
             //
-            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxqt-admin lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-themes obconf-qt openbox pavucontrol-qt pcmanfm-qt", "archlinux");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "lxqt-session lxqt-admin lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-themes obconf-qt openbox pavucontrol-qt pcmanfm-qt", "archlinux");
             exit(0);
         },
 
