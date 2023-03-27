@@ -99,6 +99,7 @@ fn main() {
         "--install-archlinux-xfce" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - xfce4-session: Xfce's session manager
             // - exo: Application Library For The Xfce Desktop Environment
             // - garcon: Freedesktop.org Compliant Menu Library
             // - thunar: Modern, Fast And easy-to-use File Manager For Xfce
@@ -114,7 +115,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/xfce4/
             //
-            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "exo garcon thunar thunar-volman tumbler xfce4-panel xfce4-power-manager xfce4-settings xfconf xfdesktop xfwm4 xfwm4-themes", "archlinux");
+            utils::install_system_and_utilities(texts::ALL_PACKAGES_TO_REMOVE_ARCHLINUX, "xfce4-session exo garcon thunar thunar-volman tumbler xfce4-panel xfce4-power-manager xfce4-settings xfconf xfdesktop xfwm4 xfwm4-themes", "archlinux");
             exit(0);
         },
 
