@@ -32,7 +32,7 @@ fn main() {
     pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME: &str = "adwaita-icon-theme at-spi2-core caribou dconf-cli dconf-gsettings-backend evolution-data-server fonts-cantarell gkbd-capplet gnome-control-center gnome-session gnome-settings-daemon gnome-sushi gnome-shell network-manager-gnome nautilus --no-install-recommends";
     pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON: &str = "cinnamon-core adwaita-icon-theme";
     pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE: &str = "adwaita-icon-theme caja dconf-gsettings-backend fonts-cantarell gvfs-backends marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-session-manager mate-settings-daemon mate-themes";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "papirus-icon-theme plasma-desktop dolphin kdialog keditbookmarks kfind plasma-workspace udisks2 upower plasma-nm plasma-workspace-wayland";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "papirus-icon-theme plasma-desktop dolphin kdialog keditbookmarks kfind plasma-workspace udisks2 upower plasma-nm plasma-workspace-wayland"; /*Fix*/ // breeze breeze-gtk adicionar eles 
     let all_packages_to_remove_debian: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA.to_owned());
     let all_packets_do_debian_no_duplicate_packets = utils::remove_repeated_words(&all_packages_to_remove_debian);
 

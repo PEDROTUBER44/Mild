@@ -311,6 +311,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         system_command("sudo pacman -S flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
+                        /*Fix*/ // Add preload install
                     },
                     "debian" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
@@ -685,7 +686,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                     println!("{} - {}", "1".red().bold(), "Nvidia".yellow().bold());
                     println!("{} - {}", "2".red().bold(), "Intel".yellow().bold());
                     println!("{} - {}", "3".red().bold(), "Amd".yellow().bold());
-                    println!("{} - {}", "4".red().bold(), "None".yellow().bold());
                     println!("");
                     print!("Which Option Do You Want?: ");
 
@@ -753,8 +753,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                             }
                         },
 
-                        "4" => break,
-
                         _ => {
                             invalid_option_selected_error();
                             continue;
@@ -816,83 +814,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
 
                         "3" => break,
-
-                        _ => {
-                            invalid_option_selected_error();
-                            continue;
-                        }
-                    }
-                }
-
-                loop /* Basic Utilities And Compressed File Support */ {
-                    println!("Do You Want To Install Basic Utilities (*Required)?");
-                    println!("");
-                    println!("{} - {}", "1".red().bold(), "Basic Utilities".yellow().bold());
-                    println!("{} - {}", "2".red().bold(), "Basic Utilities/Compressed File Support/EXFAT File System Support".yellow().bold());
-                    println!("");
-                    print!("Which Option Do You Want?: ");
-
-                    stdout().flush().unwrap();
-                    let mut option: String = String::new();
-                    stdin().read_line(&mut option).expect("Error To Read User Input");
-                    match &option.trim().to_lowercase()[..] {
-                        "1" => {
-                            match &system[..] {
-                                "archlinux" => {
-                                    system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google --noconfirm");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                "debian" => {
-                                    system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload -y");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                "fedora" => {
-                                    system_command("sudo dnf copr enable elxreno/preload -y");
-                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
-                                    system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
-                                    system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                _ => {
-                                    error_system_not_found();
-                                }
-                            }
-                        },
-
-                        "2" => {
-                            match &system[..] {
-                                "archlinux" => {
-                                    system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google p7zip zip unzip unrar exfat-utils --noconfirm");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                "debian" => {
-                                    system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload exfat-fuse exfat-utils p7zip-full zip unzip unrar-free -y");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                "fedora" => {
-                                    system_command("sudo dnf copr enable elxreno/preload -y");
-                                    system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager unrar p7zip zip unzip --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
-                                    system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
-                                    system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
-                                    system_command(ENABLE_NETWORKMANAGER);
-                                    system_command(ENABLE_PRELOAD);
-                                    break;
-                                },
-                                _ => {
-                                    error_system_not_found();
-                                }
-                            }
-                        },
 
                         _ => {
                             invalid_option_selected_error();
