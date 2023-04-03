@@ -44,7 +44,7 @@ fn main() {
     let all_packages_to_remove_fedora: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA.to_owned());
 
     match &option[..] {
-        "--clean-arch" => {
+        "--clean-archlinux" => {
             utils::system_command("sudo pacman -Rsn $(pacman -Qdtq) --noconfirm"); /* Command To Clean Up Dead Pacman Packages */
             utils::system_command("sudo pacman -Scc --noconfirm"); /* Command To Clear Pacman Cache */
             clean_systemd();
