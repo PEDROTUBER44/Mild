@@ -1,107 +1,3 @@
-pub const ALL_PACKAGES_TO_REMOVE_ARCHLINUX: &str = "";
-pub const ALL_PACKAGES_TO_REMOVE_DEBIAN: &str = "";
-pub const ALL_PACKAGES_TO_REMOVE_FEDORA: &str = "";
-
-pub const PACMAN_CONFIG_FILE: &str = "#
-# /etc/pacman.conf
-#
-# See the pacman.conf(5) manpage for option and repository directives
-
-#
-# GENERAL OPTIONS
-#
-[options]
-# The following paths are commented out with their default values listed.
-# If you wish to use different paths, uncomment and update the paths.
-#RootDir     = /
-#DBPath      = /var/lib/pacman/
-#CacheDir    = /var/cache/pacman/pkg/
-#LogFile     = /var/log/pacman.log
-#GPGDir      = /etc/pacman.d/gnupg/
-#HookDir     = /etc/pacman.d/hooks/
-HoldPkg     = pacman glibc
-#XferCommand = /usr/bin/curl -L -C - -f %o %u
-#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
-#CleanMethod = KeepInstalled
-Architecture = auto
-
-# Pacman won't upgrade packages listed in IgnorePkg and members of IgnoreGroup
-#IgnorePkg   =
-#IgnoreGroup =
-
-#NoUpgrade   =
-#NoExtract   =
-
-# Misc options
-#UseSyslog
-#Color
-#NoProgressBar
-CheckSpace
-#VerbosePkgLists
-#ParallelDownloads = 5
-
-# By default, pacman accepts packages signed by keys that its local keyring
-# trusts (see pacman-key and its man page), as well as unsigned packages.
-SigLevel = Required DatabaseOptional
-LocalFileSigLevel = Optional
-#RemoteFileSigLevel = Required
-
-# NOTE: You must run `pacman-key --init` before first using pacman; the local
-# keyring can then be populated with the keys of all official Arch Linux
-# packagers with `pacman-key --populate archlinux`.
-
-#
-# REPOSITORIES
-#   - can be defined here or included from another file
-#   - pacman will search repositories in the order defined here
-#   - local/custom mirrors can be added here or in separate files
-#   - repositories listed first will take precedence when packages
-#     have identical names, regardless of version number
-#   - URLs will have $repo replaced by the name of the current repo
-#   - URLs will have $arch replaced by the name of the architecture
-#
-# Repository entries are of the format:
-#       [repo-name]
-#       Server = ServerName
-#       Include = IncludePath
-#
-# The header [repo-name] is crucial - it must be present and
-# uncommented to enable the repo.
-#
-
-# The testing repositories are disabled by default. To enable, uncomment the
-# repo name header and Include lines. You can add preferred servers immediately
-# after the header, and they will be used before the default mirrors.
-
-#[testing]
-#Include = /etc/pacman.d/mirrorlist
-
-[core]
-Include = /etc/pacman.d/mirrorlist
-
-[extra]
-Include = /etc/pacman.d/mirrorlist
-
-#[community-testing]
-#Include = /etc/pacman.d/mirrorlist
-
-[community]
-Include = /etc/pacman.d/mirrorlist
-
-# If you want to run 32 bit applications on your x86_64 system.
-# enable the multilib repositories as required here.
-
-#[multilib-testing]
-#Include = /etc/pacman.d/mirrorlist
-
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-
-# An example of a custom package repository.  See the pacman manpage for
-# tips on creating your own repositories.
-#[custom]
-#SigLevel = Optional TrustAll
-#Server = file:///home/custompkgs";
 pub const DEBIAN_CONFIG_FILE: &str = "";
 pub const DNF_CONFIG_FILE: &str = r#"[main]
 gpgcheck=1
@@ -113,37 +9,20 @@ fastestmirror=True
 max_parallel_downloads=7
 defaultyes=True
 install_weak_deps=false"#;
-
-pub const DISABLE_DISPLAY_MANAGERS_CMD: &str = "sudo systemctl disable gdm -f && sudo systemctl disable lightdm -f && sudo systemctl disable sddm -f && sudo systemctl disable lxdm -f";
-pub const INSTALL_UTILS_FOR_ARCHLINUX: &str = "sudo pacman -S flatpak xorg xorg-server networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm";
-pub const INSTALL_UTILS_FOR_DEBIAN: &str = "sudo apt install flatpak sudo zip unzip unrar-free network-manager xorg gvfs pulseaudio exfat-utils p7zip-full adwaita-icon-theme gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad gstreamer1.0-plugins-base ffmpeg sox twolame vorbis-tools lame faad -y";
-pub const INSTALL_UTILS_FOR_FEDORA: &str = r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame\* gvfs-mtp gvfs-goa gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#;
-pub const INSTALL_RPMFUSION_REPOSITORY: &str = "sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y";
-pub const INSTALL_FLATHUB: &str = "flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo";
-pub const ENABLE_NETWORKMANAGER: &str = "sudo systemctl enable NetworkManager -f";
-pub const ENABLE_PRELOAD: &str = "sudo systemctl enable preload -f";
-pub const ENABLE_BLUETOOTH: &str = "sudo systemctl enable bluetooth -f";
-pub const ENABLE_GDM: &str = "sudo systemctl enable gdm -f";
-pub const ENABLE_LIGHTDM: &str = "sudo systemctl enable lightdm -f";
-pub const ENABLE_SDDM: &str = "sudo systemctl enable sddm -f";
-pub const ENABLE_LXDM: &str = "sudo systemctl enable lxdm -f";
-pub const ENABLE_GRAPHICAL_INITIALIZATION: &str = "sudo systemctl set-default graphical.target";
-
-
 pub const HELP_EN_US: &str = "
 
 Use mild --[option]-[distribution]-[interface]
 
-    --install-arch-lxde => Install Minimal Lxde Desktop on ArchLinux.
-    --install-arch-lxqt => Install Minimal Lxqt Desktop on ArchLinux.
-    --install-arch-xfce => Install Minimal Xfce4 Desktop on ArchLinux.
-    --install-arch-gnome => Install Minimal Gnome Desktop on ArchLinux.
-    --install-arch-cinnamon => Install Minimal Cinnamon Desktop on ArchLinux.
-    --install-arch-mate => Install Minimal Mate Desktop on ArchLinux.
-    --install-arch-kdeplasma => Install Minimal Kde Plasma Desktop on ArchLinux.
-    --install-arch-bspwm => Install Minimal Bspwm Desktop on ArchLinux.
-    --install-arch-cutefish => Install Minimal Cutefish Desktop on ArchLinux.
-    --clean-arch => Cleans up ArchLinux by removing cache and orphaned packages from the system
+    --install-archlinux-lxde => Install Minimal Lxde Desktop on ArchLinux.
+    --install-archlinux-lxqt => Install Minimal Lxqt Desktop on ArchLinux.
+    --install-archlinux-xfce => Install Minimal Xfce4 Desktop on ArchLinux.
+    --install-archlinux-gnome => Install Minimal Gnome Desktop on ArchLinux.
+    --install-archlinux-cinnamon => Install Minimal Cinnamon Desktop on ArchLinux.
+    --install-archlinux-mate => Install Minimal Mate Desktop on ArchLinux.
+    --install-archlinux-kdeplasma => Install Minimal Kde Plasma Desktop on ArchLinux.
+    --install-archlinux-bspwm => Install Minimal Bspwm Desktop on ArchLinux.
+    --install-archlinux-cutefish => Install Minimal Cutefish Desktop on ArchLinux.
+    --clean-archlinux => Cleans up ArchLinux by removing cache and orphaned packages from the system
     
     --install-debian-lxde => Install Minimal Lxde Desktop on Debian 11.
     --install-debian-lxqt => Install Minimal Lxqt Desktop on Debian 11.

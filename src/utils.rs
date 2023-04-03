@@ -19,6 +19,7 @@ use colored::Colorize;
 use crate::texts;
 
 
+
 pub fn remove_and_install_pkgs(remove_command: &str, install_command: &str) {
     let remove_result = Command::new("sh").arg("-c").arg(remove_command).status();
     
@@ -160,7 +161,19 @@ pub fn error_system_not_found() {
     exit(1);
 }
 
-pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_to_install: &str, system: &str) {
+pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages_to_install: &str, system: &str) {
+
+    pub const DISABLE_DISPLAY_MANAGERS_CMD: &str = "sudo systemctl disable gdm -f && sudo systemctl disable lightdm -f && sudo systemctl disable sddm -f && sudo systemctl disable lxdm -f";
+    pub const INSTALL_FLATHUB: &str = "flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo";
+    pub const ENABLE_NETWORKMANAGER: &str = "sudo systemctl enable NetworkManager -f";
+    pub const ENABLE_GDM: &str = "sudo systemctl enable gdm -f";
+    pub const ENABLE_LIGHTDM: &str = "sudo systemctl enable lightdm -f";
+    pub const ENABLE_SDDM: &str = "sudo systemctl enable sddm -f";
+    pub const ENABLE_LXDM: &str = "sudo systemctl enable lxdm -f";
+    pub const ENABLE_PRELOAD: &str = "sudo systemctl enable preload -f";
+    pub const ENABLE_BLUETOOTH: &str = "sudo systemctl enable bluetooth -f";
+    pub const ENABLE_GRAPHICAL_INITIALIZATION: &str = "sudo systemctl set-default graphical.target";
+
     match &system[..] /* Configure System */ {
         "archlinux" => {
             system_command("clear");
@@ -212,26 +225,195 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
             "y" | "yes" | "" => {
                 match &system[..] /* Remove Packages And Install New Enviroment */ {
                     "archlinux" => {
-                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs(&format!("sudo pacman -Rsn {} --noconfirm",all_packages_to_remove), &format!("sudo pacman -Syu {} --noconfirm", all_packages_to_install));
-                        system_command(texts::INSTALL_UTILS_FOR_ARCHLINUX);
-                        system_command(texts::INSTALL_FLATHUB);
-                        system_command(texts::ENABLE_NETWORKMANAGER);
+                        system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
+                        remove_and_install_pkgs(&format!("sudo pacman -Rsn {} --noconfirm",all_packages_to_remove), &format!("sudo pacman -Syu {} --noconfirm", all_packages_to_install)); // This line of code will remove almost all packages for each graphical interface and after that it will install the graphical environment packages that the user wants
+                        // List Of Basic System Utilities That Will Be Installed:
+                        //
+                        // Miscellaneous:
+                        //
+                        // - flatpak: Linux application sandboxing and distribution framework (formerly xdg-app).
+                        // - networkmanager: Network connection manager and user applications.
+                        // - xdg-user-dirs: Manage user directories like ~/Desktop and ~/Music.
+                        // - exfat-utils: Utilities for exFAT file system.
+                        //
+                        //
+                        // Window System:
+                        // 
+                        // - xorg: Xorg X server (packages).
+                        // - xorg-server: Xorg X server.
+                        //
+                        //
+                        // Compressed file handlers:
+                        //
+                        // - p7zip: Command-line file archiver with high compression ratio.
+                        // - zip: Compressor/archiver for creating and modifying zipfiles.
+                        // - unzip: For extracting and viewing files in .zip archives.
+                        // - unrar: The RAR uncompression program.
+                        //
+                        //
+                        // GVFS:
+                        //
+                        // - gvfs-mtp: Virtual filesystem implementation for GIO (MTP backend; Android, media player).
+                        // - gvfs-goa: Virtual filesystem implementation for GIO (Gnome Online Accounts backend; cloud storage).
+                        // - gvfs-google: Virtual filesystem implementation for GIO (Google Drive backend).
+                        //
+                        //
+                        // Codecs:
+                        //
+                        // - ffmpeg: Complete solution to record, convert and stream audio and video.
+                        // - gst-plugins-ugly: Multimedia graph framework - ugly plugins.
+                        // - gst-plugins-good: Multimedia graph framework - good plugins.
+                        // - gst-plugins-base: gst-plugins-baseMultimedia graph framework - base plugins.
+                        // - gst-plugins-bad: Multimedia graph framework - bad plugins.
+                        // - gst-libav: Multimedia graph framework - libav plugin.
+                        // - gstreamer: Multimedia graph framework - core.
+                        // - a52dec: A free library for decoding ATSC A/52 streams.
+                        // - faac: Freeware Advanced Audio Coder.
+                        // - faad2: Freeware Advanced Audio (AAC) Decoder.
+                        // - flac: Free Lossless Audio Codec.
+                        // - jasper: Software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard.
+                        // - lame: A high quality MPEG Audio Layer III (MP3) encoder.
+                        // - libdca: Free library for decoding DTS Coherent Acoustics streams.
+                        // - libdv: The Quasar DV codec (libdv) is a software codec for DV video.
+                        // - libmad: A high-quality MPEG audio decoder.
+                        // - libmpeg2: Library for decoding MPEG-1 and MPEG-2 video streams.
+                        // - libtheora: An open video codec developed by the Xiph.org.
+                        // - libvorbis: Reference implementation of the Ogg Vorbis audio format.
+                        // - libxv: X11 Video extension library.
+                        // - opus: Totally open, royalty-free, highly versatile audio codec.
+                        // - wavpack: Audio compression format with lossless, lossy and hybrid compression modes
+                        // - x264: Open Source H264/AVC video encoder.
+                        // - xvidcore: XviD is an open source MPEG-4 video codec.
+                        //
+                        //
+                        // https://archlinux.org
+                        //
+                        system_command("sudo pacman -S flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
+                        system_command(INSTALL_FLATHUB);
+                        system_command(ENABLE_NETWORKMANAGER);
                     },
                     "debian" => {
-                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs(&format!("sudo apt remove {} -y",all_packages_to_remove), &format!("sudo apt install {} -y", all_packages_to_install));
-                        system_command(texts::INSTALL_UTILS_FOR_DEBIAN);
-                        system_command(texts::INSTALL_FLATHUB);
-                        system_command(texts::ENABLE_NETWORKMANAGER);
+                        system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
+                        remove_and_install_pkgs(&format!("sudo apt remove {} -y",all_packages_to_remove), &format!("sudo apt install {} -y", all_packages_to_install)); // This line of code will remove almost all packages for each graphical interface and after that it will install the graphical environment packages that the user wants
+                        // List Of Basic System Utilities That Will Be Installed:
+                        //
+                        // Miscellaneous:
+                        //
+                        // - flatpak: Application deployment framework for desktop apps.
+                        // - sudo: Provide limited super user privileges to specific users.
+                        // - network-manager: network management framework (daemon and userspace tools).
+                        // - pulseaudio: PulseAudio sound server.
+                        // - exfat-utils: utilities to create, check, label and dump exFAT filesystem.
+                        // - adwaita-icon-theme: default icon theme of GNOME. /*Fix*/
+                        // - xdg-user-dirs: tool to manage well known user directories.
+                        //
+                        //
+                        // Window system:
+                        //
+                        // - xorg: X.Org X Window System.
+                        //
+                        //
+                        // Compressed file handlers:
+                        //
+                        // - zip: Archiver for .zip files.
+                        // - unzip: De-archiver for .zip files.
+                        // - unrar-free: Unarchiver for .rar files.
+                        // - p7zip-full: 7z and 7za file archivers with high compression ratio.
+                        //
+                        //
+                        // GVFS:
+                        //
+                        // - gvfs: userspace virtual filesystem - GIO module.
+                        //
+                        //
+                        // Codecs:
+                        //
+                        // - gstreamer1.0-plugins-base: GStreamer plugins from the "base" set.
+                        // - gstreamer1.0-plugins-good: GStreamer plugins from the "good" set.
+                        // - gstreamer1.0-plugins-ugly: GStreamer plugins from the "ugly" set.
+                        // - gstreamer1.0-plugins-bad: GStreamer plugins from the "bad" set.
+                        // - ffmpeg: Tools for transcoding, streaming and playing of multimedia files
+                        // - sox: Swiss army knife of sound processing.
+                        // - twolame: MPEG Audio Layer 2 encoder (command line frontend).
+                        // - vorbis-tools: several Ogg Vorbis tools.
+                        // - lame: MP3 encoding library (frontend).
+                        // - faad: freeware Advanced Audio Decoder player.
+                        //
+                        //
+                        // https://packages.debian.org/en/
+                        //
+                        system_command("sudo apt install flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full adwaita-icon-theme gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
+                        system_command(INSTALL_FLATHUB);
+                        system_command(ENABLE_NETWORKMANAGER);
                     },
                     "fedora" => {
-                        system_command(texts::DISABLE_DISPLAY_MANAGERS_CMD);
-                        remove_and_install_pkgs(&format!("sudo dnf remove {} -y",all_packages_to_remove), &format!("sudo dnf install {} -y", all_packages_to_install));
-                        system_command(texts::INSTALL_RPMFUSION_REPOSITORY);
-                        system_command(texts::INSTALL_UTILS_FOR_FEDORA);
-                        system_command(texts::INSTALL_FLATHUB);
-                        system_command(texts::ENABLE_NETWORKMANAGER);
+                        system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
+                        remove_and_install_pkgs(&format!("sudo dnf remove {} -y",all_packages_to_remove), &format!("sudo dnf install {} -y", all_packages_to_install)); // This line of code will remove almost all packages for each graphical interface and after that it will install the graphical environment packages that the user wants
+                        system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y"); // Command to install free and non-free rpmfusion repositories for fedora 37
+                        // List Of Basic System Utilities That Will Be Installed:
+                        //
+                        // Miscellaneous:
+                        //
+                        // - flatpak: Linux application sandboxing and distribution framework (formerly xdg-app).
+                        // - networkmanager: Network connection manager and user applications.
+                        // - xdg-user-dirs: Manage user directories like ~/Desktop and ~/Music.
+                        // - exfat-utils: Utilities for exFAT file system.
+                        //
+                        //
+                        // Window System:
+                        // 
+                        // - xorg: Xorg X server (packages).
+                        // - xorg-server: Xorg X server.
+                        //
+                        //
+                        // Compressed file handlers:
+                        //
+                        // - p7zip: Command-line file archiver with high compression ratio.
+                        // - zip: Compressor/archiver for creating and modifying zipfiles.
+                        // - unzip: For extracting and viewing files in .zip archives.
+                        // - unrar: The RAR uncompression program.
+                        //
+                        //
+                        // GVFS:
+                        //
+                        // - gvfs-mtp: Virtual filesystem implementation for GIO (MTP backend; Android, media player).
+                        // - gvfs-goa: Virtual filesystem implementation for GIO (Gnome Online Accounts backend; cloud storage).
+                        // - gvfs-google: Virtual filesystem implementation for GIO (Google Drive backend).
+                        //
+                        //
+                        // Codecs:
+                        //
+                        // - ffmpeg: Complete solution to record, convert and stream audio and video.
+                        // - gst-plugins-ugly: Multimedia graph framework - ugly plugins.
+                        // - gst-plugins-good: Multimedia graph framework - good plugins.
+                        // - gst-plugins-base: gst-plugins-baseMultimedia graph framework - base plugins.
+                        // - gst-plugins-bad: Multimedia graph framework - bad plugins.
+                        // - gst-libav: Multimedia graph framework - libav plugin.
+                        // - gstreamer: Multimedia graph framework - core.
+                        // - a52dec: A free library for decoding ATSC A/52 streams.
+                        // - faac: Freeware Advanced Audio Coder.
+                        // - faad2: Freeware Advanced Audio (AAC) Decoder.
+                        // - flac: Free Lossless Audio Codec.
+                        // - jasper: Software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard.
+                        // - lame: A high quality MPEG Audio Layer III (MP3) encoder.
+                        // - libdca: Free library for decoding DTS Coherent Acoustics streams.
+                        // - libdv: The Quasar DV codec (libdv) is a software codec for DV video.
+                        // - libmad: A high-quality MPEG audio decoder.
+                        // - libmpeg2: Library for decoding MPEG-1 and MPEG-2 video streams.
+                        // - libtheora: An open video codec developed by the Xiph.org.
+                        // - libvorbis: Reference implementation of the Ogg Vorbis audio format.
+                        // - libxv: X11 Video extension library.
+                        // - opus: Totally open, royalty-free, highly versatile audio codec.
+                        // - wavpack: Audio compression format with lossless, lossy and hybrid compression modes
+                        // - x264: Open Source H264/AVC video encoder.
+                        // - xvidcore: XviD is an open source MPEG-4 video codec.
+                        //
+                        //
+                        // https://archlinux.org
+                        //
+                        system_command(r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame\* gvfs-mtp gvfs-goa gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
+                        system_command(INSTALL_FLATHUB);
+                        system_command(ENABLE_NETWORKMANAGER);
                     },
                     _ => {
                         error_system_not_found();
@@ -667,14 +849,14 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google --noconfirm");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload -y");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 "fedora" => {
@@ -682,8 +864,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
                                     system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
                                     system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 _ => {
@@ -696,14 +878,14 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer networkmanager gvfs-mtp gvfs-goa gvfs-google p7zip zip unzip unrar exfat-utils --noconfirm");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad mencoder sudo preload exfat-fuse exfat-utils p7zip-full zip unzip unrar-free -y");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 "fedora" => {
@@ -711,8 +893,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                                     system_command(r#"sudo dnf install @multimedia lame\* gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg preload fedora-workstation-backgrounds NetworkManager unrar p7zip zip unzip --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel -y"#);
                                     system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm -y");
                                     system_command("sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y");
-                                    system_command(texts::ENABLE_NETWORKMANAGER);
-                                    system_command(texts::ENABLE_PRELOAD);
+                                    system_command(ENABLE_NETWORKMANAGER);
+                                    system_command(ENABLE_PRELOAD);
                                     break;
                                 },
                                 _ => {
@@ -772,17 +954,17 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S bluez bluedevil --noconfirm");
-                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    system_command(ENABLE_BLUETOOTH);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install bluez -y");
-                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    system_command(ENABLE_BLUETOOTH);
                                     break;
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf install bluez -y");
-                                    system_command(texts::ENABLE_BLUETOOTH);
+                                    system_command(ENABLE_BLUETOOTH);
                                     break;
                                 },
                                 _ => {
@@ -989,18 +1171,18 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S gdm --noconfirm");
-                                    system_command(texts::ENABLE_GDM);
+                                    system_command(ENABLE_GDM);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install gdm3 --no-install-requirements -y");
-                                    system_command(texts::ENABLE_GDM);
+                                    system_command(ENABLE_GDM);
                                     break;
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf install gdm -y");
-                                    system_command(texts::ENABLE_GDM);
-                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    system_command(ENABLE_GDM);
+                                    system_command(ENABLE_GRAPHICAL_INITIALIZATION);
                                     break;
                                 },
                                 _ => {
@@ -1013,18 +1195,18 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S lightdm lightdm-gtk-greeter --noconfirm");
-                                    system_command(texts::ENABLE_LIGHTDM);
+                                    system_command(ENABLE_LIGHTDM);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install lightdm lightdm-gtk-greeter --no-install-requirements -y");
-                                    system_command(texts::ENABLE_LIGHTDM);
+                                    system_command(ENABLE_LIGHTDM);
                                     break;
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf install lightdm lightdm-gtk-greeter -y");
-                                    system_command(texts::ENABLE_LIGHTDM);
-                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    system_command(ENABLE_LIGHTDM);
+                                    system_command(ENABLE_GRAPHICAL_INITIALIZATION);
                                     break;
                                 },
                                 _ => {
@@ -1037,18 +1219,18 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S sddm --noconfirm");
-                                    system_command(texts::ENABLE_SDDM);
+                                    system_command(ENABLE_SDDM);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install sddm --no-install-requirements -y");
-                                    system_command(texts::ENABLE_SDDM);
+                                    system_command(ENABLE_SDDM);
                                     break;
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf install sddm -y");
-                                    system_command(texts::ENABLE_SDDM);
-                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    system_command(ENABLE_SDDM);
+                                    system_command(ENABLE_GRAPHICAL_INITIALIZATION);
                                     break;
                                 },
                                 _ => {
@@ -1061,18 +1243,18 @@ pub fn install_system_and_utilities(all_packages_to_remove: &str, all_packages_t
                             match &system[..] {
                                 "archlinux" => {
                                     system_command("sudo pacman -S lxdm --noconfirm");
-                                    system_command(texts::ENABLE_LXDM);
+                                    system_command(ENABLE_LXDM);
                                     break;
                                 },
                                 "debian" => {
                                     system_command("sudo apt install lxdm --no-install-requirements -y");
-                                    system_command(texts::ENABLE_LXDM);
+                                    system_command(ENABLE_LXDM);
                                     break;
                                 },
                                 "fedora" => {
                                     system_command("sudo dnf install lxdm -y");
-                                    system_command(texts::ENABLE_LXDM);
-                                    system_command(texts::ENABLE_GRAPHICAL_INITIALIZATION);
+                                    system_command(ENABLE_LXDM);
+                                    system_command(ENABLE_GRAPHICAL_INITIALIZATION);
                                     break;
                                 },
                                 _ => {
