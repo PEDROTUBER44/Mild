@@ -168,6 +168,19 @@ pub fn invalid_option_selected_error() {
     system_command("clear");
 }
 
+pub fn remove_repeated_words(text: &str) -> String {
+    let words: Vec<&str> = text.split_whitespace().collect();
+    let mut sentence_without_repeated_words: Vec<&str> = Vec::new();
+
+    for word in words {
+        if !sentence_without_repeated_words.contains(&word) {
+            sentence_without_repeated_words.push(word);
+        }
+    }
+
+    sentence_without_repeated_words.join(" ")
+}
+
 pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages_to_install: &str, system: &str) {
 
     pub const DISABLE_DISPLAY_MANAGERS_CMD: &str = "sudo systemctl disable gdm -f && sudo systemctl disable lightdm -f && sudo systemctl disable sddm -f && sudo systemctl disable lxdm -f";
@@ -311,7 +324,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // - network-manager: network management framework (daemon and userspace tools).
                         // - pulseaudio: PulseAudio sound server.
                         // - exfat-utils: utilities to create, check, label and dump exFAT filesystem.
-                        // - adwaita-icon-theme: default icon theme of GNOME. /*Fix*/
                         // - xdg-user-dirs: tool to manage well known user directories.
                         //
                         //
@@ -349,7 +361,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // https://packages.debian.org/en/
                         //
-                        system_command("sudo apt install flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full adwaita-icon-theme gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
+                        system_command("sudo apt install flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },

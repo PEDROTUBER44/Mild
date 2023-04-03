@@ -24,16 +24,18 @@ fn main() {
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE: &str = "caja marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-settings-daemon mate-themes";
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA: &str = "breeze breeze-gtk kde-gtk-config kdecoration kdeplasma-addons khotkeys kmenuedit kpipewire kwallet-pam kwayland-integration kwin layer-shell-qt libkscreen libksysguard milou plasma-browser-integration plasma-desktop plasma-integration plasma-nm plasma-workspace polkit-kde-agent powerdevil sddm-kcm systemsettings xdg-desktop-portal-kde plasma-wayland-session kcm-fcitx kscreen dolphin";
     let all_packages_to_remove_archlinux: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA.to_owned());
+    let all_packets_do_archlinux_no_duplicate_packets = utils::remove_repeated_words(&all_packages_to_remove_archlinux);
     
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE: &str = "lxappearance lxappearance-obconf gtk2-engines lxde-settings-daemon lxpanel pcmanfm lxde-icon-theme lxhotkey-gtk lxinput lxrandr lxsession-edit lxpolkit lx-session lxsession-default-apps xscreensaver policykit-1 --no-install-recommends";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT: &str = "lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-qtplugin lxqt-session lxqt-system-theme pcmanfm-qt lxqt-powermanagement";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4: &str = "xfce4-notifyd xfwm4 xfce4-whiskermenu-plugin xdg-user-dirs xfdesktop4 xfconf xfce4-settings xfce4-session xfce4-pulseaudio-plugin xfce4-panel libxfce4ui-utils thunar thunar-archive-plugin thunar-media-tags-plugin --no-install-recommends";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE: &str = "adwaita-icon-theme lxappearance lxappearance-obconf gtk2-engines lxde-settings-daemon lxpanel pcmanfm lxde-icon-theme lxhotkey-gtk lxinput lxrandr lxsession-edit lxpolkit lx-session lxsession-default-apps xscreensaver policykit-1 --no-install-recommends";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT: &str = "papirus-icon-theme lxqt-config lxqt-globalkeys lxqt-notificationd lxqt-panel lxqt-policykit lxqt-qtplugin lxqt-session lxqt-system-theme pcmanfm-qt lxqt-powermanagement";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4: &str = "adwaita-icon-theme xfce4-notifyd xfwm4 xfce4-whiskermenu-plugin xdg-user-dirs xfdesktop4 xfconf xfce4-settings xfce4-session xfce4-pulseaudio-plugin xfce4-panel libxfce4ui-utils thunar thunar-archive-plugin thunar-media-tags-plugin --no-install-recommends";
     pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME: &str = "adwaita-icon-theme at-spi2-core caribou dconf-cli dconf-gsettings-backend evolution-data-server fonts-cantarell gkbd-capplet gnome-control-center gnome-session gnome-settings-daemon gnome-sushi gnome-shell network-manager-gnome nautilus --no-install-recommends";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON: &str = "cinnamon-core";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE: &str = "caja dconf-gsettings-backend fonts-cantarell gvfs-backends marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-session-manager mate-settings-daemon mate-themes";
-    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "plasma-desktop dolphin kdialog keditbookmarks kfind plasma-workspace udisks2 upower plasma-nm plasma-workspace-wayland";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON: &str = "cinnamon-core adwaita-icon-theme";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE: &str = "adwaita-icon-theme caja dconf-gsettings-backend fonts-cantarell gvfs-backends marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-session-manager mate-settings-daemon mate-themes";
+    pub const ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA: &str = "papirus-icon-theme plasma-desktop dolphin kdialog keditbookmarks kfind plasma-workspace udisks2 upower plasma-nm plasma-workspace-wayland";
     let all_packages_to_remove_debian: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA.to_owned());
-    
+    let all_packets_do_debian_no_duplicate_packets = utils::remove_repeated_words(&all_packages_to_remove_debian);
+
     pub const ALL_PACKAGES_TO_INSTALL_FEDORA_LXDE: &str = "lxappearance lxde-common lxinput lxmenu-data lxpanel lxpolkit lxrandr xcompmgr pcmanfm network-manager-applet openbox obconf";
     pub const ALL_PACKAGES_TO_INSTALL_FEDORA_LXQT: &str = "breeze-gtk breeze-icon-theme network-manager-applet notification-daemon obconf openbox pcmanfm-qt lxqt-config lxqt-notificationd lxqt-panel lxqt-policykit lxqt-powermanagement lxqt-qtplugin lxqt-themes lxqt-session breeze-cursor-theme";
     pub const ALL_PACKAGES_TO_INSTALL_FEDORA_XFCE4: &str = "network-manager-applet xfwm4 xfce4-power-manager xfce4-settings xfce4-whiskermenu-plugin xfdesktop";
@@ -42,6 +44,7 @@ fn main() {
     pub const ALL_PACKAGES_TO_INSTALL_FEDORA_MATE: &str = "mate-control-center mate-desktop mate-power-manager mate-screensaver mate-session-manager mate-settings-daemon mate-terminal network-manager-applet mate-panel marco caja";
     pub const ALL_PACKAGES_TO_INSTALL_FEDORA_KDEPLASMA: &str = "plasma-desktop plasma-nm kcm_colors kcm-fcitx kscreen ksysguard spectacle dolphin";
     let all_packages_to_remove_fedora: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA.to_owned());
+    let all_packets_do_fedora_no_duplicate_packets = utils::remove_repeated_words(&all_packages_to_remove_fedora);
 
     match &option[..] {
         "--clean-archlinux" => {
@@ -97,7 +100,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/lxde/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXDE, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXDE, "archlinux");
             exit(0);
         },
 
@@ -120,7 +123,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/lxqt/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXQT, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXQT, "archlinux");
             exit(0);
         },
 
@@ -143,7 +146,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/xfce4/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4, "archlinux");
             exit(0);
         },
 
@@ -157,7 +160,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/gnome/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME, "archlinux");
             utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
@@ -178,7 +181,7 @@ fn main() {
             //
             // https://archlinux.org/packages/community/x86_64/cinnamon/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON, "archlinux");
             exit(0);
         },
 
@@ -199,7 +202,7 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/mate/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE, "archlinux");
             exit(0);
         },
 
@@ -238,13 +241,14 @@ fn main() {
             //
             // https://archlinux.org/groups/x86_64/plasma/
             //
-            utils::install_system_and_utilities(all_packages_to_remove_archlinux, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA, "archlinux");
+            utils::install_system_and_utilities(all_packets_do_archlinux_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA, "archlinux");
             exit(0);
         },
 
         "--install-debian-lxde" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - adwaita-icon-theme: default icon theme of GNOME.
             // - lxappearance: LXDE GTK+ Theme Switcher
             // - lxappearance-obconf: LXDE GTK+ Theme Switcher (Plugin)
             // - gtk2-engines: Theme Engines For GTK+ 2.x
@@ -264,13 +268,14 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/lxde
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_DEBIAN_LXDE, "debian");
             exit(0);
         },
 
         "--install-debian-lxqt" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - papirus-icon-theme: Papirus open source icon theme for Linux.
             // - lxqt-config: LXQt System Settings Center
             // - lxqt-globalkeys: Daemon Used To Register Global Keyboard Shortcuts (Appl.)
             // - lxqt-notificationd: LXQt Notification Daemon
@@ -284,13 +289,14 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/lxde
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_DEBIAN_LXQT, "debian");
             exit(0);
         },
 
         "--install-debian-xfce" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - adwaita-icon-theme: default icon theme of GNOME.
             // - xfce4-notifyd: Simple, Visually-Appealing Notification Daemon For Xfce
             // - xfwm4: Window Manager Of The Xfce Project
             // - xfce4-whiskermenu-plugin: Alternate Menu Plugin For The Xfce Desktop Environment
@@ -308,7 +314,7 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/xfce4
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4, "debian");
             exit(0);
         },
 
@@ -333,7 +339,7 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/gnome-core
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_DEBIAN_GNOME, "debian");
             utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
@@ -342,16 +348,18 @@ fn main() {
             // List Of Graphical Environment Packages And What They Are For:
             //
             // - cinnamon-core: Cinnamon Desktop Environment - Essential Components
+            // - adwaita-icon-theme: default icon theme of GNOME.
             // 
             // https://packages.debian.org/bullseye/cinnamon-core
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_DEBIAN_CINNAMON, "debian");
             exit(0);
         },
 
         "--install-debian-mate" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - adwaita-icon-theme: default icon theme of GNOME.
             // - caja: File Manager For The MATE Desktop
             // - dconf-gsettings-backend: Simple Configuration Storage System - GSettings Back-End
             // - fonts-cantarell: Sans Serif Font Family Designed For On-Screen Readability
@@ -370,13 +378,14 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/mate-desktop-environment-core
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_FEDORA_MATE, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_MATE, "debian");
             exit(0);
         },
 
         "--install-debian-kdeplasma" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - papirus-icon-theme: Papirus open source icon theme for Linux.
             // - plasma-desktop: Tools And Widgets For The Desktop
             // - dolphin: File Manager
             // - kdialog: Dialog Display Utility
@@ -390,7 +399,7 @@ fn main() {
             // 
             // https://packages.debian.org/bullseye/plasma-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_debian, ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA, "debian");
+            utils::install_system_and_utilities(all_packets_do_debian_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_DEBIAN_KDEPLASMA, "debian");
             exit(0);
         },
 
@@ -412,7 +421,7 @@ fn main() {
             // 
             // sudo dnf info {package}
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_LXDE, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_LXDE, "fedora");
             exit(0);
         },
 
@@ -438,7 +447,7 @@ fn main() {
             // 
             // sudo dnf info {package}
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_LXQT, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_LXQT, "fedora");
             exit(0);
         },
 
@@ -453,7 +462,7 @@ fn main() {
             // 
             // sudo dnf info @xfce-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_XFCE4, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_XFCE4, "fedora");
             exit(0);
         },
 
@@ -466,7 +475,7 @@ fn main() {
             // 
             // sudo dnf info @gnome-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_GNOME, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_GNOME, "fedora");
             utils::system_command("gsettings set org.gnome.desktop.interface enable-animations false");
             exit(0);
         },
@@ -486,7 +495,7 @@ fn main() {
             // 
             // sudo dnf info @cinnamon-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_CINNAMON, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_CINNAMON, "fedora");
             exit(0);
         },
 
@@ -507,7 +516,7 @@ fn main() {
             // 
             // sudo dnf info @mate-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_MATE, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_MATE, "fedora");
             exit(0);
         },
 
@@ -525,7 +534,7 @@ fn main() {
             // 
             // sudo dnf info @plasma-desktop
             //
-            utils::install_system_and_utilities(all_packages_to_remove_fedora, ALL_PACKAGES_TO_INSTALL_FEDORA_KDEPLASMA, "fedora");
+            utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_KDEPLASMA, "fedora");
             exit(0);
         },
 
