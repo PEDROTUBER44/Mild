@@ -161,6 +161,13 @@ pub fn error_system_not_found() {
     exit(1);
 }
 
+pub fn invalid_option_selected_error() {
+    system_command("clear");
+    println!("{}","Please Enter A Valid Option!".red().bold());
+    system_command("sleep 5");
+    system_command("clear");
+}
+
 pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages_to_install: &str, system: &str) {
 
     pub const DISABLE_DISPLAY_MANAGERS_CMD: &str = "sudo systemctl disable gdm -f && sudo systemctl disable lightdm -f && sudo systemctl disable sddm -f && sudo systemctl disable lxdm -f";
@@ -289,8 +296,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // https://archlinux.org
                         //
                         system_command("sudo pacman -S flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
-                        system_command(INSTALL_FLATHUB);
-                        system_command(ENABLE_NETWORKMANAGER);
+                        system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
+                        system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
                     "debian" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
@@ -343,8 +350,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // https://packages.debian.org/en/
                         //
                         system_command("sudo apt install flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full adwaita-icon-theme gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
-                        system_command(INSTALL_FLATHUB);
-                        system_command(ENABLE_NETWORKMANAGER);
+                        system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
+                        system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
                     "fedora" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
@@ -354,66 +361,48 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // Miscellaneous:
                         //
-                        // - flatpak: Linux application sandboxing and distribution framework (formerly xdg-app).
-                        // - networkmanager: Network connection manager and user applications.
-                        // - xdg-user-dirs: Manage user directories like ~/Desktop and ~/Music.
+                        // - flatpak: Application deployment framework for desktop apps.
+                        // - network-manager-applet: A network control and status applet for NetworkManager.
                         // - exfat-utils: Utilities for exFAT file system.
+                        // - NetworkManager: Network connection manager and user applications.
+                        // -
                         //
                         //
                         // Window System:
                         // 
-                        // - xorg: Xorg X server (packages).
-                        // - xorg-server: Xorg X server.
+                        // - @base-x: Xorg package set.
                         //
                         //
                         // Compressed file handlers:
                         //
-                        // - p7zip: Command-line file archiver with high compression ratio.
-                        // - zip: Compressor/archiver for creating and modifying zipfiles.
-                        // - unzip: For extracting and viewing files in .zip archives.
-                        // - unrar: The RAR uncompression program.
+                        // - unrar: Utility for extracting, testing and viewing RAR archives.
+                        // - p7zip: Very high compression ratio file archiver.
+                        // - zip: A file compression and packaging utility compatible with PKZIP.
+                        // - unzip: A utility for unpacking zip files.
                         //
                         //
                         // GVFS:
                         //
-                        // - gvfs-mtp: Virtual filesystem implementation for GIO (MTP backend; Android, media player).
-                        // - gvfs-goa: Virtual filesystem implementation for GIO (Gnome Online Accounts backend; cloud storage).
-                        // - gvfs-google: Virtual filesystem implementation for GIO (Google Drive backend).
+                        // - gvfs-mtp: MTP support for gvfs.
+                        // - gvfs-goa: GOA support for gvfs.
                         //
                         //
                         // Codecs:
                         //
-                        // - ffmpeg: Complete solution to record, convert and stream audio and video.
-                        // - gst-plugins-ugly: Multimedia graph framework - ugly plugins.
-                        // - gst-plugins-good: Multimedia graph framework - good plugins.
-                        // - gst-plugins-base: gst-plugins-baseMultimedia graph framework - base plugins.
-                        // - gst-plugins-bad: Multimedia graph framework - bad plugins.
-                        // - gst-libav: Multimedia graph framework - libav plugin.
-                        // - gstreamer: Multimedia graph framework - core.
-                        // - a52dec: A free library for decoding ATSC A/52 streams.
-                        // - faac: Freeware Advanced Audio Coder.
-                        // - faad2: Freeware Advanced Audio (AAC) Decoder.
-                        // - flac: Free Lossless Audio Codec.
-                        // - jasper: Software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard.
-                        // - lame: A high quality MPEG Audio Layer III (MP3) encoder.
-                        // - libdca: Free library for decoding DTS Coherent Acoustics streams.
-                        // - libdv: The Quasar DV codec (libdv) is a software codec for DV video.
-                        // - libmad: A high-quality MPEG audio decoder.
-                        // - libmpeg2: Library for decoding MPEG-1 and MPEG-2 video streams.
-                        // - libtheora: An open video codec developed by the Xiph.org.
-                        // - libvorbis: Reference implementation of the Ogg Vorbis audio format.
-                        // - libxv: X11 Video extension library.
-                        // - opus: Totally open, royalty-free, highly versatile audio codec.
-                        // - wavpack: Audio compression format with lossless, lossy and hybrid compression modes
-                        // - x264: Open Source H264/AVC video encoder.
-                        // - xvidcore: XviD is an open source MPEG-4 video codec.
+                        // - @multimedia: Multimedia codecs packs set.
+                        // - lame: Free MP3 audio compressor
+                        // - gstreamer1-plugins-ugly: GStreamer 1.0 streaming media framework "ugly" plug-ins.
+                        // - ffmpeg: Digital VCR and streaming server.
+                        // - gstreamer1-plugins-{bad-\*,good-\*,base}: Various gstreamer1 codec packs.
+                        // - gstreamer1-plugin-openh264: GStreamer H.264 plugin
+                        // - gstreamer1-libav: GStreamer 1.0 libav-based plug-ins.
                         //
                         //
-                        // https://archlinux.org
+                        // Informations From Fedora Info Command And RpmFusion Website
                         //
-                        system_command(r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame\* gvfs-mtp gvfs-goa gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
-                        system_command(INSTALL_FLATHUB);
-                        system_command(ENABLE_NETWORKMANAGER);
+                        system_command(r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame gvfs-mtp gvfs-goa gstreamer1-plugins-ugly ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
+                        system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
+                        system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
                     _ => {
                         error_system_not_found();
@@ -453,8 +442,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "5" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -493,8 +481,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "5" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -533,8 +520,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "5" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -578,8 +564,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "6" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -608,8 +593,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "3" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -643,8 +627,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "4" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -678,8 +661,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "4" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -762,8 +744,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         "4" => break,
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -825,9 +806,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         "3" => break,
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -904,9 +883,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -935,9 +912,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
                         "3" => break,
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -976,9 +951,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         "n" | "no" => break,
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -1145,9 +1118,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
@@ -1264,9 +1235,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         },
 
                         _ => {
-                            println!("{}","Please Enter A Valid Option!".red().bold());
-                            system_command("sleep 4");
-                            system_command("clear");
+                            invalid_option_selected_error();
                             continue;
                         }
                     }
