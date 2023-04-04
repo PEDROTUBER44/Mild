@@ -21,7 +21,7 @@ fn main() {
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4: &str = "xfce4-session exo garcon thunar thunar-volman tumbler xfce4-panel xfce4-power-manager xfce4-settings xfconf xfdesktop xfwm4 xfwm4-themes";
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME: &str = "gnome-shell nautilus gnome-control-center gnome-text-editor";
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON: &str = "accountsservice cinnamon-control-center cinnamon-menus cinnamon-settings-daemon gnome-themes-extra gsound muffin nemo network-manager-applet polkit-gnome";
-    pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE: &str = "caja marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-settings-daemon mate-themes";
+    pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE: &str = "mate-session-manager mate-media pulseaudio caja marco mate-control-center mate-desktop mate-icon-theme mate-menus mate-notification-daemon mate-panel mate-polkit mate-settings-daemon mate-themes";
     pub const ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA: &str = "breeze breeze-gtk kde-gtk-config kdecoration kdeplasma-addons khotkeys kmenuedit kpipewire kwallet-pam kwayland-integration kwin layer-shell-qt libkscreen libksysguard milou plasma-browser-integration plasma-desktop plasma-integration plasma-nm plasma-workspace polkit-kde-agent powerdevil sddm-kcm systemsettings xdg-desktop-portal-kde plasma-wayland-session kcm-fcitx kscreen dolphin";
     let all_packages_to_remove_archlinux: String = format!("{} {} {} {} {} {} {}", ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXDE.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_LXQT.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_XFCE4.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_GNOME.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_CINNAMON.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_MATE.to_owned(), ALL_PACKAGES_TO_INSTALL_ARCHLINUX_KDEPLASMA.to_owned());
     let all_packets_do_archlinux_no_duplicate_packets = utils::remove_repeated_words(&all_packages_to_remove_archlinux);
@@ -188,6 +188,9 @@ fn main() {
         "--install-archlinux-mate" => {
             // List Of Graphical Environment Packages And What They Are For:
             //
+            // - mate-session-manager: The MATE Session Handler	
+            // - mate-media: MATE Media Tools	
+            // - pulseaudio: A featureful, general-purpose sound server.
             // - caja: File Manager For The MATE Desktop
             // - marco: A Window Manager For MATE
             // - mate-control-center: The Control Center For MATE

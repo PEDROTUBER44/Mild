@@ -909,8 +909,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         "1" => {
                             match &system[..] {
                                 "archlinux" => {
-                                    system_command("pacman -Syu --noconfirm");
-                                    system_command("pacman -S gnome-console --noconfirm");
+                                    system_command("sudo pacman -S gnome-console --noconfirm");
                                     break;
                                 },
                                 "debian" => {
