@@ -137,31 +137,31 @@ You can now select which graphical environment you want to install on your PC:
 
 	mild --install-archlinux-xfce
 
--Imagem Archlinux Xfce4-
+![Archlinux Xfce4](https://user-images.githubusercontent.com/77652411/229943552-e92f2377-8f35-452d-8e24-7704ae9fb8f1.png)
 
 ### Gnome
 
 	mild --install-archlinux-gnome
 
--Imagem Archlinux Gnome-
+![Archlinux Gnome](https://user-images.githubusercontent.com/77652411/229943723-8d202583-08b1-49db-bc75-655edbdace7c.png)
 
 ### Mate
 
 	mild --install-archlinux-mate
 
--Imagem Archlinux Mate-
+![Archlinux Mate](https://user-images.githubusercontent.com/77652411/229944507-a749d511-c6a4-440b-8699-8bd3d1aa16ed.png)
 
 ### Kde plasma
 
 	mild --install-archlinux-kdeplasma
 
--Imagem Archlinux Kde Plasma-
+![Archlinux Kdeplasma](https://user-images.githubusercontent.com/77652411/229943802-0fd94189-aff4-4847-b5a8-2fe672e5d57c.png)
 
 ### Cinnamon
 
 	mild --install-archlinux-cinnamon
 
--Imagem Archlinux Cinnamon-
+![Archlinux Cinnamon](https://user-images.githubusercontent.com/77652411/229954613-245e0c05-ef5a-4f96-9d40-55d271ca1e66.png)
 
 Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
 
