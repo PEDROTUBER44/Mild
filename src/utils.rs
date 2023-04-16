@@ -661,7 +661,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                     stdin().read_line(&mut option).expect("Error To Read User Input");
                     match &option.trim().to_lowercase()[..] {
                         "1" => {
-                            install_flatpak_package_from_flathub("Fragments", "de.haeckerfelix.Fragments");
+                            install_flatpak_package_from_flathub("Onlyoffice", "org.onlyoffice.desktopeditors");
                             break;
                         },
                         "2" => {
