@@ -326,6 +326,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // - pulseaudio: PulseAudio sound server.
                         // - exfat-utils: utilities to create, check, label and dump exFAT filesystem.
                         // - xdg-user-dirs: tool to manage well known user directories.
+                        // - preload: adaptive readahead daemon.
                         //
                         //
                         // Window system:
