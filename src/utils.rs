@@ -362,7 +362,8 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // https://packages.debian.org/en/
                         //
-                        system_command("sudo apt install flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
+                        system_command("sudo apt install preload flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
+                        system_command(ENABLE_PRELOAD); // Enabling preload at system startup.
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
@@ -414,6 +415,9 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // Informations From Fedora Info Command And RpmFusion Website
                         //
                         system_command(r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame gvfs-mtp gvfs-goa gstreamer1-plugins-ugly ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
+                        system_command("sudo dnf copr enable elxreno/preload -y"); // Command to enable fedora copr repository to add preload to list of installable packages.
+                        system_command("sudo dnf install preload -y"); // Command to install the preload.
+                        system_command(ENABLE_PRELOAD); // Enabling preload at system startup.
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
