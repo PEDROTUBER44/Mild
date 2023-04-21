@@ -311,7 +311,6 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         system_command("sudo pacman -S flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
-                        /*Fix*/ // Add preload install
                     },
                     "debian" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
@@ -415,7 +414,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // Informations From Fedora Info Command And RpmFusion Website
                         //
-                        system_command(r#"sudo dnf install flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame gvfs-mtp gvfs-goa gstreamer1-plugins-ugly ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
+                        system_command(r#"sudo dnf install zram flatpak @base-x @multimedia network-manager-applet unrar p7zip zip unzip NetworkManager exfat-utils lame gvfs-mtp gvfs-goa gstreamer1-plugins-ugly ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel --exclude=lame-devel --skip-broken -y"#);
                         system_command("sudo dnf copr enable elxreno/preload -y"); // Command to enable fedora copr repository to add preload to list of installable packages.
                         system_command("sudo dnf install preload -y"); // Command to install the preload.
                         system_command(ENABLE_PRELOAD); // Enabling preload at system startup.

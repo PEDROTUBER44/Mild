@@ -547,17 +547,32 @@ fn main() {
             exit(0);
         },
 
+        "--build-submodule" => {
+            let file = &args[2].trim(); // Read argument from the name of the file to be manipulated
+            let rename = fs::rename(&file, &format!("{}.smild", &file)); // renaming the file
+
+            match rename {
+                Ok(_) => {
+                    println!("The package: {} was {} built", file, "successfully".green().bold());
+                },
+                Err(_) => {
+                    println!("{} to build package.smile from file: {}", "Error".red().bold(), file);
+                    exit(1);
+                }
+            }
+        },
+
         "--install-submodule" => {
-            let file = &args[2].trim();
+            let file = &args[2].trim(); // Read argument from the name of the file to be manipulated
             let path = Path::new(file);
             let file_name_without_extension = path.file_stem().unwrap().to_string_lossy();
             let file_name_without_extension: &str = &String::from(file_name_without_extension);
-            let rename = fs::rename(&file, &file_name_without_extension);
+            let rename = fs::rename(&file, &file_name_without_extension); // renaming the file
 
             match rename {
                 Ok(_) => {
                     println!("Package: {}  Renamed to: {}, {}", file, &file_name_without_extension, "Successfully".green().bold());
-                    utils::system_command(&format!("./{}", &file_name_without_extension));
+                    utils::system_command(&format!("./{}", &file_name_without_extension)); // Running the submodule
                 },
                 Err(_) => {
                     println!("Package: {}  Renamed to: {}, {}", file, &file_name_without_extension, "Erro".red().bold());

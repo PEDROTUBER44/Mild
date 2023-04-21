@@ -47,6 +47,7 @@ Use mild --[option]-[distribution]-[interface]
     --clean-fedora => Cleans up Fedora 35 by removing cache and orphaned packages from the system.
 
     --install-submodule => Install community scripts apart from mild.
+    --build-submodule => Create mild submodules.
 
     --help => View a usage guide.
 
