@@ -1,559 +1,493 @@
 # MILD - Minimal Install Linux Desktop
-MILD is a simple and straightforward text-mode installer that aims to install a "D.E."(Desktop Environment) with only the apps really necessary for each graphical environment. See below how to install in your favorite distro:
 
-## Fedora 35
-First download fedora 35 iso netinstall from the official website, after that make a bootable pendrive, with fedora 34 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Test this media & install Fedora 34", to check if the iso on the pendrive is corrupted and install Fedora 34:
+MILD is a user-friendly and efficient text-based installer designed to install a Desktop Environment (D.E.) along with only the essential applications required for each specific graphical environment.
 
-![](imagens/fedora35/fedora35-inicio.webp)
 
-After that you will see this screen and on it select your language, and after that click on continue:
+## ArchLinux
 
-![](imagens/fedora35/fedora35-language.webp)
+To install ArchLinux with mild, start by downloading the iso directly from the distribution's official website. Then create a bootable USB stick using a program like balena etcher. Note that this step will delete all data on your USB stick, so proceed with caution. When the bootable USB stick is ready, restart your computer and boot from the USB stick. You will see a screen where you can select the option “Arch Linux install medium (x86_64, UEFI)”. This option verifies if the ISO file of the pendrive is corrupted or not, if not, it will proceed with the installation of the system.
 
-After that you will see the screen below and on it select "Installation destination", and then select the disk that will be installed as well as partitioned for the installation of Fedora 35, **Attention we are not responsible for any data loss**, and we recommend to back up your data on a separate drive and preferably disconnected from your pc at least during installation.
+![image](https://user-images.githubusercontent.com/77652411/225134880-42febd9e-0400-4cbc-b2a3-45626c5cd30e.jpg)
 
-![](imagens/fedora35/fedora35-dashboard.webp)
+Then, proceed to follow the step-by-step instructions below to complete the pre-installation of Archlinux:
 
-After that select the disk and click on "Advanced Custom (Blivet GUI)" and click "Done":
+## UEFI
 
-![](imagens/fedora35/fedora35-disk-selection.webp)
+-Archlinux Install UEFI Video-
 
-Then the disk partitioning screen will open, and in it create the following partitions:
+For optimal system performance, it is recommended to use the partition scheme provided below:
 
-![](imagens/fedora35/fedora35-disk-partition.webp)
+Order |  Type  | Size
+------|--------|--------
+  1°  |  efi   | 500MB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
 
-On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
 
-Order | Type | Size
-------|------|--------
-  1°  | efi  | 500MB  
-  2°  | swap | The size of your ram.
-  3°  | root | 70GB   
-  4°  | home | Everything else.
+## BIOS/LEGACY
 
-On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
+-Archlinux Install BIOS Video-
 
-Order | Type | Size
-------|------|--------  
-  1°  | swap | The size of your ram.
-  2°  | root | 70GB   
-  3°  | home | Everything else.
+For optimal system performance, it is recommended to use the partition scheme provided below:
 
-Then you will return to this screen, where you can edit your pc's network name by clicking "Network & Host name" and also connect to wifi.
+Order |  Type  | Size
+------|--------|------
+  1°  |  bios  | 2MIB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
 
-![](imagens/fedora35/fedora35-network.webp)
 
-![](imagens/fedora35/fedora35-network2.webp)
+## Post Install
 
-After these settings click on "Software Selection" and just check "Minimum install" like the image below and if you want to use wifi, check also "Common NetworkManager Submodules":
+To start, press the keys `Ctrl` + `Alt` + `F2` and log in with the user you created earlier.
 
-![](imagens/fedora35/fedora35-packages.webp)
+-Tela de Login do Archlinux-
 
-![](imagens/fedora35/fedora35-packages2.webp)
+Select the option that best suits your needs: install the precompiled package or manually compile it on your own machine:
 
-After that click on "Root Account" to set the root user password, now select the box "Enable root account" and enter your password and click "Done":
+### Make
 
-![](imagens/fedora35/fedora35-root.webp)
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
 
-![](imagens/fedora35/fedora35-root2.webp)
+	sudo pacman -Syu
 
-After that click on "User Creation" and fill in what is being requested and click "Done":
+Install the Rust and git compiler with this command:
 
-![](imagens/fedora35/fedora35-user.webp)
+	sudo pacman -Syu curl rust git -y
 
-![](imagens/fedora35/fedora35-user2.webp)
-
-With everything done click on "Begin Installation" and wait for the installation:
-
-![](imagens/fedora35/fedora35-finishing.webp)
-
-![](imagens/fedora35/fedora35-installing.webp)
-
-And end now click continue and remove the pendrive or installation media and follow the next steps:
-
-![](imagens/fedora35/fedora35-complete.webp)
-
-### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
-
-Now choose if you want to compile the app and install it on your machine or just install it:
-
-### Make ( not necessary )
-First update your system:
-
-	dnf update -y
-
-Now install the rust compiler and git:
-
-	dnf install cargo curl rust git -y
-
-Clone the repository with the following command:
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
 
 	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
-Now enter the project folder
+To access the Mild folder, use the following command:
 
 	cd Mild/
 
-Give the "build.sh" and "install.sh" file execute permission:
+Prior to modifying the **build.sh** and **install.sh** files, grant them execution permissions by running the following command:
 
 	chmod +x build.sh && chmod +x install.sh
 
-Finally run the "build.sh" and "install.sh" file:
+To conclude, execute the "build.sh" and "install.sh" files by running the following command:
 
 	./build.sh && ./install.sh
 
 ### Uninstall
 
-	dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
+To remove Mild and its build dependencies, use the following commands:
 
-Now all that's left is to install your favorite D.E.
+	sudo pacman -Rsn curl rust git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
 
-## Non-make ( recommended )
-First update your system:
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-archlinux).
 
-	dnf update -y
 
-Now install the git:
+### Non-Make
 
-	dnf install git -y
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
 
-Clone the repository with the following command:
+	sudo pacman -Syu
+
+Install the Rust and git compiler with this command:
+
+	sudo pacman -Syu git -y
+
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
 
 	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
-Now enter the project folder
+To access the Mild folder, use the following command:
 
 	cd Mild/
 
-Give the "install.sh" file execute permission:
+Prior to modifying the **install.sh** file, grant them execution permissions by running the following command:
 
 	chmod +x install.sh
 
-Finally run the "install.sh" file:
+To conclude, execute the "install.sh" file by running the following command:
 
 	./install.sh
 
 ### Uninstall
 
-	dnf remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
+To remove Mild and its build dependencies, use the following commands:
 
-Now all that's left is to install your favorite D.E.
+	sudo pacman -Rsn git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
 
-## Desktops Fedora 35
-Now choose which graphical environment will be installed on your PC:
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-archlinux).
 
-### Lxde
 
-	mild --install-fedora-lxde
+## Desktops Enviroments Archlinux
 
-![](imagens/fedora35/fedora35-lxde.webp)
-
-### Lxqt
-
-	mild --install-fedora-lxqt
-
-![](imagens/fedora35/fedora35-lxqt.webp)
-
-### Xfce4
-
-	mild --install-fedora-xfce
-
-![](imagens/fedora35/fedora35-xfce4.webp)
-
-### Gnome
-
-	mild --install-fedora-gnome
-
-![](imagens/fedora35/fedora35-gnome.webp)
-
-### Mate
-
-	mild --install-fedora-mate
-
-![](imagens/fedora35/fedora35-mate.webp)
-
-### Kde plasma
-
-	mild --install-fedora-kdeplasma
-
-![](imagens/fedora35/fedora35-kdeplasma.webp)
-
-### Cinnamon
-
-	mild --install-fedora-cinnamon
-
-![](imagens/fedora35/fedora35-cinnamon.webp)
-
-After that you will have a clean desktop environment with no redundant apps on your **Fedora 35 !**
-
-****
-
-## Arch Linux
-First download Arch Linux iso from the official website, after that make a bootable pendrive, with Arch Linux iso and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Arch Linux install medium (x86_64,BIOS)", to install Arch Linux:
-
-![](imagens/archlinux/archlinux-start.webp)	
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
-
-Now install Arch Linux as you normally do, but when you install the graphical interface clone this repository, now choose whether or not you want to compile mild on your pc:
-
-### Make (not necessary)
-First update your system:
-
-	pacman -Syu --noconfirm
-
-Now install the rust, curl and git compiler:
-After that rust will ask if you want to install rustup so click 1 and hit enter:
-
-	pacman -Sy git curl base-devel --noconfirm && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-Clone the repository with the following command:
-
-	git clone https://www.github.com/PEDROTUBER44/Mild.git
-
-Now enter the project folder
-
-	cd Mild/
-
-Give the "build.sh" file execute permission:
-
-	chmod +x build.sh
-
-Give the "install.sh" file execute permission:
-
-	chmod +x install.sh
-
-After that reboot the system, log in as root and enter the project folder and type the following commands to compile and install mild:
-
-	./build.sh && ./install.sh
-
-Now all that's left is to install your favorite D.E.
-
-### Uninstall
-To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
-
-	pacman -Rsn curl git base-devel -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
-
-## Non-make ( recommended )
-First update your system:
-
-	pacman -Syu --noconfirm
-
-Now install the git:
-
-	pacman -Sy git -y
-
-Clone the repository with the following command:
-
-	git clone https://www.github.com/PEDROTUBER44/Mild.git
-
-Now enter the project folder
-
-	cd Mild/
-
-Give the "install.sh" file execute permission:
-
-	chmod +x install.sh
-
-Finally run the "install.sh" file:
-
-	./install.sh
-
-### Uninstall
-
-	pacman -Rsn git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
-
-Now all that's left is to install your favorite D.E.
-
-## Desktops ArchLinux
-Now choose which graphical environment will be installed on your PC:
+You can now select which graphical environment you want to install on your PC:
 
 ### Lxde
 
-	mild --install-arch-lxde
+	mild --install-archlinux-lxde
 
-![](imagens/archlinux/archlinux-lxde.webp)
+![Archlinux Lxde](https://user-images.githubusercontent.com/77652411/228049028-75174e0b-68f2-4d68-b7eb-06fbcff807a6.png)
+
 
 ### Lxqt
 
-	mild --install-arch-lxqt
+	mild --install-archlinux-lxqt
 
-![](imagens/archlinux/archlinux-lxqt.webp)
+![Archlinux Lxqt](https://user-images.githubusercontent.com/77652411/228049259-ab447cd7-35ad-4808-ba0f-5b47fb4d1fb5.png)
+
 
 ### Xfce4
 
-	mild --install-arch-xfce
+	mild --install-archlinux-xfce
 
-![](imagens/archlinux/archlinux-xfce.webp)
+![Archlinux Xfce4](https://user-images.githubusercontent.com/77652411/229943552-e92f2377-8f35-452d-8e24-7704ae9fb8f1.png)
 
 ### Gnome
 
-	mild --install-arch-gnome
+	mild --install-archlinux-gnome
 
-![](imagens/archlinux/archlinux-gnome.webp)
+![Archlinux Gnome](https://user-images.githubusercontent.com/77652411/229943723-8d202583-08b1-49db-bc75-655edbdace7c.png)
 
 ### Mate
 
-	mild --install-arch-mate
+	mild --install-archlinux-mate
 
-![](imagens/archlinux/archlinux-mate.webp)
+![Archlinux Mate](https://user-images.githubusercontent.com/77652411/229944507-a749d511-c6a4-440b-8699-8bd3d1aa16ed.png)
 
 ### Kde plasma
 
-	mild --install-arch-kdeplasma
+	mild --install-archlinux-kdeplasma
 
-![](imagens/archlinux/archlinux-kdeplasma.webp)
+![Archlinux Kdeplasma](https://user-images.githubusercontent.com/77652411/229943802-0fd94189-aff4-4847-b5a8-2fe672e5d57c.png)
 
 ### Cinnamon
 
-	mild --install-arch-cinnamon
+	mild --install-archlinux-cinnamon
 
-![](imagens/archlinux/archlinux-cinnamon.webp)
+![Archlinux Cinnamon](https://user-images.githubusercontent.com/77652411/229954613-245e0c05-ef5a-4f96-9d40-55d271ca1e66.png)
 
-After that you will have a clean desktop environment with no redundant apps on your **Arch Linux !**
+Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
 
 ****
 
 ## Debian 11
-First download Debian 11 iso netinstall from the official website, after that make a bootable pendrive, with Debian 11 iso netinstall and configure in BIOS, to boot from pendrive. After that you will see this screen and on it you should select "Graphical Install", to install Debian 11:
 
-![](imagens/debian11/debian11-start.webp)
+To install Debian 11 with mild, begin by downloading the netinstall version directly from the official website of the distribution. Next, create a bootable pendrive using a program like balena etcher. Please note that this step will delete all the data on your pendrive, so proceed with caution. Once the bootable pendrive is ready, restart your computer and boot it from the pendrive. You will then see a screen where you can select the option “Graphical Install”. This option verifies whether the ISO file on the pendrive is corrupted or not, and if it is not, it will proceed with installing the system.
 
-Now select your language to continue the installation:
+-Tela De Instalação Debian 11-
 
-![](imagens/debian11/debian11-language.webp)
+Then, proceed to follow the step-by-step instructions below to complete the pre-installation of Debian 11:
 
-Now choose the place where you live:
 
-![](imagens/debian11/debian11-location.webp)
+## UEFI
 
-Now choose the keyboard layout and its variant:
+-Debian 11 Install UEFI Video-
 
-![](imagens/debian11/debian11-keymap.webp)
+For optimal system performance, it is recommended to use the partition scheme provided below:
 
-Write the name your pc will have on the network:
+Order |  Type  | Size
+------|--------|--------
+  1°  |  efi   | 500MB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
 
-![](imagens/debian11/debian11-namenetwork.webp)
 
-On this screen click "continue":
+## BIOS/LEGACY
 
-![](imagens/debian11/debian11-domainname.webp)
+-Debian 11 Install Legacy Video-
 
-Now enter the root user password:
+For optimal system performance, it is recommended to use the partition scheme provided below:
 
-![](imagens/debian11/debian11-rootpassword.webp)
+Order |  Type  | Size
+------|--------|------
+  1°  |  bios  | 2MIB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
 
-Now enter the full name of the user that will be created for you:
 
-![](imagens/debian11/debian11-username.webp)
+## Post Install
 
-Now choose the username that will be used in your "/home/user":
+To start, press the keys `Ctrl` + `Alt` + `F2` and log in with the user you created earlier.
 
-![](imagens/debian11/debian11-username1.webp)
+-Tela de login do debian 11-
 
-Now set the password for this user you just created:
+Select the option that best suits your needs: install the precompiled package or manually compile it on your own machine:
 
-![](imagens/debian11/debian11-userpassword.webp)
+### Make
 
-Select time zone now:
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
 
-![](imagens/debian11/debian11-timezone.webp)
+	sudo apt update -y
 
-Now partition your disk according to your bios:
+Install the Rust and git compiler with this command:
 
-![](imagens/debian11/debian11-partition.webp)
+	sudo apt install curl rust git -y
 
-On **UEFI** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
-
-Order | Type | Size
-------|------|--------
-  1°  | efi  | 500MB  
-  2°  | swap | The size of your ram.
-  3°  | root | 70GB   
-  4°  | home | Everything else.
-
-On **Legacy** systems make the following partitions (Remembering that the order does not matter) and then click "Done":
-
-Order | Type | Size
-------|------|--------  
-  1°  | swap | The size of your ram.
-  2°  | root | 70GB   
-  3°  | home | Everything else.
-
-With everything finished click on "Finish partitioning and white changes to disk":
-
-![](imagens/debian11/debian11-partition-end.webp)
-
-Now check the box "Yes" and click enter:
-
-![](imagens/debian11/debian11-write-changes.webp)
-
-Now wait for the base installation to finish:
-
-![](imagens/debian11/debian11-baseinstall.webp)
-
-Check the box "No" and press enter:
-
-![](imagens/debian11/debian11-additional-media.webp)
-
-Now choose a mirror near you to install packages as quickly as possible:
-
-![](imagens/debian11/debian11-archive.webp)
-
-![](imagens/debian11/debian11-archive1.webp)
-
-Now leave it blank and click "Continue":
-
-![](imagens/debian11/debian11-proxy.webp)
-
-Select "No" and hit enter:
-
-![](imagens/debian11/debian11-telemetry.webp)
-
-Check only this box and click "continue":
-
-![](imagens/debian11/debian11-packages.webp)
-
-Now wait to install debian 11 core:
-
-![](imagens/debian11/debian11-core.webp)
-
-On this screen select "Yes" and click on "continue":
-
-![](imagens/debian11/debian11-grub.webp)
-
-Now choose where grub will be installed and click continue:
-
-![](imagens/debian11/debian11-install-grub.webp)
-
-And end now click continue and remove the pendrive or installation media and follow the next steps:
-
-![](imagens/debian11/debian11-end.webp)
-
-****
-
-### Post installation
-First click ‘Ctrl’ + ‘Alt’ + ‘F2’ login as **root** enter the password and proceed:
-
-Now choose if you want to compile the app and install it on your machine or just install it:
-
-### Make (not necessary)
-First update your system:
-
-	apt update -y && apt upgrade -y
-
-Now install the rust, curl and git compiler:
-After that rust will ask if you want to install rustup so click 1 and hit enter:
-
-	apt install git curl build-essential -y && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-Clone the repository with the following command:
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
 
 	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
-Now enter the project folder
+To access the Mild folder, use the following command:
 
 	cd Mild/
 
-Give the "build.sh" file execute permission:
+Prior to modifying the **build.sh** and **install.sh** files, grant them execution permissions by running the following command:
 
-	chmod +x build.sh
+	chmod +x build.sh && chmod +x install.sh
 
-Give the "install.sh" file execute permission:
-
-	chmod +x install.sh
-
-After that reboot the system, log in as root and enter the project folder and type the following commands to compile and install mild:
+To conclude, execute the "build.sh" and "install.sh" files by running the following command:
 
 	./build.sh && ./install.sh
 
-Now all that's left is to install your favorite D.E.
-
 ### Uninstall
-To uninstall mild and its dependencies type the following command, it will ask you if you are sure you want to uninstall rust so click "s" and hit enter:
 
-	apt remove curl git build-essential -y && rm -r /bin/mild && rustup self uninstall && cd .. && rm -rf Mild/
+To remove Mild and its build dependencies, use the following commands:
 
-## Non-make ( recommended )
-First update your system:
+	sudo apt remove curl rust git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
 
-	apt update -y && apt upgrade -y
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-debian-11).
 
-Now install the git:
 
-	apt install git -y
+### Non-Make
 
-Clone the repository with the following command:
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
+
+	sudo apt update -y
+
+Install the Rust and git compiler with this command:
+
+	sudo apt install git -y
+
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
 
 	git clone https://www.github.com/PEDROTUBER44/Mild.git
 
-Now enter the project folder
+To access the Mild folder, use the following command:
 
 	cd Mild/
 
-Give the "install.sh" file execute permission:
+Prior to modifying the **install.sh** file, grant them execution permissions by running the following command:
 
 	chmod +x install.sh
 
-Finally run the "install.sh" file:
+To conclude, execute the "build.sh" and "install.sh" files by running the following command:
 
 	./install.sh
 
 ### Uninstall
 
-	apt remove git -y && cd .. && rm -rf Mild/ && rm -r /bin/mild 
+To remove Mild and its build dependencies, use the following commands:
 
-Now all that's left is to install your favorite D.E.
+	sudo apt remove git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
 
-## Desktops Debian 11
-Now choose which graphical environment will be installed on your PC:
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-debian-11).
+
+
+## Desktops Enviroments Debian 11
+
+You can now select which graphical environment you want to install on your PC:
 
 ### Lxde
 
 	mild --install-debian-lxde
 
-![](imagens/debian11/debian11-lxde.webp)
+-Imagem Archlinux Lxde-
 
 ### Lxqt
 
 	mild --install-debian-lxqt
 
-![](imagens/debian11/debian11-lxqt.webp)
+-Imagem Archlinux Lxqt-
 
 ### Xfce4
 
 	mild --install-debian-xfce
 
-![](imagens/debian11/debian11-xfce.webp)
+-Imagem Archlinux Xfce-
 
 ### Gnome
 
 	mild --install-debian-gnome
 
-![](imagens/debian11/debian11-gnome.webp)
+-Imagem Archlinux Gnome-
 
 ### Mate
 
 	mild --install-debian-mate
 
-![](imagens/debian11/debian11-mate.webp)
+-Imagem Archlinux Mate-
 
 ### Kde plasma
 
 	mild --install-debian-kdeplasma
 
-![](imagens/debian11/debian11-kdeplasma.webp)
+-Imagem Archlinux KDE Plasma-
 
 ### Cinnamon
 
 	mild --install-debian-cinnamon
 
-![](imagens/debian11/debian11-cinnamon.webp)
+-Imagem Archlinux Cinnamon-
 
-After that you will have a clean desktop environment with no redundant apps on your **Debian 11 !**
+Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
 
 ****
 
-MILD = Minimal Install Linux Desktop
+## Fedora 37
 
-Donate for project: PIX = 85b39c80-2a6d-4dd7-b645-c66b4b12a97b
+To install Fedora 37 with mild, begin by downloading the netinstall version directly from the official website of the distribution. Next, create a bootable pendrive using a program like balena etcher. Please note that this step will delete all the data on your pendrive, so proceed with caution. Once the bootable pendrive is ready, restart your computer and boot it from the pendrive. You will then see a screen where you can select the option “Test this media & install Fedora 37”. This option verifies whether the ISO file on the pendrive is corrupted or not, and if it is not, it will proceed with installing the system.
+
+![](Tela de Instalação)
+
+Then, proceed to follow the step-by-step instructions below to complete the pre-installation of Fedora 37:
+
+## UEFI
+
+https://user-images.githubusercontent.com/77652411/219970332-cd97dc53-d04b-40ed-9278-6342dc98a207.mp4
+
+For optimal system performance, it is recommended to use the partition scheme provided below:
+
+Order |  Type  | Size
+------|--------|--------
+  1°  |  efi   | 500MB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
+
+
+## BIOS/LEGACY
+
+https://user-images.githubusercontent.com/77652411/219970336-0c494982-bbe7-43a6-ac76-2cf44b9f3ad8.mp4
+
+For optimal system performance, it is recommended to use the partition scheme provided below:
+
+Order |  Type  | Size
+------|--------|------
+  1°  |  bios  | 2MIB
+  2°  |  swap  | The Size Of Your Ram Memory
+  3°  | system | Everything Else
+
+
+## Post Install
+
+To start, press the keys `Ctrl` + `Alt` + `F2` and log in with the user you created earlier.
+
+![](Tela de login no terminal)
+
+Select the option that best suits your needs: install the precompiled package or manually compile it on your own machine:
+
+### Make
+
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
+
+	sudo dnf update -y
+
+Install the Rust and git compiler with this command:
+
+	sudo dnf install cargo curl rust git -y
+
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
+
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
+
+To access the Mild folder, use the following command:
+
+	cd Mild/
+
+Prior to modifying the **build.sh** and **install.sh** files, grant them execution permissions by running the following command:
+
+	chmod +x build.sh && chmod +x install.sh
+
+To conclude, execute the "build.sh" and "install.sh" files by running the following command:
+
+	./build.sh && ./install.sh
+
+### Uninstall
+
+To remove Mild and its build dependencies, use the following commands:
+
+	sudo dnf remove cargo curl rust git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
+
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-fedora-37).
+
+
+### Non-Make
+
+Before proceeding, it is important to update your system to the latest version available. To do this, type the following command:
+
+	sudo apt update -y
+
+Install the Rust and git compiler with this command:
+
+	sudo apt install git -y
+
+To clone the Mild repository (Minimal Installation Linux Desktop), use the **git** command and run the following instruction:
+
+	git clone https://www.github.com/PEDROTUBER44/Mild.git
+
+To access the Mild folder, use the following command:
+
+	cd Mild/
+
+Prior to modifying the **install.sh** file, grant them execution permissions by running the following command:
+
+	chmod +x install.sh
+
+To conclude, execute the "build.sh" and "install.sh" files by running the following command:
+
+	./install.sh
+
+### Uninstall
+
+To remove Mild and its build dependencies, use the following commands:
+
+	sudo apt remove git -y && cd .. && rm -rf Mild/ && sudo rm -r /bin/mild
+
+You can now select the graphical environment that you want to install on your computer [Desktop Enviroments](#desktops-enviroments-fedora-37).
+
+
+## Desktops Enviroments Fedora 37
+
+You can now select which graphical environment you want to install on your PC:
+
+### Lxde
+
+	mild --install-fedora-lxde
+
+![Fedora Lxde](https://user-images.githubusercontent.com/77652411/221678282-f1d474da-1a93-434f-804d-507bc441233c.png)
+
+### Lxqt
+
+	mild --install-fedora-lxde
+
+![Fedora Lxqt](https://user-images.githubusercontent.com/77652411/221678322-69a32256-0e68-42be-813e-b5ab2f711142.png)
+
+### Xfce4
+
+	mild --install-fedora-xfce
+
+![Fedora Xfce](https://user-images.githubusercontent.com/77652411/221678384-0b0f66e7-5147-41df-afbc-f81804afe7be.png)
+
+### Gnome
+
+	mild --install-fedora-gnome
+
+![Fedora Gnome](https://user-images.githubusercontent.com/77652411/221678430-4c5b8405-67be-4ee9-b38b-9d81348263b7.png)
+
+### Mate
+
+	mild --install-fedora-mate
+
+![Fedora Mate](https://user-images.githubusercontent.com/77652411/221678489-4d97f4e2-896f-4fac-9a73-5a58a029f284.png)
+
+### Kde plasma
+
+	mild --install-fedora-kdeplasma
+
+![Fedora KdePlasma](https://user-images.githubusercontent.com/77652411/221678545-9b22b4cd-9222-4d24-aad9-7d2e77fbc740.png)
+
+### Cinnamon
+
+	mild --install-fedora-cinnamon
+
+![Fedora Cinnamon](https://user-images.githubusercontent.com/77652411/221678614-31c97602-796a-475e-94d9-a1258f28b37d.png)
+
+Upon completing all of these steps, you will have a thoroughly cleaned and optimized system that is suitable for your low-powered computer.
+
+****
