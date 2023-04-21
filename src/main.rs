@@ -1,8 +1,11 @@
 use std::{
     process::exit,
-    env
+    path::Path,
+    env,
+    fs
 };
 
+use colored::Colorize;
 mod texts;
 mod utils;
 
@@ -542,6 +545,25 @@ fn main() {
             //
             utils::install_system_and_utilities(all_packets_do_fedora_no_duplicate_packets, ALL_PACKAGES_TO_INSTALL_FEDORA_KDEPLASMA, "fedora");
             exit(0);
+        },
+
+        "--install-submodule" => {
+            let file = &args[2].trim();
+            let path = Path::new(file);
+            let file_name_without_extension = path.file_stem().unwrap().to_string_lossy();
+            let file_name_without_extension: &str = &String::from(file_name_without_extension);
+            let rename = fs::rename(&file, &file_name_without_extension);
+
+            match rename {
+                Ok(_) => {
+                    println!("Package: {}  Renamed to: {}, {}", file, &file_name_without_extension, "Successfully".green().bold());
+                    utils::system_command(&format!("./{}", &file_name_without_extension));
+                },
+                Err(_) => {
+                    println!("Package: {}  Renamed to: {}, {}", file, &file_name_without_extension, "Erro".red().bold());
+                    exit(1);
+                }
+            }
         },
 
         "--help" => {

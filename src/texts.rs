@@ -46,6 +46,8 @@ Use mild --[option]-[distribution]-[interface]
     --install-fedora-cutefish => Install Minimal Cutefish Desktop on Fedora 35.
     --clean-fedora => Cleans up Fedora 35 by removing cache and orphaned packages from the system.
 
+    --install-submodule => Install community scripts apart from mild.
+
     --help => View a usage guide.
 
 ";
