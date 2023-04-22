@@ -19,7 +19,6 @@ use colored::Colorize;
 use crate::texts;
 
 
-
 pub fn remove_and_install_pkgs(remove_command: &str, install_command: &str) {
     let remove_result = Command::new("sh").arg("-c").arg(remove_command).status();
     
