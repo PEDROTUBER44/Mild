@@ -171,7 +171,7 @@ Upon completing all of these steps, you will have a thoroughly cleaned and optim
 
 To install Debian 11 with mild, begin by downloading the netinstall version directly from the official website of the distribution. Next, create a bootable pendrive using a program like balena etcher. Please note that this step will delete all the data on your pendrive, so proceed with caution. Once the bootable pendrive is ready, restart your computer and boot it from the pendrive. You will then see a screen where you can select the option “Graphical Install”. This option verifies whether the ISO file on the pendrive is corrupted or not, and if it is not, it will proceed with installing the system.
 
-![](https://user-images.githubusercontent.com/77652411/234676690-7fbb5a6b-691b-4ca1-a534-0557e2acd05b.png)
+![](https://user-images.githubusercontent.com/77652411/234677619-4ff25fff-3e3b-4540-bf6b-5954f8897316.png)
 
 
 Then, proceed to follow the step-by-step instructions below to complete the pre-installation of Debian 11:
