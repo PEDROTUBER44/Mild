@@ -178,7 +178,7 @@ Then, proceed to follow the step-by-step instructions below to complete the pre-
 
 ## UEFI
 
--Debian 11 Install UEFI Video-
+[](https://user-images.githubusercontent.com/77652411/234674635-d07bbff0-7ef8-4e54-8370-dc53cbb7f2ed.webm)
 
 For optimal system performance, it is recommended to use the partition scheme provided below:
 
