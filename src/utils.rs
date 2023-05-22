@@ -254,6 +254,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // - networkmanager: Network connection manager and user applications.
                         // - xdg-user-dirs: Manage user directories like ~/Desktop and ~/Music.
                         // - exfat-utils: Utilities for exFAT file system.
+                        // - adobe-source-code-pro-fonts: Monospaced font family for user interface and coding environments
                         //
                         //
                         // Window System:
@@ -307,7 +308,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // https://archlinux.org
                         //
-                        system_command("sudo pacman -S flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
+                        system_command("sudo pacman -Syu adobe-source-code-pro-fonts flatpak xorg xorg-server xdg-user-dirs networkmanager gvfs-mtp gvfs-goa gvfs-google exfat-utils p7zip zip unzip unrar ffmpeg gst-plugins-ugly gst-plugins-good gst-plugins-base gst-plugins-bad gst-libav gstreamer a52dec faac faad2 flac jasper lame libdca libdv libmad libmpeg2 libtheora libvorbis libxv opus wavpack x264 xvidcore --noconfirm");
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
                     },
@@ -361,7 +362,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         //
                         // https://packages.debian.org/en/
                         //
-                        system_command("sudo apt install preload flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
+                        system_command("sudo apt install adobe-source-code-pro-fonts preload flatpak sudo zip unzip unrar-free xdg-user-dirs network-manager xorg gvfs pulseaudio exfat-utils p7zip-full gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad ffmpeg sox twolame vorbis-tools lame faad -y");
                         system_command(ENABLE_PRELOAD); // Enabling preload at system startup.
                         system_command(INSTALL_FLATHUB); // This command installs the flathub flatpak package repository
                         system_command(ENABLE_NETWORKMANAGER); // This command enable the networkmanager daemon
@@ -369,7 +370,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                     "fedora" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
                         remove_and_install_pkgs(&format!("sudo dnf remove {} -y",all_packages_to_remove), &format!("sudo dnf install {} -y", all_packages_to_install)); // This line of code will remove almost all packages for each graphical interface and after that it will install the graphical environment packages that the user wants
-                        system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y"); // Command to install free and non-free rpmfusion repositories for fedora 37
+                        system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-38.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-38.noarch.rpm -y"); // Command to install free and non-free rpmfusion repositories for fedora 38
                         // List Of Basic System Utilities That Will Be Installed:
                         //
                         // Miscellaneous:
@@ -378,7 +379,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                         // - network-manager-applet: A network control and status applet for NetworkManager.
                         // - exfat-utils: Utilities for exFAT file system.
                         // - NetworkManager: Network connection manager and user applications.
-                        // -
+                        // - adobe-source-code-pro-fonts: A set of mono-spaced OpenType fonts designed for coding environments.
                         //
                         //
                         // Window System:
