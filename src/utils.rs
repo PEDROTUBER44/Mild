@@ -370,7 +370,7 @@ pub fn install_system_and_utilities(all_packages_to_remove: String, all_packages
                     "fedora" => {
                         system_command(DISABLE_DISPLAY_MANAGERS_CMD); // This command will disable all display managers on the system
                         remove_and_install_pkgs(&format!("sudo dnf remove {} -y",all_packages_to_remove), &format!("sudo dnf install {} -y", all_packages_to_install)); // This line of code will remove almost all packages for each graphical interface and after that it will install the graphical environment packages that the user wants
-                        system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-37.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-37.noarch.rpm -y"); // Command to install free and non-free rpmfusion repositories for fedora 37
+                        system_command("sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-38.noarch.rpm https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-38.noarch.rpm -y"); // Command to install free and non-free rpmfusion repositories for fedora 38
                         // List Of Basic System Utilities That Will Be Installed:
                         //
                         // Miscellaneous:
